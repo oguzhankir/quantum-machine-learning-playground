@@ -340,3 +340,20 @@ test('reduced-motion training still reaches the final values', async ({
     0.0001,
   );
 });
+test('training from the manual slider boundary keeps the displayed angle consistent', async ({
+  page,
+}) => {
+  const section = page.locator('#learning');
+  const slider = section.getByRole('slider', { name: 'Trainable parameter w' });
+  await slider.focus();
+  await slider.press('Home');
+  const before = Number(await page.getByTestId('loss').innerText());
+  await section.getByRole('button', { name: 'One training step' }).click();
+  const parameter = Number(await page.getByTestId('parameter').innerText());
+  expect(parameter).toBeGreaterThan(-Math.PI);
+  expect(parameter).toBeLessThan(Math.PI);
+  expect(Number(await slider.inputValue())).toBeCloseTo(parameter, 9);
+  expect(Number(await page.getByTestId('loss').innerText())).toBeLessThan(
+    before,
+  );
+});

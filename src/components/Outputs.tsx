@@ -160,7 +160,7 @@ export function Range({
   value: number;
   min: number;
   max: number;
-  step?: number;
+  step?: number | 'any';
   unit: string;
   onChange: (value: number) => void;
 }) {
@@ -170,7 +170,7 @@ export function Range({
       <span>
         {label}
         <output>
-          {numberText(value, step < 1 ? 4 : 0)}
+          {numberText(value, step === 'any' || step < 1 ? 4 : 0)}
           {unit}
         </output>
       </span>

@@ -49,3 +49,13 @@ it('20 gradient-descent steps match the parameter and loss reference', () => {
   expect(loss(w)).toBeCloseTo(0.000095308073, 12);
   expect(loss(w)).toBeLessThan(0.0001);
 });
+it('keeps a boundary training update in range with the same cosine prediction', () => {
+  const start = -Math.PI;
+  const unwrapped = start - 0.2 * Math.sin(start - Math.PI / 3);
+  const updated = trainingStep(start);
+  expect(updated).toBeGreaterThanOrEqual(-Math.PI);
+  expect(updated).toBeLessThanOrEqual(Math.PI);
+  expect(loss(updated)).toBeLessThan(loss(start));
+  for (const { x } of dataset)
+    expect(predict(x, updated)).toBeCloseTo(Math.cos(x + unwrapped), 12);
+});

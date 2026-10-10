@@ -186,13 +186,15 @@ export default function Learning() {
           value={run.w}
           min={-Math.PI}
           max={Math.PI}
-          step={0.0001}
+          step="any"
           unit=" rad"
           onChange={(w) => setRun({ w, step: 0, history: [loss(w)] })}
         />
       </fieldset>
       <p className="small">
-        Targets use offset π/3 ≈ 1.0472 radians. Learning rate = 0.2.
+        Targets use offset π/3 ≈ 1.0472 radians. Learning rate = 0.2. Equivalent
+        angles wrap at ±π to stay within the slider; adding or subtracting 2π
+        leaves predictions unchanged.
       </p>
       <div className="actions">
         <button disabled={busy} onClick={() => train(1)}>

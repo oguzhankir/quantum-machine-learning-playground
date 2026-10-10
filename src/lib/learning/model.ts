@@ -29,5 +29,10 @@ export function gradient(w: number): number {
   );
 }
 export function trainingStep(w: number): number {
-  return w - 0.2 * gradient(w);
+  const updated = w - 0.2 * gradient(w);
+  // Equivalent rotations differ by 2π (up to global phase). Keep the
+  // parameter in the slider range without changing the prediction or loss.
+  return updated < -Math.PI || updated > Math.PI
+    ? Math.atan2(Math.sin(updated), Math.cos(updated))
+    : updated;
 }

@@ -47,7 +47,7 @@ Only one and two qubits are supported. **q0 is the leftmost bit and most signifi
 
 Gates are ideal and noiseless. Projective Z measurement preserves the normalized observed subspace, including a possible global phase. Fresh-shot histograms sample the computed preparation distribution, with browser `Math.random`; changing a preparation or basis clears its dataset. Mixtures average each member's probabilities with classical weights, never its amplitudes. This is an educational sampler, not a cryptographic one.
 
-The QML example evaluates `|0⟩ → Ry(x) → Ry(w)` and predicts exact ⟨Z⟩. It uses 24 specified inputs, targets `cos(x + π/3)`, initial `w=0`, MSE, and learning rate 0.2. Output derivatives use parameter shift, then the MSE gradient uses the chain rule. After 20 steps, `w≈1.033391060930`, `MSE≈0.000095308073`. Its classical equivalent is `cos(x+w)`: this example establishes no computational advantage.
+The QML example evaluates `|0⟩ → Ry(x) → Ry(w)` and predicts exact ⟨Z⟩. It uses 24 specified inputs, targets `cos(x + π/3)`, initial `w=0`, MSE, and learning rate 0.2. Output derivatives use parameter shift, then the MSE gradient uses the chain rule. After 20 steps, `w≈1.033391060930`, `MSE≈0.000095308073`. Equivalent angles wrap into the slider’s `[−π, π]` range without changing the prediction or loss. Its classical equivalent is `cos(x+w)`: this example establishes no computational advantage.
 
 Progress is local to the browser under `quantum-ml-playground:progress:v1`: current chapter, explicit completion, first/latest check answers, revealed feedback, and math-panel choices. Reset affects this application's progress only. Missing, invalid, or unavailable storage does not prevent learning. Scrolling does not mark a section complete.
 
