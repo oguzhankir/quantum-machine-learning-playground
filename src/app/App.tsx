@@ -375,7 +375,10 @@ export default function App() {
   const lessonIndex = lesson ? lessons.indexOf(lesson) : -1;
   const stage = stages.find((item) => item.id === lesson?.stage);
   const resourceRoute = route.split('?')[0];
-  const isHome = !lesson && !Object.hasOwn(resourceTitles, resourceRoute);
+  const resourceTitle = Object.hasOwn(resourceTitles, resourceRoute)
+    ? resourceTitles[resourceRoute]
+    : undefined;
+  const isHome = !lesson && !resourceTitle;
   const complete = progress.completed.length === lessons.length;
   const percent = Math.round(
     (progress.completed.length / lessons.length) * 100,
@@ -403,8 +406,8 @@ export default function App() {
     }));
   }
   useEffect(() => {
-    document.title = `${lesson?.short ?? resourceTitles[resourceRoute] ?? 'Quantum from scratch'} · Quantum ML Playground`;
-  }, [lesson, resourceRoute]);
+    document.title = `${lesson?.short ?? resourceTitle ?? 'Quantum from scratch'} · Quantum ML Playground`;
+  }, [lesson, resourceTitle]);
 
   return (
     <>
@@ -588,9 +591,7 @@ export default function App() {
             <div className="breadcrumb">
               <span>YOUR LEARNING SPACE</span>
               <i>/</i>
-              {lesson?.short ??
-                resourceTitles[resourceRoute] ??
-                'Quantum from scratch'}
+              {lesson?.short ?? resourceTitle ?? 'Quantum from scratch'}
             </div>
             <a className="header-progress" href="#path">
               <span className="live-dot" /> {progress.completed.length}/

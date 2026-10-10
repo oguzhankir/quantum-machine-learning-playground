@@ -53,6 +53,15 @@ async function expandDisclosure(detail: Locator, label: string) {
 test('history deep links retain the selected milestone across reload and browser history', async ({
   page,
 }) => {
+  for (const unknownRoute of ['__proto__', 'constructor']) {
+    await page.goto(`./#${unknownRoute}`);
+    await expect(page.locator('.hero #page-heading')).toContainText(
+      'The quantum world.',
+    );
+    await expect(page).toHaveTitle(
+      'Quantum from scratch · Quantum ML Playground',
+    );
+  }
   const physics = physicsHistory[0];
   const qml = qmlHistory[0];
   await page.goto(`./#history?track=physics&event=${physics.id}`);
