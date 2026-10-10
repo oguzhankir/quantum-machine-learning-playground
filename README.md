@@ -2,6 +2,10 @@
 
 An English learning path for someone starting quantum mechanics and machine learning from zero. Twenty-eight connected lessons combine explanations, derived formulas, worked examples, executable Python examples, self-checks, and nineteen interactive laboratories. A motion studio explains interference, Born sampling, and hybrid training through captioned mathematical animations. The project workshop turns the lessons into runnable experiments and three capstones. The dashboard provides stage filters, lesson search, and a resume action; lessons have individual routes, and a searchable glossary and source library are available throughout the journey.
 
+Two visual history tracks contain 28 cited milestones connecting quantum mechanics and quantum machine learning to the experiments, mathematical ideas, and research papers that shaped them. Select a milestone to read its motivating question, discovery, limitations, definitions, references, and lesson links. A separate research map explains eight research directions, their opportunities, and persistent bottlenecks, distinguishing an established tool, a research prototype, and a theoretical result. Its literature review date and latest cited evidence year are displayed explicitly; the map is a curated reading guide, not a live research feed.
+
+The research guide was reviewed on **October 10, 2026**, with selected published evidence through **July 23, 2026**. It separates classical-data QML, quantum-data learning, and classical ML applied to quantum science, then gives each direction a reproducible learning exercise. Publication dates, input access, classical comparisons, and experimental limits accompany the cited results.
+
 | Stage                      | Lessons                                                                                                                                           | Laboratories                                                                                          |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Foundations                | Orientation, waves and interference, the mathematics bridge                                                                                       | Two-path interference; amplitude versus probability                                                   |
@@ -26,6 +30,8 @@ npm run dev
 ```
 
 Open the printed URL under `/quantum-machine-learning-playground/`. To inspect the production build, run `npm run build`, then `npm run preview`. Lessons use hash routes (for example, `#waves` or `#learning`) so refresh and direct links work on GitHub Pages. Only the selected lesson is mounted; `#top` opens the dashboard, `#studio` the motion studio, `#projects` the project workshop, `#glossary` the searchable glossary, and `#sources` the reference library.
+
+Use `#history?track=physics` or `#history?track=qml` for the history tracks. A selected event is shareable with an `event` query parameter. The research map lives at `#research`, with a `direction` query parameter for a selected research area. These routes support refresh and browser back/forward navigation on the same static Pages deployment.
 
 ## From lessons to runnable projects
 
@@ -54,23 +60,28 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Use `npm run format` to format source. Browser tests serve the existing `dist` with Vite preview; build it first. The 70 checks run 35 scenarios on desktop and 390px mobile against the actual Pages subpath, with WebGL disabled. They exercise all laboratories, browser history, deep links, course filters, glossary search, resets, reduced-motion training and story playback, cancellation on navigation, answer persistence, independent math-panel choices, storage failure, code copying and its permission fallback, math rendering, page overflow, and console errors. Every curriculum lesson is included automatically in the English-language and mathematics checks. Download tests reject HTML fallbacks and verify script and archive files. An existing Chromium can be selected with `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absolute/path/to/chromium`; CI uses Playwright's matched browser.
+Use `npm run format` to format source. Browser tests serve the existing `dist` with Vite preview; build it first. The 86 checks run 43 scenarios on desktop and 390px mobile against the actual Pages subpath, with WebGL disabled. They exercise all laboratories, browser history, deep links, course filters, glossary search, resets, reduced-motion training and story playback, cancellation on navigation, answer persistence, independent math-panel choices, storage failure, code copying and its permission fallback, math rendering, page overflow, and console errors. Every curriculum lesson is included automatically in the English-language and mathematics checks. The history and research checks visit every milestone and direction, expand beginner definitions and literature, verify selected-event navigation, exercise search and filters, and check the mobile reading flow. Download tests reject HTML fallbacks and verify script and archive files. An existing Chromium can be selected with `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absolute/path/to/chromium`; CI uses Playwright's matched browser.
 
 Unit tests verify gates and index conventions, normalization, phase and Bloch coordinates, projective measurement, injected-RNG sampling boundaries, coherent versus mixed states, Bell distributions, and independent analytic references for QML derivatives, loss, and training. The beginner models also have independent checks for interference normalization, the amplitude square rule, and depolarization limits. They avoid statistical assertions on random samples.
 
 The extended models are checked against Gaussian and box formulas, density-matrix eigenvalues and purity, regression optima, and independently differentiated classifier losses. Applied QML checks compare the two-qubit expectation with a separately constructed state vector and verify the full parameter-shift chain rule against finite differences. Kernel symmetry and positive semidefiniteness, reproducible tomography, physical state projection, and generated download/source correspondence are covered too. Python verification is a separate check in CI.
+
+History-content checks validate chronology, unique deep-link identities, prerequisite and lesson links, beginner definitions, strict formula rendering, shared citation metadata, and the relationship between the selected evidence cutoff and review date. They check the static content's integrity; scientific interpretations are supported by the linked literature rather than inferred from test assertions.
 
 ## Architecture
 
 - `src/lib/quantum/`: framework-independent complex arithmetic and a deliberately bounded one/two-qubit state-vector engine, plus weighted ensembles.
 - `src/lib/learning/`: fixed dataset, exact circuit predictions, parameter-shift derivatives, MSE chain rule, gradient descent, beginner laboratory models, and versioned progress validation.
 - `src/lessons/foundations/content.ts`: curriculum aggregation, glossary, review checks, and sources. Stage modules define prerequisites, takeaways, explanations, worked examples, derivations, code, and checks.
+- `src/content/history/`: typed quantum-mechanics and QML milestones, research directions, dated evidence, plain-language definitions, and primary/review references. Timeline and research views link this content to the curriculum.
 - `src/experiments/`: React state for interactive laboratories; all outputs and chart data derive from the engine or documented mathematical models.
 - `src/components/`: accessible tables, precise SVG diagrams, a lazily loaded SVG Bloch sphere, KaTeX, and knowledge checks.
 - `src/app/` and `src/styles/`: navigation, explicit completion, layout, and responsive tokens/styles.
 - `examples/`: four runnable Python experiments, installation instructions, and independent numerical checks; `scripts/prepare-examples.mjs` creates the static downloads.
 
 The SVG sphere is an orthographic mathematical projection with labeled axes, a computed state vector, textual coordinates, and a keyboard-operable camera control. It needs no WebGL. Camera movement changes only the view. KaTeX fonts, code, and CSS are bundled locally.
+
+History and research schematics fit their cards by default. On narrow screens, an **Enlarge diagram** control opens a keyboard-focusable horizontal scroll viewport so labels can be read at full size; **Fit diagram** restores the compact view. Research-card thumbnails omit these controls, while the selected direction exposes the detailed schematic.
 
 ## Simulator assumptions
 

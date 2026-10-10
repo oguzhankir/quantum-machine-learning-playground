@@ -1,4 +1,11 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { KnowledgeCheck } from '../components/Check';
 import { MathFormula } from '../components/Math';
 import QubitExplorer from '../experiments/QubitExplorer';
@@ -16,6 +23,7 @@ import AppliedLab from '../experiments/AppliedLab';
 import LessonDepth from '../components/LessonDepth';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
+import ConceptContext from '../components/ConceptContext';
 import {
   finalChecks,
   glossary,
@@ -32,6 +40,17 @@ import {
   type Answer,
 } from '../lib/learning/progress';
 import { probabilities, qubit } from '../lib/quantum';
+
+const HistoryExplorer = lazy(() => import('../components/HistoryExplorer'));
+const ResearchLandscape = lazy(() => import('../components/ResearchLandscape'));
+const resourceTitles: Record<string, string> = {
+  glossary: 'Concept glossary',
+  sources: 'References',
+  projects: 'Project studio',
+  studio: 'Visual stories',
+  history: 'History of the ideas',
+  research: 'Research landscape',
+};
 
 const experiments: Record<string, ReactNode> = {
   waves: <Waves />,
@@ -308,6 +327,7 @@ export default function App() {
   const [stageFilter, setStageFilter] = useState('all');
   const [query, setQuery] = useState('');
   const [glossaryQuery, setGlossaryQuery] = useState('');
+  const previousRoute = useRef(currentRoute());
   const [progress, setProgress] = useState<Progress>(() => {
     const stored = readProgress();
     return {
@@ -327,9 +347,17 @@ export default function App() {
   useEffect(() => {
     const handleHash = () => {
       const next = currentRoute();
+      const nextPage = next.split('?')[0];
+      const previousPage = previousRoute.current.split('?')[0];
+      previousRoute.current = next;
       setRoute(next);
       setMenuOpen(false);
       if (validSection(next)) setProgress((old) => ({ ...old, current: next }));
+      if (
+        nextPage === previousPage &&
+        ['history', 'research'].includes(nextPage)
+      )
+        return;
       requestAnimationFrame(() => {
         if (next === 'path') document.getElementById('path')?.scrollIntoView();
         else {
@@ -346,8 +374,8 @@ export default function App() {
   const lesson = lessons.find((item) => item.id === route);
   const lessonIndex = lesson ? lessons.indexOf(lesson) : -1;
   const stage = stages.find((item) => item.id === lesson?.stage);
-  const isHome =
-    !lesson && !['glossary', 'sources', 'projects', 'studio'].includes(route);
+  const resourceRoute = route.split('?')[0];
+  const isHome = !lesson && !Object.hasOwn(resourceTitles, resourceRoute);
   const complete = progress.completed.length === lessons.length;
   const percent = Math.round(
     (progress.completed.length / lessons.length) * 100,
@@ -375,8 +403,8 @@ export default function App() {
     }));
   }
   useEffect(() => {
-    document.title = `${lesson?.short ?? { glossary: 'Concept glossary', sources: 'References', projects: 'Project studio', studio: 'Visual stories' }[route] ?? 'Quantum from scratch'} · Quantum ML Playground`;
-  }, [lesson, route]);
+    document.title = `${lesson?.short ?? resourceTitles[resourceRoute] ?? 'Quantum from scratch'} · Quantum ML Playground`;
+  }, [lesson, resourceRoute]);
 
   return (
     <>
@@ -414,6 +442,28 @@ export default function App() {
               <Icon name="arrow" size={14} />
             </span>
           </a>
+          <nav className="explorer-links" aria-label="Explore ideas">
+            <a
+              href="#history"
+              aria-current={resourceRoute === 'history' ? 'page' : undefined}
+            >
+              <Icon name="clock" size={17} />
+              <span>
+                History of the ideas<small>Physics & QML timelines</small>
+              </span>
+              <Icon name="arrow" size={14} />
+            </a>
+            <a
+              href="#research"
+              aria-current={resourceRoute === 'research' ? 'page' : undefined}
+            >
+              <Icon name="spark" size={17} />
+              <span>
+                Research landscape<small>Evidence & open questions</small>
+              </span>
+              <Icon name="arrow" size={14} />
+            </a>
+          </nav>
           <nav aria-label="Lessons">
             {stages.map((item, index) => (
               <div className="nav-stage" key={item.id}>
@@ -455,7 +505,7 @@ export default function App() {
           <div className="sidebar-tools">
             <a
               href="#projects"
-              aria-current={route === 'projects' ? 'page' : undefined}
+              aria-current={resourceRoute === 'projects' ? 'page' : undefined}
             >
               <Icon name="spark" size={17} /> Project studio{' '}
               <span>
@@ -464,7 +514,7 @@ export default function App() {
             </a>
             <a
               href="#studio"
-              aria-current={route === 'studio' ? 'page' : undefined}
+              aria-current={resourceRoute === 'studio' ? 'page' : undefined}
             >
               <Icon name="atom" size={17} /> Visual stories{' '}
               <span>
@@ -473,7 +523,7 @@ export default function App() {
             </a>
             <a
               href="#glossary"
-              aria-current={route === 'glossary' ? 'page' : undefined}
+              aria-current={resourceRoute === 'glossary' ? 'page' : undefined}
             >
               <Icon name="book" size={17} /> Concept glossary{' '}
               <span>
@@ -482,7 +532,7 @@ export default function App() {
             </a>
             <a
               href="#sources"
-              aria-current={route === 'sources' ? 'page' : undefined}
+              aria-current={resourceRoute === 'sources' ? 'page' : undefined}
             >
               <Icon name="spark" size={17} /> References{' '}
               <span>
@@ -538,17 +588,9 @@ export default function App() {
             <div className="breadcrumb">
               <span>YOUR LEARNING SPACE</span>
               <i>/</i>
-              {lesson
-                ? lesson.short
-                : route === 'glossary'
-                  ? 'Concept glossary'
-                  : route === 'sources'
-                    ? 'References'
-                    : route === 'projects'
-                      ? 'Project studio'
-                      : route === 'studio'
-                        ? 'Visual stories'
-                        : 'Quantum from scratch'}
+              {lesson?.short ??
+                resourceTitles[resourceRoute] ??
+                'Quantum from scratch'}
             </div>
             <a className="header-progress" href="#path">
               <span className="live-dot" /> {progress.completed.length}/
@@ -635,6 +677,52 @@ export default function App() {
                     </span>
                   </div>
                 </div>
+                <section
+                  className="context-discovery"
+                  aria-label="Explore the history and research"
+                >
+                  <div className="context-discovery-visual" aria-hidden="true">
+                    <span>SELECTED MILESTONES / A MAP OF THE IDEAS</span>
+                    <div>
+                      <strong>PHYSICS</strong>
+                      <ol>
+                        {[1900, 1926, 1964, 2022].map((year) => (
+                          <li key={year}>
+                            <i />
+                            <span>{year}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                    <div>
+                      <strong>QML</strong>
+                      <ol>
+                        {[2009, 2018, 2022, 2026].map((year) => (
+                          <li key={year}>
+                            <i />
+                            <span>{year}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                    <p>
+                      From energy quanta to learning from quantum processes.
+                    </p>
+                  </div>
+                  <div className="context-discovery-copy">
+                    <p className="eyebrow">UNDERSTAND THE IDEAS IN CONTEXT</p>
+                    <h2>Every breakthrough started with a question.</h2>
+                    <p>
+                      Follow the discoveries that shaped quantum mechanics. Then
+                      explore what quantum learning can demonstrate today, where
+                      it struggles, and what you can investigate yourself.
+                    </p>
+                    <div>
+                      <a href="#history">Explore the timelines →</a>
+                      <a href="#research">Explore current research →</a>
+                    </div>
+                  </div>
+                </section>
                 <section
                   className="path-section"
                   id="path"
@@ -838,6 +926,7 @@ export default function App() {
                     ))}
                   </p>
                 )}
+                <ConceptContext lessonId={lesson.id} />
                 <section
                   id={lesson.id}
                   className={`lesson-body ${experiments[lesson.id] ? 'with-experiment' : ''}`}
@@ -989,9 +1078,31 @@ export default function App() {
                 </nav>
               </article>
             )}
-            {route === 'projects' && <ProjectHub />}
-            {route === 'studio' && <StoryStudio />}
-            {route === 'glossary' && (
+            {resourceRoute === 'projects' && <ProjectHub />}
+            {resourceRoute === 'studio' && <StoryStudio />}
+            {resourceRoute === 'history' && (
+              <Suspense
+                fallback={
+                  <div className="resource-page explorer-loading" role="status">
+                    Opening the history explorer…
+                  </div>
+                }
+              >
+                <HistoryExplorer route={route} />
+              </Suspense>
+            )}
+            {resourceRoute === 'research' && (
+              <Suspense
+                fallback={
+                  <div className="resource-page explorer-loading" role="status">
+                    Opening the research landscape…
+                  </div>
+                }
+              >
+                <ResearchLandscape route={route} />
+              </Suspense>
+            )}
+            {resourceRoute === 'glossary' && (
               <section className="resource-page glossary-section">
                 <p className="eyebrow">EVERY NEW IDEA HAS A NAME</p>
                 <h1 id="page-heading" tabIndex={-1}>
@@ -1031,7 +1142,7 @@ export default function App() {
                 )}
               </section>
             )}
-            {route === 'sources' && (
+            {resourceRoute === 'sources' && (
               <section className="resource-page references">
                 <p className="eyebrow">TAKE YOUR CURIOSITY FURTHER</p>
                 <h1 id="page-heading" tabIndex={-1}>
