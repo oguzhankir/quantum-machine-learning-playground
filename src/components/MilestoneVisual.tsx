@@ -129,6 +129,153 @@ function Drawing({ kind }: { kind: VisualKind }) {
           </text>
         </g>
       );
+    case 'atom':
+      return (
+        <g>
+          <text x="44" y="29" className="milestone-svg-kicker">
+            HYDROGEN LEVELS ARE UNEVENLY SPACED
+          </text>
+          <path
+            d="M60 60H300"
+            stroke={faint}
+            strokeWidth="2"
+            strokeDasharray="6 5"
+          />
+          <text x="320" y="65" className="milestone-svg-small">
+            0 eV · ionization threshold
+          </text>
+          {[
+            { n: 3, energy: 13.6 / 9, label: '−1.51' },
+            { n: 2, energy: 3.4, label: '−3.4' },
+            { n: 1, energy: 13.6, label: '−13.6' },
+          ].map((level) => {
+            const y = 60 + 14 * level.energy;
+            return (
+              <g key={level.n}>
+                <path
+                  d={`M60 ${y}H300`}
+                  stroke={level.n === 1 ? teal : blue}
+                  strokeWidth="3"
+                />
+                <text x="320" y={y + 5} className="milestone-svg-small">
+                  n = {level.n} · E = {level.label} eV
+                </text>
+              </g>
+            );
+          })}
+          <path
+            d="M190 113.6V243.4M184 238.4L190 248.4L196 238.4"
+            stroke={amber}
+            strokeWidth="3"
+            fill="none"
+          />
+          <path
+            d="M42 242V75M37 83L42 73L47 83"
+            stroke={faint}
+            strokeWidth="2"
+            fill="none"
+          />
+          <text
+            x="25"
+            y="161"
+            transform="rotate(-90 25 161)"
+            textAnchor="middle"
+            className="milestone-svg-small"
+          >
+            energy increases
+          </text>
+          <path
+            d={curve(224, 299, (x) => 179 + 6 * Math.sin((x - 224) / 6))}
+            stroke={amber}
+            strokeWidth="2"
+            fill="none"
+          />
+          <text x="320" y="159">
+            n = 2 → n = 1
+          </text>
+          <text x="320" y="188">
+            emitted photon energy hν = 10.2 eV
+          </text>
+          <text
+            x="320"
+            y="289"
+            textAnchor="middle"
+            className="milestone-svg-small"
+          >
+            Hydrogen (approximate) · modern energy-level picture
+          </text>
+        </g>
+      );
+    case 'bell':
+      return (
+        <g>
+          <text x="44" y="31" className="milestone-svg-kicker">
+            CHSH FORMULATION (1969)
+          </text>
+          <text x="44" y="59" className="milestone-svg-small">
+            Theoretical limits for |S|
+          </text>
+          <text x="74" y="105">
+            Local hidden-variable bound
+          </text>
+          <rect
+            x="74"
+            y="117"
+            width={130 * 2}
+            height="33"
+            rx="6"
+            fill={blue}
+            opacity="0.85"
+          />
+          <text x="350" y="140">
+            2
+          </text>
+          <text x="74" y="189">
+            Quantum bound
+          </text>
+          <rect
+            x="74"
+            y="201"
+            width={130 * 2 * Math.sqrt(2)}
+            height="33"
+            rx="6"
+            fill={teal}
+            opacity="0.85"
+          />
+          <text x={88 + 130 * 2 * Math.sqrt(2)} y="224">
+            2√2 ≈ 2.83
+          </text>
+          <path d="M74 252H464" stroke={faint} strokeWidth="2" />
+          {[0, 1, 2, 3].map((tick) => (
+            <g key={tick}>
+              <path
+                d={`M${74 + 130 * tick} 252V258`}
+                stroke={faint}
+                strokeWidth="2"
+              />
+              <text
+                x={74 + 130 * tick}
+                y="275"
+                textAnchor="middle"
+                className="milestone-svg-small"
+              >
+                {tick}
+              </text>
+            </g>
+          ))}
+          <text x="486" y="257" className="milestone-svg-small">
+            |S|
+          </text>
+          <text
+            x="320"
+            y="301"
+            textAnchor="middle"
+            className="milestone-svg-small"
+          >
+            Above 2: excludes local models under Bell assumptions
+          </text>
+        </g>
+      );
     case 'waves':
       return (
         <g>
@@ -421,7 +568,7 @@ function Drawing({ kind }: { kind: VisualKind }) {
       return (
         <g>
           <text x="44" y="37" className="milestone-svg-kicker">
-            PREPARATION → GATES → MEASUREMENT
+            A TWO-QUBIT BUILDING BLOCK
           </text>
           <Circuit x={88} y={111} />
           <text x="504" y="116" className="milestone-svg-small">
@@ -429,6 +576,14 @@ function Drawing({ kind }: { kind: VisualKind }) {
           </text>
           <text x="504" y="186" className="milestone-svg-small">
             shared record
+          </text>
+          <text
+            x="320"
+            y="280"
+            textAnchor="middle"
+            className="milestone-svg-small"
+          >
+            Bell-pair preparation and measurement example
           </text>
         </g>
       );
@@ -819,6 +974,8 @@ function Drawing({ kind }: { kind: VisualKind }) {
 
 const descriptions: Record<VisualKind, string> = {
   quanta: 'A wave frequency beside equally spaced energy levels.',
+  atom: 'A modern illustrative hydrogen energy-level picture on a linear energy scale, with energy increasing upward: the ionization threshold is zero, and the approximate n=3, n=2 and n=1 levels are −1.51, −3.4 and −13.6 electronvolts. The n=2 to n=1 transition emits a photon with energy 10.2 electronvolts.',
+  bell: 'Theoretical CHSH limits: local hidden-variable models satisfy |S|≤2, while quantum theory permits |S| up to 2√2, approximately 2.83. Larger correlations exclude local models under Bell assumptions. These bars show theoretical limits, not measured data.',
   waves: 'Two coherent paths produce a striped detection distribution.',
   spin: 'A Z measurement separates identically prepared particles into two outcomes.',
   state: 'A Bloch sphere beside the squared amplitudes of a qubit.',
@@ -827,7 +984,7 @@ const descriptions: Record<VisualKind, string> = {
   entanglement:
     'Two subsystems share a Bell state and correlated measurement records.',
   circuit:
-    'A Hadamard gate and a controlled-NOT create a Bell state before measurement.',
+    'A two-qubit building block: a Hadamard gate and a controlled-NOT create a Bell state before measurement. This is a Bell-pair preparation and measurement example.',
   matrix:
     'The two-by-two matrix A with rows [2,1] and [1,2] transforms vector x=[1,0] into b=[2,1], so Ax=b.',
   kernel:

@@ -1,5 +1,7 @@
 export type VisualKind =
   | 'quanta'
+  | 'atom'
+  | 'bell'
   | 'waves'
   | 'spin'
   | 'state'

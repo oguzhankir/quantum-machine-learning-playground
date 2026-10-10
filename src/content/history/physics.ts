@@ -352,6 +352,7 @@ export const physicsHistory: TimelineEvent[] = [
       'Why does hydrogen emit particular colors instead of every possible color?',
     answer: [
       'Bohr proposed allowed stationary states for the hydrogen atom, with radiation emitted or absorbed when the atom changes energy. The difference between two levels determines the photon frequency. This explained major features of hydrogen’s line spectrum.',
+      'In the energy-level diagram, zero marks the threshold for an electron to escape the atom. Bound levels have negative energies relative to this choice of zero, and their spacing is unequal. The transition from −3.4 eV to −13.6 eV releases a photon with 10.2 eV of energy, producing ultraviolet light.',
       'The familiar planetary-orbit drawing belongs to this early model. In modern quantum mechanics, an orbital is a wavefunction, rather than a tiny planet’s trajectory. Keep the successful energy-level idea while replacing the orbit picture.',
     ],
     discovery:
@@ -372,6 +373,16 @@ export const physicsHistory: TimelineEvent[] = [
         term: 'Transition',
         meaning: 'A change between states that can exchange energy with light.',
       },
+      {
+        term: 'Electronvolt (eV)',
+        meaning:
+          'A unit used for small atomic energies. One eV is approximately 1.602 × 10⁻¹⁹ joules.',
+      },
+      {
+        term: 'Bound state',
+        meaning:
+          'A state held within a system. Its energy in this diagram is below the escape, or ionization, threshold.',
+      },
     ],
     formulas: [
       {
@@ -379,9 +390,15 @@ export const physicsHistory: TimelineEvent[] = [
         meaning:
           'The emitted photon’s energy equals the decrease in the atom’s energy.',
       },
+      {
+        formula:
+          'E_n\\approx-\\frac{13.6\\,\\mathrm{eV}}{n^2},\\qquad n=1,2,3,\\ldots',
+        meaning:
+          'These approximate hydrogen energies set zero at the ionization threshold. As n increases, the bound levels approach zero and their spacing decreases.',
+      },
     ],
     sources: [references.bohr, references.bohrFacts],
-    visual: 'quanta',
+    visual: 'atom',
   },
   {
     id: 'physics-stern-gerlach',
@@ -673,6 +690,7 @@ export const physicsHistory: TimelineEvent[] = [
     answer: [
       'John Bell derived a constraint on correlations for a class of local hidden-variable theories. Quantum predictions can exceed that constraint for suitable entangled states and measurement settings. This transformed part of the EPR debate into an experimentally testable difference.',
       'A widely used later form is the CHSH inequality, introduced in 1969. It combines correlations from four pairs of measurement settings. A violation tests the model assumptions; it is not a demonstration that any two correlated particles automatically produce a violation.',
+      'For a local instruction-sheet model, the four settings can be treated as having preassigned ±1 outcomes. Grouping the four outcome products makes one pair cancel and the other contribute at most two in magnitude. Averaging over many instruction sheets therefore keeps |S| at most 2. Quantum theory permits up to 2√2 for suitable entangled states and settings.',
     ],
     discovery:
       'Local hidden-variable models and quantum mechanics predict different allowable correlations.',
@@ -694,8 +712,23 @@ export const physicsHistory: TimelineEvent[] = [
         meaning:
           'A bound on correlations following from specified local-model assumptions.',
       },
+      {
+        term: 'Correlator',
+        meaning:
+          'The average product of two outcomes encoded as +1 or −1. Matching results contribute +1, and different results contribute −1.',
+      },
+      {
+        term: 'Measurement setting',
+        meaning:
+          'The chosen direction or observable for a measurement. CHSH gives each side two possible choices.',
+      },
     ],
     formulas: [
+      {
+        formula: "S=E(a,b)+E(a,b')+E(a',b)-E(a',b')",
+        meaning:
+          'Each E is the average product of two ±1 outcomes for the named settings. The primes label each side’s alternative setting.',
+      },
       {
         formula: '|S|\\le2\\quad\\text{(local CHSH bound)}',
         meaning:
@@ -703,7 +736,7 @@ export const physicsHistory: TimelineEvent[] = [
       },
     ],
     sources: [references.bell, references.chsh],
-    visual: 'benchmark',
+    visual: 'bell',
   },
   {
     id: 'physics-feynman',
