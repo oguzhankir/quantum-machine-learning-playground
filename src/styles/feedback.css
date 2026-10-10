@@ -1,0 +1,131 @@
+.feedback-panel {
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 42px 32px;
+  scroll-margin-top: 100px;
+}
+.feedback-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 30px;
+  padding: 25px 27px;
+  border: 1px solid #dfe7f1;
+  border-radius: 13px;
+  background: linear-gradient(120deg, #fcfdff, #f0f5fb);
+}
+.feedback-copy .feedback-eyebrow {
+  display: block;
+  margin: 0 0 8px;
+  color: #6b80a0;
+  font-size: 0.6rem;
+  line-height: 1.6;
+  letter-spacing: 0.09em;
+  font-weight: 600;
+}
+.feedback-copy h2 {
+  margin: 0 0 10px;
+  color: #304467;
+  font-size: 1.22rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.feedback-copy > p:not(.feedback-eyebrow) {
+  display: block;
+  max-width: 640px;
+  margin: 0;
+  color: #62758f;
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+.feedback-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 20px;
+  list-style: none;
+  padding: 0;
+  margin: 17px 0 0;
+}
+.feedback-prompts li {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  color: #5c7391;
+  font-size: 0.7rem;
+  line-height: 1.7;
+}
+.feedback-prompts li > span {
+  color: #8699b2;
+  font-size: 0.59rem;
+  font-variant-numeric: tabular-nums;
+}
+.feedback-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.feedback-actions .feedback-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 21px;
+  font-size: 0.77rem;
+  white-space: nowrap;
+}
+.feedback-send svg {
+  flex-shrink: 0;
+}
+.feedback-actions .feedback-email {
+  display: block;
+  margin: 0;
+  color: #637ea1;
+  font-size: 0.69rem;
+  line-height: 1.7;
+  text-decoration-color: #bdcde1;
+  overflow-wrap: anywhere;
+}
+.feedback-actions .feedback-email:hover {
+  color: #3c5fa0;
+}
+@media (min-width: 1600px) {
+  .feedback-panel {
+    padding-inline: 60px;
+  }
+}
+@media (max-width: 1200px) {
+  .feedback-panel {
+    padding-inline: 28px;
+  }
+  .feedback-card {
+    gap: 22px;
+    padding: 23px;
+  }
+}
+@media (max-width: 700px) {
+  .feedback-panel {
+    padding: 0 20px 24px;
+  }
+  .feedback-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 21px;
+    padding: 21px 19px;
+  }
+  .feedback-copy h2 {
+    font-size: 1.15rem;
+  }
+  .feedback-prompts {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .feedback-prompts li {
+    font-size: 0.73rem;
+  }
+  .feedback-actions .feedback-send {
+    width: 100%;
+  }
+}

@@ -1,5 +1,7 @@
 # Quantum ML Playground
 
+Questions, corrections, and experiment ideas are welcome at [oguzhankir17@gmail.com](mailto:oguzhankir17@gmail.com). The site includes a feedback panel and contact links throughout the learning space.
+
 An English learning path for someone starting quantum mechanics and machine learning from zero. Twenty-eight connected lessons combine explanations, derived formulas, worked examples, executable Python examples, self-checks, and nineteen interactive laboratories. A motion studio explains interference, Born sampling, and hybrid training through captioned mathematical animations. The project workshop turns the lessons into runnable experiments and three capstones. The dashboard provides stage filters, lesson search, and a resume action; lessons have individual routes, and a searchable glossary and source library are available throughout the journey.
 
 Two visual history tracks contain 28 cited milestones connecting quantum mechanics and quantum machine learning to the experiments, mathematical ideas, and research papers that shaped them. Select a milestone to read its motivating question, discovery, limitations, definitions, references, and lesson links. A separate research map explains eight research directions, their opportunities, and persistent bottlenecks, distinguishing an established tool, a research prototype, and a theoretical result. Its literature review date and latest cited evidence year are displayed explicitly; the map is a curated reading guide, not a live research feed.

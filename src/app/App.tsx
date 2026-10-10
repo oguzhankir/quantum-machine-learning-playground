@@ -24,6 +24,7 @@ import LessonDepth from '../components/LessonDepth';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
 import ConceptContext from '../components/ConceptContext';
+import FeedbackPanel, { feedbackHref } from '../components/FeedbackPanel';
 import {
   finalChecks,
   glossary,
@@ -83,7 +84,15 @@ function Icon({
   size = 20,
 }: {
   name:
-    'atom' | 'book' | 'arrow' | 'spark' | 'search' | 'clock' | 'menu' | 'close';
+    | 'atom'
+    | 'book'
+    | 'arrow'
+    | 'mail'
+    | 'spark'
+    | 'search'
+    | 'clock'
+    | 'menu'
+    | 'close';
   size?: number;
 }) {
   const paths: Record<string, ReactNode> = {
@@ -101,6 +110,12 @@ function Icon({
       </>
     ),
     arrow: <path d="M4 12h16m-6-6 6 6-6 6" />,
+    mail: (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="3" />
+        <path d="m4 7 8 6 8-6" />
+      </>
+    ),
     spark: (
       <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z" />
     ),
@@ -538,6 +553,12 @@ export default function App() {
               aria-current={resourceRoute === 'sources' ? 'page' : undefined}
             >
               <Icon name="spark" size={17} /> References{' '}
+              <span>
+                <Icon name="arrow" size={14} />
+              </span>
+            </a>
+            <a href={feedbackHref}>
+              <Icon name="mail" size={17} /> Feedback &amp; contact{' '}
               <span>
                 <Icon name="arrow" size={14} />
               </span>
@@ -1187,11 +1208,15 @@ export default function App() {
               </div>
             )}
           </main>
+          <FeedbackPanel />
           <footer>
             <a href="#top">
               <Icon name="atom" size={19} /> Quantum ML Playground
             </a>
             <p>Read. Wonder. Understand by experimenting.</p>
+            <a href={feedbackHref}>
+              Contact <Icon name="mail" size={13} />
+            </a>
             <a
               href="https://github.com/oguzhankir/quantum-machine-learning-playground"
               target="_blank"
