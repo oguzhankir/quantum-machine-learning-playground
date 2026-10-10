@@ -22,6 +22,10 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
+      - name: Verify runnable Python projects
+        run: |
+          python3 -m pip install -r examples/requirements.txt
+          python3 examples/verify_examples.py
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
@@ -46,7 +50,26 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Configure Pages
+        id: pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+        with:
+          token: ${{ secrets.PAGES_ENABLEMENT_TOKEN || github.token }}
+          enablement: ${{ secrets.PAGES_ENABLEMENT_TOKEN != '' }}
+      - name: Explain Pages setup failure
+        if: ${{ failure() && steps.pages.outcome == 'failure' }}
+        env:
+          PAGES_SETTINGS_URL: ${{ github.server_url }}/${{ github.repository }}/settings/pages
+        run: |
+          echo "::error::Pages configuration failed. Open ${PAGES_SETTINGS_URL} and select GitHub Actions as the build source."
+          {
+            echo "### GitHub Pages setup required"
+            echo
+            echo "Open [repository Pages settings](${PAGES_SETTINGS_URL}) and set **Build and deployment → Source → GitHub Actions**, then re-run this workflow."
+            echo
+            echo 'For automatic first-time enablement, optionally add a repository secret named `PAGES_ENABLEMENT_TOKEN` with Pages write permission (a GitHub App also needs Administration write). The default `GITHUB_TOKEN` can deploy an enabled site but cannot enable Pages.'
+            echo
+            echo 'Keep repository visibility and existing environment protections unchanged. Check the Configure Pages logs for any additional permission or eligibility errors.'
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Deploy validated artifact
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

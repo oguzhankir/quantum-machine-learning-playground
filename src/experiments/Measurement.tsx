@@ -42,6 +42,11 @@ export default function Measurement() {
       <div className="experiment-heading">
         <span className="eyebrow">Experiment 02</span>
         <h3>One qubit or a fresh experiment?</h3>
+        <p>
+          A measurement gives one outcome and leaves the qubit in the state
+          associated with that outcome. Compare measuring it again with
+          preparing it again before every measurement.
+        </p>
       </div>
       <Range
         label="Preparation polar angle"

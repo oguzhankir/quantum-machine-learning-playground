@@ -11,7 +11,7 @@ export function KnowledgeCheck({
 }) {
   return (
     <div className="knowledge-check">
-      <p className="eyebrow">Check your understanding</p>
+      <p className="eyebrow">03 · CHECK YOUR UNDERSTANDING</p>
       <fieldset>
         <legend>{check.question}</legend>
         {check.choices.map((choice, i) => (
@@ -34,7 +34,7 @@ export function KnowledgeCheck({
       </fieldset>
       {answer && (
         <p className="first-attempt">
-          Your first response: {check.choices[answer.first]?.text}
+          First response: {check.choices[answer.first]?.text}
         </p>
       )}
       <button
@@ -44,19 +44,21 @@ export function KnowledgeCheck({
           if (answer) onChange({ ...answer, revealed: true });
         }}
       >
-        Show answer
+        Check answer
       </button>
       {answer?.revealed && (
         <div className="check-feedback" aria-live="polite">
           <strong>
-            {answer.selected === check.correct ? 'Correct.' : 'Keep exploring.'}
+            {answer.selected === check.correct
+              ? 'Correct. The idea is coming together.'
+              : "Let's think it through again."}
           </strong>
           {check.choices.map((choice, i) => (
             <p key={choice.text}>
               <strong>
                 {i === check.correct
                   ? 'Correct choice'
-                  : 'Why this choice does not work'}
+                  : "Why this choice doesn't fit"}
                 : {choice.text}
               </strong>
               <br />

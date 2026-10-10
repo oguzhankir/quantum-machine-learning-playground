@@ -169,6 +169,11 @@ export default function Learning() {
       <div className="experiment-heading">
         <span className="eyebrow">Experiment 05</span>
         <h3>A circuit that learns an angle</h3>
+        <p>
+          The circuit makes a prediction; a classical algorithm updates the
+          angle w to reduce error. Watch the curve approach the targets as it
+          learns.
+        </p>
         <p className="badge">Ideal, exact simulator expectations</p>
       </div>
       <div className="pipeline">
@@ -192,9 +197,9 @@ export default function Learning() {
         />
       </fieldset>
       <p className="small">
-        Targets use offset π/3 ≈ 1.0472 radians. Learning rate = 0.2. Equivalent
-        angles wrap at ±π to stay within the slider; adding or subtracting 2π
-        leaves predictions unchanged.
+        Targets follow cos(x + π/3), with offset π/3 ≈ 1.0472 radians. Learning
+        rate = 0.2. Equivalent angles wrap at ±π to stay within the slider;
+        adding or subtracting 2π leaves predictions unchanged.
       </p>
       <div className="actions">
         <button disabled={busy} onClick={() => train(1)}>
@@ -249,28 +254,30 @@ export default function Learning() {
           </table>
         </div>
       </details>
-      <h4>All 24 real training examples</h4>
-      <div className="table-scroll data-table">
-        <table>
-          <caption>x in radians; targets and predictions in [−1, 1].</caption>
-          <thead>
-            <tr>
-              <th scope="col">Input x</th>
-              <th scope="col">Target</th>
-              <th scope="col">Prediction ⟨Z⟩</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dataset.map(({ x, target }, i) => (
-              <tr key={i}>
-                <th scope="row">{numberText(x)}</th>
-                <td>{numberText(target)}</td>
-                <td>{numberText(predict(x, run.w))}</td>
+      <details>
+        <summary>Inspect all 24 training examples</summary>
+        <div className="table-scroll data-table">
+          <table>
+            <caption>x in radians; targets and predictions in [−1, 1].</caption>
+            <thead>
+              <tr>
+                <th scope="col">Input x</th>
+                <th scope="col">Target</th>
+                <th scope="col">Prediction ⟨Z⟩</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {dataset.map(({ x, target }, i) => (
+                <tr key={i}>
+                  <th scope="row">{numberText(x)}</th>
+                  <td>{numberText(target)}</td>
+                  <td>{numberText(predict(x, run.w))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
       <p className="live-explanation">
         The circuit computes predictions. The classical optimizer updates w
         using the MSE gradient. This toy is exactly reproducible by cos(x + w)

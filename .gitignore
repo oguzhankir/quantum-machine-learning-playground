@@ -5,3 +5,8 @@ playwright-report/
 work/
 *.tsbuildinfo
 .DS_Store
+
+# Generated learning kit and local Python environments
+public/downloads/
+__pycache__/
+.venv/

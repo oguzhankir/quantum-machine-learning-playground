@@ -1,0 +1,2 @@
+# Python 3.10 or newer. All core examples use NumPy and the standard library only.
+numpy>=2.0,<3

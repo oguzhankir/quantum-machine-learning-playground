@@ -37,6 +37,10 @@ export default function Entanglement() {
       <div className="experiment-heading">
         <span className="eyebrow">Experiment 04</span>
         <h3>Correlation needs context</h3>
+        <p>
+          Look at two qubits together. Change the measurement basis to compare
+          an entangled Bell state with classical correlation.
+        </p>
       </div>
       <label className="select-label">
         Joint preparation

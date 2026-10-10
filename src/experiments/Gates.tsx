@@ -39,6 +39,10 @@ export default function Gates() {
       <div className="experiment-heading">
         <span className="eyebrow">Experiment 03</span>
         <h3>Make phase visible</h3>
+        <p>
+          Quantum gates change amplitudes. Arrange them in a circuit to discover
+          how phase can change measurement probabilities.
+        </p>
       </div>
       <h4>Build a small circuit</h4>
       <div className="gate-buttons">

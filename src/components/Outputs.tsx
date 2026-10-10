@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { Complex, State } from '../lib/quantum';
 export const numberText = (value: number, digits = 4): string =>
   (Math.abs(value) < 0.5 * 10 ** -digits ? 0 : value).toFixed(digits);
@@ -164,7 +165,7 @@ export function Range({
   unit: string;
   onChange: (value: number) => void;
 }) {
-  const id = label.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  const id = useId();
   return (
     <label className="range" htmlFor={id}>
       <span>

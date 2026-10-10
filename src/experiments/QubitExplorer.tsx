@@ -15,7 +15,10 @@ export default function QubitExplorer() {
       <div className="experiment-heading">
         <span className="eyebrow">Experiment 01</span>
         <h3>The qubit explorer</h3>
-        <p>Choose a state. Predict what a Z measurement will see.</p>
+        <p>
+          Choose a state and predict the chances of measuring 0 or 1. The angle
+          θ sets these probabilities; φ changes the relative phase.
+        </p>
       </div>
       <div className="preset-row">
         {[
