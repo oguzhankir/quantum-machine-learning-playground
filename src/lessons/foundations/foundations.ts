@@ -4,44 +4,43 @@ export const introLessons: Lesson[] = [
   {
     id: 'why',
     stage: 'foundations',
-    minutes: 5,
+    minutes: 3,
     prerequisites: [],
-    title: 'Why do we need quantum mechanics?',
+    title: 'Why learn quantum mechanics?',
     short: 'Start with curiosity',
-    question: 'Can our everyday intuition explain the very small world?',
+    question: 'Why do atoms give off some colours of light, but not others?',
     objective:
-      'Understand what quantum mechanics explains and where this learning journey will take you.',
+      'Explain one visible clue about atoms, then make a prediction of your own. No equations or background knowledge needed.',
     takeaway:
-      'Quantum mechanics is a physical theory that predicts experimental results. We will use it to explore quantum information and trainable circuits.',
+      'Quantum mechanics gives us rules for predicting how atoms and light behave. We learn those rules by connecting them to experiments.',
     paragraphs: [
-      'When we throw a ball, we can track its position and speed. In some experiments with atoms, electrons, and light, this everyday picture is not enough. Quantum mechanics describes how to prepare these systems and predicts which measurement outcomes we can see, with what probabilities.',
-      'The theory is about much more than computers. Quantum physics explains the specific energies of atoms, lasers, and semiconductors. We will first build intuition through an experiment in which two paths interfere. Then we will work with a qubit: a small mathematical model of quantum behavior.',
-      'A qubit represents a quantum system with two distinguishable reference states. We will call them 0 and 1. Real devices can implement this model using photons, trapped ions, or superconducting circuits. The arrows and spheres on this screen do not show the shape of a particle or its path through space.',
-      'The learning path connects quantum physics to classical machine learning, then to quantum models. You will predict small experiments, train a circuit, and build runnable Python projects with classical comparisons. Start with no prior quantum knowledge; later lessons introduce the linear algebra, calculus, and code as you need them. By the end, you should be able to explain what a model does, test it, and state what its results establish.',
+      'Give hydrogen gas energy and it can emit light. Spread that light into its colours, and you see separate bright lines. Why these colours, rather than a smooth rainbow?',
+      'Atoms are tiny building blocks of matter. An electron in an atom has specific allowed energy levels. When it moves from a higher level to a lower one, the atom can release a small packet of light, called a photon. The energy difference determines the light’s colour. Specific energy gaps give specific colours.',
+      'Quantum rules also help explain LEDs, lasers, and the materials inside computer chips. These devices use the same theory in different ways. Learning it helps you understand things you already use—and judge what new quantum technologies can actually do.',
+      'Later, we will connect these experiments to models that learn from data. First, let’s understand one physical idea at a time.',
     ],
     example:
-      'An apparatus gives either 0 or 1 each time it runs. A fifty-fifty split does not prove that it is quantum: a coin toss can do that too. A better clue is how the same prepared system behaves after different operations.',
-    try: 'Explore the learning path. Make your first prediction: is the effect of two open paths always the sum of their separate effects? We will test this idea in the next lesson.',
-    why: 'Connecting a concept to a physical question first helps you understand what the symbols that follow are trying to describe.',
+      'Four prominent visible lines from hydrogen. This is a simplified illustration; hydrogen has other lines too, including outside visible light.',
+    try: 'Light can reach the same spot on a screen by two routes. Could opening the second route make that spot darker?',
+    why: 'Quantum mechanics lets us calculate these allowed energy levels. The colours are a prediction we can compare with an experiment.',
     math: [],
     mathNote:
-      'No formulas are needed yet. For now, get comfortable with the words preparation, operation, and measurement.',
-    sources: ['interference', 'states', 'qml'],
+      'Start with an observation and a question. The mathematics will come when it helps explain what you can see.',
+    sources: ['atomicSpectra', 'waveMechanics', 'interference'],
     check: {
-      id: 'why-check',
-      question:
-        'Does adding a quantum circuit to a model automatically make it better?',
+      id: 'why-spectrum-check',
+      question: 'Why does hydrogen give these distinct bright lines?',
       correct: 1,
       choices: [
         {
-          text: 'Yes; we can read all the answers at once.',
+          text: 'Its electrons can lose any amount of energy.',
           explanation:
-            'Superposition does not let us read every answer in a single measurement. A measurement returns a limited classical result.',
+            'The allowed energy changes are constrained. That is why hydrogen gives specific lines rather than every possible visible colour.',
         },
         {
-          text: 'No; success depends on the task and the entire workflow.',
+          text: 'Its electrons have specific allowed energy changes.',
           explanation:
-            'Correct. Data preparation, the number of measurements, noise, and comparisons with strong classical models all need to be considered together.',
+            'Each allowed energy change can release light at a particular colour. Quantum mechanics predicts the allowed energies and the lines we observe.',
         },
       ],
     },

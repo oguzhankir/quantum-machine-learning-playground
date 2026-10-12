@@ -440,7 +440,8 @@ test('all math panels fit desktop and narrow mobile; SVG works without WebGL', a
   test.setTimeout(90_000);
   for (const id of lessonIds) {
     const section = await openLesson(page, id);
-    await section.locator('.math-panel summary').click();
+    if (lessons.find((lesson) => lesson.id === id)?.math.length)
+      await section.locator('.math-panel summary').click();
     await section.locator('details').evaluateAll((details) => {
       for (const detail of details) (detail as HTMLDetailsElement).open = true;
     });

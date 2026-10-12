@@ -22,6 +22,8 @@ import ClassicalLab from '../experiments/ClassicalLab';
 import AppliedLab from '../experiments/AppliedLab';
 import LessonDepth from '../components/LessonDepth';
 import LessonNavigator from '../components/LessonNavigator';
+import IntroLesson from '../components/IntroLesson';
+import RepositoryLink from '../components/RepositoryLink';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
 import ConceptContext from '../components/ConceptContext';
@@ -672,10 +674,13 @@ export default function App() {
               <i>/</i>
               {lesson?.short ?? resourceTitle ?? 'Quantum from scratch'}
             </div>
-            <a className="header-progress" href="#path">
-              <span className="live-dot" /> {progress.completed.length}/
-              {lessons.length} lessons <span className="avatar">ψ</span>
-            </a>
+            <div className="header-actions">
+              <a className="header-progress" href="#path">
+                <span className="live-dot" /> {progress.completed.length}/
+                {lessons.length} lessons <span className="avatar">ψ</span>
+              </a>
+              <RepositoryLink />
+            </div>
           </header>
           <main id="main-content" tabIndex={-1}>
             {isHome && (
@@ -966,7 +971,10 @@ export default function App() {
               </div>
             )}
             {lesson && (
-              <article className="lesson-page lesson-section" key={lesson.id}>
+              <article
+                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : ''}`}
+                key={lesson.id}
+              >
                 <div className="lesson-topline">
                   <a href="#path">← Back to the learning path</a>
                   <span>
@@ -1006,116 +1014,128 @@ export default function App() {
                     ))}
                   </p>
                 )}
-                <ConceptContext lessonId={lesson.id} />
-                <LessonNavigator
-                  lesson={lesson}
-                  hasExperiment={!!experiments[lesson.id]}
-                />
-                <section
-                  id={lesson.id}
-                  className={`lesson-body ${experiments[lesson.id] ? 'with-experiment' : ''}`}
-                  aria-label={lesson.short}
-                >
-                  <div
-                    className="reading"
-                    id={`${lesson.id}-idea`}
-                    tabIndex={-1}
-                    role="region"
-                    aria-label="Lesson explanation"
-                  >
-                    <div className="reading-label">
-                      <Icon name="book" size={17} /> 01{' '}
-                      <span>UNDERSTAND THE IDEA</span>
-                    </div>
-                    {lesson.paragraphs.map((text) => (
-                      <p key={text}>{text}</p>
-                    ))}
-                    <div className="worked-example">
-                      <p className="eyebrow">A WORKED EXAMPLE</p>
-                      <p>{lesson.example}</p>
-                    </div>
-                    <div className="try-this">
-                      <p className="eyebrow">YOUR TURN</p>
-                      <p>{lesson.try}</p>
-                    </div>
-                    <p>
-                      <strong>Why does this happen?</strong> {lesson.why}
-                    </p>
-                    <details
-                      className="math-panel"
-                      open={progress.math.includes(lesson.id)}
-                      onToggle={(e) => {
-                        const open = e.currentTarget.open;
-                        setProgress((old) =>
-                          old.math.includes(lesson.id) === open
-                            ? old
-                            : {
-                                ...old,
-                                math: open
-                                  ? [...old.math, lesson.id]
-                                  : old.math.filter((id) => id !== lesson.id),
-                              },
-                        );
-                      }}
+                {lesson.id === 'why' ? (
+                  <IntroLesson lesson={lesson} />
+                ) : (
+                  <>
+                    <ConceptContext lessonId={lesson.id} />
+                    <LessonNavigator
+                      lesson={lesson}
+                      hasExperiment={!!experiments[lesson.id]}
+                    />
+                    <section
+                      id={lesson.id}
+                      className={`lesson-body ${experiments[lesson.id] ? 'with-experiment' : ''}`}
+                      aria-label={lesson.short}
                     >
-                      <summary>
-                        Explore the math <span aria-hidden="true">＋</span>
-                      </summary>
-                      {lesson.math.map((formula) => (
-                        <MathFormula key={formula}>{formula}</MathFormula>
-                      ))}
-                      <p>{lesson.mathNote}</p>
-                    </details>
-                    <p className="section-sources">
-                      Go a little deeper:{' '}
-                      {lesson.sources.map((key, i) => (
-                        <span key={key}>
-                          {i > 0 && ' · '}
-                          <a
-                            href={sources[key].url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {sources[key].title}
-                          </a>
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-                  <div
-                    className="playground-column"
-                    id={`${lesson.id}-lab`}
-                    tabIndex={-1}
-                  >
-                    <div className="reading-label">
-                      <Icon name="atom" size={18} /> 02{' '}
-                      <span>
-                        {experiments[lesson.id]
-                          ? 'EXPLORE THE EXPERIMENT'
-                          : 'CONNECT THE IDEAS'}
-                      </span>
-                      <span className="live-dot" />
-                    </div>
-                    {experiments[lesson.id] ?? <ConceptMap lesson={lesson} />}
-                    {lesson.id === 'review' && (
-                      <div className="review-panel">
-                        {finalChecks.map((check) => (
-                          <KnowledgeCheck
-                            key={check.id}
-                            check={check}
-                            answer={progress.answers[check.id]}
-                            onChange={(answer) => setAnswer(check.id, answer)}
-                          />
+                      <div
+                        className="reading"
+                        id={`${lesson.id}-idea`}
+                        tabIndex={-1}
+                        role="region"
+                        aria-label="Lesson explanation"
+                      >
+                        <div className="reading-label">
+                          <Icon name="book" size={17} /> 01{' '}
+                          <span>UNDERSTAND THE IDEA</span>
+                        </div>
+                        {lesson.paragraphs.map((text) => (
+                          <p key={text}>{text}</p>
                         ))}
+                        <div className="worked-example">
+                          <p className="eyebrow">A WORKED EXAMPLE</p>
+                          <p>{lesson.example}</p>
+                        </div>
+                        <div className="try-this">
+                          <p className="eyebrow">YOUR TURN</p>
+                          <p>{lesson.try}</p>
+                        </div>
+                        <p>
+                          <strong>Why does this happen?</strong> {lesson.why}
+                        </p>
+                        <details
+                          className="math-panel"
+                          open={progress.math.includes(lesson.id)}
+                          onToggle={(e) => {
+                            const open = e.currentTarget.open;
+                            setProgress((old) =>
+                              old.math.includes(lesson.id) === open
+                                ? old
+                                : {
+                                    ...old,
+                                    math: open
+                                      ? [...old.math, lesson.id]
+                                      : old.math.filter(
+                                          (id) => id !== lesson.id,
+                                        ),
+                                  },
+                            );
+                          }}
+                        >
+                          <summary>
+                            Explore the math <span aria-hidden="true">＋</span>
+                          </summary>
+                          {lesson.math.map((formula) => (
+                            <MathFormula key={formula}>{formula}</MathFormula>
+                          ))}
+                          <p>{lesson.mathNote}</p>
+                        </details>
+                        <p className="section-sources">
+                          Go a little deeper:{' '}
+                          {lesson.sources.map((key, i) => (
+                            <span key={key}>
+                              {i > 0 && ' · '}
+                              <a
+                                href={sources[key].url}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {sources[key].title}
+                              </a>
+                            </span>
+                          ))}
+                        </p>
                       </div>
-                    )}
-                    <div className="takeaway">
-                      <span>TAKE THIS WITH YOU</span>
-                      <p>{lesson.takeaway}</p>
-                    </div>
-                  </div>
-                </section>
-                <LessonDepth lesson={lesson} />
+                      <div
+                        className="playground-column"
+                        id={`${lesson.id}-lab`}
+                        tabIndex={-1}
+                      >
+                        <div className="reading-label">
+                          <Icon name="atom" size={18} /> 02{' '}
+                          <span>
+                            {experiments[lesson.id]
+                              ? 'EXPLORE THE EXPERIMENT'
+                              : 'CONNECT THE IDEAS'}
+                          </span>
+                          <span className="live-dot" />
+                        </div>
+                        {experiments[lesson.id] ?? (
+                          <ConceptMap lesson={lesson} />
+                        )}
+                        {lesson.id === 'review' && (
+                          <div className="review-panel">
+                            {finalChecks.map((check) => (
+                              <KnowledgeCheck
+                                key={check.id}
+                                check={check}
+                                answer={progress.answers[check.id]}
+                                onChange={(answer) =>
+                                  setAnswer(check.id, answer)
+                                }
+                              />
+                            ))}
+                          </div>
+                        )}
+                        <div className="takeaway">
+                          <span>TAKE THIS WITH YOU</span>
+                          <p>{lesson.takeaway}</p>
+                        </div>
+                      </div>
+                    </section>
+                    <LessonDepth lesson={lesson} />
+                  </>
+                )}
                 <div
                   className="section-bottom"
                   id={`${lesson.id}-check`}
@@ -1130,10 +1150,15 @@ export default function App() {
                     <span className="completion-icon">
                       <Icon name="spark" size={25} />
                     </span>
-                    <h3>One more idea falls into place.</h3>
+                    <h3>
+                      {lesson.id === 'why'
+                        ? 'You have your first explanation.'
+                        : 'One more idea falls into place.'}
+                    </h3>
                     <p>
-                      Mark this lesson complete when you can explain the idea in
-                      your own words.
+                      {lesson.id === 'why'
+                        ? 'Can you explain why hydrogen gives specific colours? Mark this introduction complete, then try the light experiment.'
+                        : 'Mark this lesson complete when you can explain the idea in your own words.'}
                     </p>
                     <button
                       className={`button ${progress.completed.includes(lesson.id) ? 'completed' : 'primary'}`}
