@@ -4,6 +4,7 @@ import { sources } from '../lessons/foundations/content';
 import { MathFormula } from './Math';
 import { scrollToLessonSection } from './LessonNavigator';
 import WaveBasics from './WaveBasics';
+import WaveVideo from './WaveVideo';
 import { AmplitudeReasoning, PathRecordReasoning } from './WaveReasoning';
 import '../styles/wave-lesson.css';
 
@@ -166,7 +167,9 @@ export default function WaveLesson({
               <p key={text}>{text}</p>
             ))}
             {index === 0 && <WaveBasics />}
+            {index === 0 && <WaveVideo clip="motion" />}
             {index === 1 && <WaveComparison />}
+            {index === 1 && <WaveVideo clip="overlap" />}
             {index === 2 && <AmplitudeReasoning />}
             {index === 3 && <PathRecordReasoning />}
           </section>
