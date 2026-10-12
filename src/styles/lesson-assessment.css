@@ -1,0 +1,400 @@
+.lesson-assessment {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 30px);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.lesson-assessment .assessment-heading {
+  margin-bottom: 15px;
+}
+
+.lesson-assessment .assessment-eyebrow {
+  margin: 0 0 8px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.lesson-assessment h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(20px, 2vw, 25px);
+  line-height: 1.3;
+}
+
+.lesson-assessment p {
+  color: var(--text-copy);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.lesson-assessment .assessment-start > p {
+  margin: 0 0 12px;
+}
+
+.lesson-assessment .assessment-note {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.lesson-assessment .assessment-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.lesson-assessment .assessment-button:hover:not(:disabled) {
+  border-color: var(--link);
+  background: var(--accent-surface);
+  color: var(--accent-text);
+}
+
+.lesson-assessment .assessment-primary {
+  border-color: var(--link);
+  background: var(--link);
+  color: var(--surface);
+}
+
+:root[data-theme='dark'] .lesson-assessment .assessment-primary {
+  background: #b3cbf7;
+  border-color: #b3cbf7;
+  color: #131e30;
+}
+
+.lesson-assessment .assessment-primary:hover:not(:disabled) {
+  border-color: var(--link-hover);
+  background: var(--link-hover);
+  color: var(--surface);
+}
+
+:root[data-theme='dark']
+  .lesson-assessment
+  .assessment-primary:hover:not(:disabled) {
+  border-color: #d4e2ff;
+  background: #d4e2ff;
+  color: #131e30;
+}
+
+.lesson-assessment .assessment-quiet {
+  flex: 0 0 auto;
+  background: transparent;
+  padding: 8px 12px;
+}
+
+:root[data-theme] .lesson-assessment .assessment-button:disabled {
+  cursor: default;
+  background: var(--surface-muted);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.lesson-assessment :is(button, input):focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
+}
+
+.lesson-assessment .assessment-focus:focus {
+  outline: none;
+}
+
+.lesson-assessment .assessment-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(680px, calc(100vw - 32px));
+  max-width: none;
+  height: min(650px, calc(100dvh - 32px));
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 70px #0006;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.lesson-assessment .assessment-dialog::backdrop {
+  background: #060e1db8;
+  backdrop-filter: blur(3px);
+}
+
+.lesson-assessment .assessment-dialog-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.lesson-assessment .assessment-dialog-header {
+  flex: 0 0 auto;
+  padding: 24px 28px 0;
+}
+
+.lesson-assessment .assessment-dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.lesson-assessment .assessment-dialog-heading h2 {
+  font-size: 22px;
+}
+
+.lesson-assessment .assessment-position {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lesson-assessment .assessment-position > span:last-child {
+  flex: 0 0 auto;
+}
+
+.lesson-assessment .assessment-progress {
+  height: 3px;
+  overflow: hidden;
+  margin: 12px 0 0;
+  border-radius: 3px;
+  background: var(--surface-muted);
+}
+
+.lesson-assessment .assessment-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--link);
+}
+
+.lesson-assessment .assessment-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 24px 28px;
+}
+
+.lesson-assessment .assessment-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.lesson-assessment .assessment-choices legend {
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.lesson-assessment .assessment-choice {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 12px;
+  min-height: 50px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text-copy);
+  font-size: 14px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.lesson-assessment .assessment-choice input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--link);
+  cursor: inherit;
+}
+
+.lesson-assessment .assessment-choice:hover,
+.lesson-assessment .assessment-choice.is-selected {
+  border-color: var(--link);
+  background: var(--accent-surface);
+  color: var(--text);
+}
+
+.lesson-assessment .assessment-choice:focus-within {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.lesson-assessment .assessment-explanation {
+  padding: 15px 17px;
+  border-radius: 8px;
+  background: var(--success-surface);
+  color: var(--success-text);
+}
+
+.lesson-assessment .assessment-explanation.is-incorrect {
+  background: var(--warning-surface);
+  color: var(--warning-text);
+}
+
+.lesson-assessment .assessment-explanation > strong {
+  font-size: 14px;
+}
+
+.lesson-assessment .assessment-explanation p {
+  margin: 6px 0 0;
+  color: var(--text-copy);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.lesson-assessment .assessment-correct-answer {
+  padding-top: 8px;
+}
+
+.lesson-assessment .assessment-actions,
+.lesson-assessment .assessment-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lesson-assessment .assessment-actions {
+  margin-top: 16px;
+}
+
+.lesson-assessment .assessment-dialog-footer {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 16px 28px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-raised);
+}
+
+.lesson-assessment .assessment-result > p {
+  margin: 12px 0;
+}
+
+.lesson-assessment .assessment-score {
+  color: var(--text);
+  font-size: 32px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.lesson-assessment .assessment-score span {
+  color: var(--text-muted);
+  font-size: 20px;
+}
+
+.lesson-assessment h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.lesson-assessment .assessment-your-answer {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .lesson-assessment .assessment-dialog {
+    width: calc(100vw - 16px);
+    height: min(650px, calc(100dvh - 16px));
+    border-radius: 12px;
+  }
+
+  .lesson-assessment .assessment-dialog-header {
+    padding: 18px 18px 0;
+  }
+
+  .lesson-assessment .assessment-dialog-heading {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .lesson-assessment .assessment-dialog-heading h2 {
+    font-size: 18px;
+  }
+
+  .lesson-assessment .assessment-dialog-heading .assessment-eyebrow {
+    display: none;
+  }
+
+  .lesson-assessment .assessment-dialog-heading .assessment-button {
+    max-width: 96px;
+    padding-inline: 10px;
+  }
+
+  .lesson-assessment .assessment-position {
+    flex-wrap: wrap;
+  }
+
+  .lesson-assessment .assessment-dialog-body {
+    padding: 20px 18px;
+  }
+
+  .lesson-assessment .assessment-dialog-footer {
+    padding: 14px 18px 18px;
+  }
+
+  .lesson-assessment
+    :is(.assessment-actions, .assessment-dialog-footer)
+    .assessment-button {
+    flex: 1 1 90px;
+    padding-inline: 10px;
+  }
+
+  .lesson-assessment .assessment-choices legend {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .lesson-assessment .assessment-choice {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesson-assessment .assessment-button {
+    transition: none;
+  }
+}

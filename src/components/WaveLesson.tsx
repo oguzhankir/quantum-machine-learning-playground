@@ -3,6 +3,8 @@ import type { Lesson } from '../lessons/foundations/content';
 import { sources } from '../lessons/foundations/content';
 import { MathFormula } from './Math';
 import { scrollToLessonSection } from './LessonNavigator';
+import WaveBasics from './WaveBasics';
+import { AmplitudeReasoning, PathRecordReasoning } from './WaveReasoning';
 import '../styles/wave-lesson.css';
 
 function WaveComparison() {
@@ -20,7 +22,8 @@ function WaveComparison() {
         <h3>See what “adding waves” means.</h3>
         <p>
           Shift wave B. The bottom line adds the two displacements at every
-          position.
+          position. The dashed line marks the same position, x = 1 m, in all
+          three snapshots.
         </p>
       </div>
       <div
@@ -43,6 +46,9 @@ function WaveComparison() {
           </button>
         ))}
       </div>
+      <p className="wave-comparison-axis">
+        Vertical: displacement from rest (cm)
+      </p>
       <div className="wave-curves">
         {labels.map((label, row) => {
           const points = Array.from({ length: 181 }, (_, i) => {
@@ -55,13 +61,13 @@ function WaveComparison() {
             <div className={`wave-curve wave-curve-${row}`} key={label}>
               <div>
                 <strong>{label}</strong>
-                <span>At the marker: {number(values[row])}</span>
+                <span>At the marker: {number(values[row])} cm</span>
               </div>
               <svg
                 viewBox="0 0 720 104"
                 preserveAspectRatio="none"
                 role="img"
-                aria-label={`${label} at phase ${phase} degrees; displacement at the marked position is ${number(values[row])} arbitrary units.`}
+                aria-label={`${label} at phase ${phase} degrees; displacement at the marked position is ${number(values[row])} centimetres. Horizontal axis: position from 0 to 4 metres.`}
               >
                 <path d="M12 52H708" stroke="currentColor" opacity=".2" />
                 <path
@@ -87,6 +93,16 @@ function WaveComparison() {
           );
         })}
       </div>
+      <div className="wave-comparison-ticks" aria-hidden="true">
+        <span>0</span>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+      </div>
+      <p className="wave-comparison-axis">
+        Horizontal: position (m) · one instant
+      </p>
       <p className="wave-phase-explanation" role="status">
         {phase === 0 || phase === 360
           ? 'The waves line up. At the marker, +1 and +1 give +2: reinforcement. A full cycle brings us back to the same alignment.'
@@ -95,8 +111,9 @@ function WaveComparison() {
             : 'Wave B is one quarter cycle ahead. At the marker, +1 and 0 give +1. A phase shift changes how the contributions combine.'}
       </p>
       <figcaption>
-        A classical wave snapshot with arbitrary displacement units. The curves
-        show a pattern, not a particle trajectory.
+        Small classical waves with amplitude 1 cm and wavelength 4 m. All three
+        plots use the same scales. Their curves show displacement, not quantum
+        probability or a particle trajectory.
       </figcaption>
     </figure>
   );
@@ -148,7 +165,10 @@ export default function WaveLesson({
             {section.paragraphs.map((text) => (
               <p key={text}>{text}</p>
             ))}
+            {index === 0 && <WaveBasics />}
             {index === 1 && <WaveComparison />}
+            {index === 2 && <AmplitudeReasoning />}
+            {index === 3 && <PathRecordReasoning />}
           </section>
         ))}
       </div>

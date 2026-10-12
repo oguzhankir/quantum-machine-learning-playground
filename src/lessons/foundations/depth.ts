@@ -5,89 +5,93 @@ export const lessonDepth: Record<string, LessonSection[]> = {
     {
       title: 'A wave is a moving pattern',
       paragraphs: [
-        'Drop a stone into a pond and a ripple travels outward. A floating cork mainly bobs as the ripple passes; it does not have to travel across the pond with a crest. The wave carries a changing pattern and can transfer energy while the water mainly moves locally. Water can also flow, but bulk flow and the travelling ripple are different motions.',
-        'At one place, water rises above its resting level, falls below it, and repeats. A crest is a high point and a trough is a low point. One complete repeat is a cycle. Displacement means height relative to the resting level: positive above it, negative below it. The amplitude is the greatest distance from that resting level, so a wave with amplitude 1 cm ranges from +1 cm to −1 cm.',
-        'Frequency tells us how often the cycle repeats: two cycles each second means a frequency of two cycles per second. Wavelength is the distance between neighbouring crests. Amplitude, frequency, and wavelength describe different features: the size of the motion, its repetition rate, and the spacing of the travelling pattern.',
-        'Light has wave behaviour too: its electric and magnetic fields vary instead of water height. The water picture helps us understand overlapping patterns. A quantum probability amplitude has a different meaning from a water-wave height: it is a number used to predict detection probabilities. We will connect the two ideas without treating a particle as a piece of rippling water.',
+        'A ripple’s pattern travels across water while a floating cork mainly bobs near its starting position. The wave can carry energy without carrying the cork across the pond. Watch the moving pattern and the cork separately in the Motion view.',
+        'The resting water level is our zero. A crest is a high point; a trough is a low point. Displacement tells us how far above or below zero the water is at one place.',
+        'Amplitude is the greatest distance from zero. An amplitude of 1 cm means crests at +1 cm and troughs at −1 cm. The whole crest-to-trough distance is 2 cm. Use the Amplitude view to measure the vertical distance.',
+        'Wavelength is the distance between neighbouring crests. If one crest is at 1 m and the next is at 3 m, the wavelength is 2 m. Measure along the water in the Wavelength view.',
+        'Frequency counts complete cycles each second at one fixed place. If a cork completes four up-and-down cycles in two seconds, the frequency is 2 cycles per second, or 2 hertz (Hz). Watch the clock in the Frequency view.',
       ],
       exercise: {
         prompt:
-          'A ripple crosses a pond while a cork rises and falls near its starting position. What travels across the pond? For a ripple with amplitude 2 cm, what are the crest and trough displacements?',
+          'A cork bobs while crests pass it. Which motion carries the wave pattern across the pond? If the amplitude is 2 cm, where are the crests and troughs relative to zero? If the cork completes six cycles in three seconds, what is the frequency?',
         solution:
-          'The wave pattern travels and transfers energy; the cork’s local motion does not require the water to travel all the way with the pattern. The crest is +2 cm and the trough is −2 cm relative to the resting level. The 4 cm distance from crest to trough is twice the amplitude.',
+          'The travelling crests carry the pattern; the cork mainly moves locally. Crests are at +2 cm and troughs at −2 cm, making a 4 cm crest-to-trough distance. Six cycles divided by three seconds gives 2 cycles per second, or 2 Hz.',
       },
     },
     {
       title: 'Phase tells us how waves line up',
       paragraphs: [
-        'Phase describes where a repeating wave is in its cycle. Relative phase compares two cycles. For waves with the same frequency, a 0° difference means their crests arrive together; 90° is a quarter-cycle shift; 180° is half a cycle; and 360° is one complete cycle, giving the same alignment as 0°. The number of degrees tells us a fraction of a cycle, rather than a distance on the screen.',
-        'For small water ripples, add the two displacements at the same place and time. This is the principle of superposition. Two +1 cm crests give +2 cm: constructive interference. A +1 cm crest and a −1 cm trough give 0 cm: destructive interference. With equal amplitudes and a stable half-cycle difference, the two waves cancel throughout the cycle at that place.',
-        'A quarter-cycle shift is an intermediate case. When one wave is at a crest, the other is crossing its resting level; the two crests do not arrive together. The combined wave is neither maximally reinforced nor completely cancelled. Across space, the routes can acquire different phase differences, so reinforcement at one place can accompany cancellation at another.',
+        'Phase tells us where a wave is in its cycle. Relative phase compares two waves. At the same frequency, 0° aligns their crests, 90° shifts one by a quarter cycle, and 180° shifts it by half a cycle. At 360°, one full cycle restores the 0° alignment.',
+        'For small water ripples, add their displacements at the same place and time. This addition rule is called superposition. Two +1 cm crests give +2 cm: constructive interference. A +1 cm crest and a −1 cm trough give zero: destructive interference.',
+        'Use the dashed marker in the comparison. Wave A is at +1 there. At 90°, wave B is crossing zero, so the sum at that marker is +1. This is one position in the snapshot, not the maximum height of the whole combined wave.',
       ],
       equations: [
         {
           formula: String.raw`y_{\mathrm{total}}=y_A+y_B`,
           explanation:
-            'yA and yB are water displacements at one place and time. Their signs indicate above or below the resting level. This is an addition rule for the wave’s displacement, not a formula for quantum probability.',
+            'yA and yB are displacements at the same place and time. Their signs mean above or below zero. The result is a water displacement; quantum probability needs the additional squared-magnitude rule.',
         },
       ],
       exercise: {
         prompt:
           'Two equal ripples arrive at one place. When the first is at +1 cm, what does the second contribute for phase differences of 0°, 180°, and 360°? What is the combined displacement in each case?',
         solution:
-          'At 0°, the second crest is also +1 cm, giving +2 cm. At 180°, the second wave is at its −1 cm trough, giving 0 cm. At 360°, it is one full cycle ahead and back at a +1 cm crest, giving +2 cm again. A complete cycle changes the phase label but restores the alignment.',
+          'At 0°, the second crest is +1 cm, so the sum is +2 cm. At 180°, it contributes −1 cm, so the sum is zero. At 360°, it is back at a +1 cm crest, giving +2 cm again. One complete cycle restores the alignment.',
         equations: [String.raw`1+1=2,\qquad 1+(-1)=0`],
       },
     },
     {
       title: 'From one detection to a probability pattern',
       paragraphs: [
-        'In a double-slit experiment with electrons, each detection is a localized event at one position on the screen. One event does not trace a wave or draw the whole pattern. Repeating the same preparation many times builds a histogram: a count of detections in each screen region. With a suitable coherent preparation and indistinguishable paths, high-count and low-count regions reveal interference. Wave interference also occurs in classical physics; here we are connecting it to individual quantum detections.',
-        'A count and a probability are different quantities. Divide a bin’s count by the total number of detections to find its measured frequency. More repetitions usually give a better estimate of the probability pattern, but a few clicks can look uneven and even large samples fluctuate. A 25% probability does not promise exactly one detection in every four trials.',
-        'A quantum amplitude is a contribution to a possible detection outcome. For indistinguishable routes to the same outcome, add their amplitudes, then square the magnitude of the total. This is the Born rule. Opposite amplitude contributions can cancel even though each would give a positive probability when considered separately. Squaring first and adding those probabilities is a different calculation, used when the routes are distinguishable.',
-        'Use a separate, simple device with two routes and two possible outputs to see the numbers clearly. Such a device is called an interferometer. At one output of a balanced interferometer, let the two route contributions be +1/2 and +1/2 at 0° relative phase. They add to 1, giving probability 1. At 180°, the second contribution becomes −1/2; the sum and probability are 0. At 90°, the contributions are a quarter turn apart and give probability 1/2. A full turn restores probability 1.',
-        'The other output receives the remaining probability, so cancellation at one output does not destroy the particle or the total probability. These 1/2 amplitudes include the device’s splitting and recombining operations. This two-output example explains the addition rule; it is not the 16-bin screen model you will use below. In that screen model, bright and dark regions share a total probability of 1 across all bins.',
+        'An electron reaching a detector gives one localized event, or click. Repeat the same preparation and count the clicks in each screen region. The counts build a histogram. One click gives one location; many clicks help us estimate the pattern of probabilities.',
+        'A quantum amplitude is a number used to predict an outcome, not a water height. For coherent routes that cannot be distinguished, add the amplitude contributions to that outcome, then square the magnitude. This is the Born rule. Their signs and phases can cause cancellation before we calculate probability.',
+        'Follow bin 1 in the 16-bin screen below. At 0°, its contributions reinforce and its probability is 12.5%. At 90° it is 6.25%; at 180° they cancel and it is 0%. At 360° it returns to 12.5%. Other bins brighten as this one darkens: all 16 probabilities still add to 100%.',
+        'Counts are observations; probabilities are predictions. Ten clicks in bin 1 out of 100 total clicks give an observed frequency of 10%. Here frequency means a share of detections, not cycles per second. A 10% sample share can occur when the exact probability is 12.5%; finite samples fluctuate.',
       ],
       equations: [
         {
           formula: String.raw`P=|a+b|^2`,
           explanation:
-            'a and b contribute to the same outcome. At aligned phase, |1/2 + 1/2|² = 1. At opposite phase, |1/2 − 1/2|² = 0. A quantum amplitude can carry a sign or phase; a probability cannot be negative.',
+            'a and b contribute to one screen outcome. Add them first, then square the magnitude of the sum. Squaring first and adding probabilities would leave out the interference.',
         },
         {
-          formula: String.raw`P_A=\cos^2(\phi/2),\qquad P_B=\sin^2(\phi/2),\qquad P_A+P_B=1`,
+          formula: String.raw`m=\frac{1}{\sqrt{32}},\qquad P_1(0^\circ)=|m+m|^2=\frac18,\qquad P_1(180^\circ)=|m-m|^2=0`,
           explanation:
-            'These formulas describe the separate balanced two-output interferometer. φ is relative phase, with 180° = π radians. You can use the predictions at 0°, 90°, 180°, and 360° without knowing trigonometry yet. The screen lab has 16 outputs with different local phase differences.',
+            'Each route contributes magnitude m ≈ 0.1768 to bin 1. At aligned phase, their sum is about 0.3536; its square is 0.125, or 12.5%. At opposite phase, the equal contributions cancel. These numbers come from this lab’s equally weighted 16-bin model.',
+        },
+        {
+          formula: String.raw`P_1(\phi)=\frac{1+\cos\phi}{16},\qquad \sum_{k=1}^{16}P_k(\phi)=1`,
+          explanation:
+            'The first formula tracks bin 1 without a path record. φ is the relative phase, with 180° = π radians. Other bins have different local phases; summing all their probabilities gives 1 at every slider setting.',
         },
       ],
       exercise: {
         prompt:
-          'In the balanced two-output example, output A has probabilities 1, 1/2, 0, and 1 at phases 0°, 90°, 180°, and 360°. What are output B’s probabilities? If you see one detection at B when its probability is 1/2, have you established the full distribution?',
+          'At 180°, bin 1 has probability zero. What must the other 15 bins’ probabilities add to? At 0°, a sample of 100 detections includes 10 in bin 1. What percentage landed there, and does it contradict the exact 12.5% probability?',
         solution:
-          'Output B has probabilities 0, 1/2, 1, and 0, so the two probabilities sum to 1 at every phase. One B detection is compatible with probability 1/2, but also with many other nonzero probabilities. Prepare and repeat the experiment many times to estimate the distribution. Even then, finite counts fluctuate around the exact probabilities.',
+          'The other 15 probabilities must add to 100%; cancellation in bin 1 redistributes probability. The observed frequency is 10/100 = 10%. It does not contradict 12.5%: a finite sample need not match an exact probability. Repeat fresh preparations to obtain a better estimate.',
       },
     },
     {
       title: 'What a path record changes',
       paragraphs: [
-        'Coherence means that the alternatives retain a well-defined relative phase, so their amplitudes can combine predictably. If that phase varies randomly between repetitions, averaging can wash out the pattern even without a path detector. Having two open routes is therefore not enough: the preparation must preserve the relevant phase relationship and the routes must remain indistinguishable.',
-        'Indistinguishable means the available physical information cannot reliably tell the two routes apart. A path detector can create different records for the two routes. When those records are perfectly distinguishable, the distribution on the screen loses its interference term in this ideal model. The record can be stored in another device or the environment; a person does not have to read it. Reading the screen’s final position is also different from recording the earlier route.',
-        'With a perfect path record, add each route’s probability contribution to a screen bin instead of coherently adding its amplitudes. Partial distinguishability can reduce interference gradually. The lab’s switch shows two ideal extremes: coherent indistinguishable routes, or a perfect path record. It does not mean that every real interaction completely removes interference.',
-        'The lab divides a screen into 16 bins and gives the two routes equal weights. Without a path record, a 0° setting aligns their contributions at bin 1, where the probability is 12.5%. At 90° it is 6.25%, at 180° it is 0%, and at 360° it returns to 12.5%. Other bins have different local phases, so changing the slider shifts the pattern while its total stays 100%. With a perfect path record, each bin is 6.25% at every phase.',
-        'This is a normalized teaching model, not a calculation of a particular slit apparatus. It omits slit geometry, propagation, and the broader diffraction envelope. Its paths and phase arrows represent alternatives in a calculation, not measured electron trajectories. Use the model to explain the role of phase and path information, and keep those assumptions attached to your explanation.',
+        'Coherent routes keep a definite phase relationship, so their contributions can interfere. If phase varies randomly between repetitions, averaging can wash out the pattern. The two routes must also be indistinguishable: no physical record identifies which route led to a detection.',
+        'A path detector can create a different record for each route. If those records can be perfectly distinguished, the screen loses interference in this model. The record can remain in a device or the environment. Nobody needs to read it; the physical interaction matters.',
+        'With a perfect path record, add probabilities instead of amplitudes. The model gives each route half of the total probability. At any bin, the two routes contribute 3.125% each: together, 6.25%. Changing phase now leaves all 16 bins unchanged. Partial path information can reduce interference gradually; the switch shows the two ideal extremes.',
+        'This screen is a simplified model of 16 bins and two equally weighted routes. It illustrates phase and path information while omitting physical slit geometry and propagation. The route drawing represents alternatives in the calculation, not a measured electron trajectory.',
       ],
       equations: [
         {
           formula: String.raw`P_{\mathrm{record}}(j)=|a_j|^2+|b_j|^2=\frac{1}{16}`,
           explanation:
-            'j labels one screen bin. Each route contributes 1/32 to that bin when the routes have a perfect distinguishing record. Their sum is 1/16 = 6.25%, and all 16 bins together sum to 1.',
+            'j labels one screen bin. Each squared amplitude contributes 1/32 = 3.125%. Their sum is 1/16 = 6.25%, and all 16 bins together sum to 1.',
         },
       ],
       exercise: {
         prompt:
           'Set 180° so bin 1 is dark, then create a perfect path record without reading it. What happens to bin 1? Will changing the phase to 90° bring back bright and dark bands? Has any total probability disappeared?',
         solution:
-          'The record makes the routes distinguishable, so bin 1 changes from 0% to 6.25%. At 90° it is still 6.25%, and every other bin stays at 6.25% too. Reading the record is unnecessary: the physical record already changes which contributions can interfere. The 16 probabilities still sum to 100%; the distribution changed, not its total.',
+          'Bin 1 changes from 0% to 6.25%. At 90° it remains 6.25%, as do all other bins. The physical record has already made the routes distinguishable, whether anyone reads it or not. The 16 probabilities still sum to 100%.',
       },
     },
   ],

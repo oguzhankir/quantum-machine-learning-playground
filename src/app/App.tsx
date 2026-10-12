@@ -7,6 +7,8 @@ import {
   type ReactNode,
 } from 'react';
 import { KnowledgeCheck } from '../components/Check';
+import LessonAssessment from '../components/LessonAssessment';
+import { resetAssessments } from '../lib/learning/assessment';
 import { MathFormula } from '../components/Math';
 import QubitExplorer from '../experiments/QubitExplorer';
 import Measurement from '../experiments/Measurement';
@@ -643,6 +645,7 @@ export default function App() {
               className="text-button"
               onClick={() => {
                 setProgress(initialProgress());
+                resetAssessments();
                 window.location.hash = 'top';
               }}
             >
@@ -680,7 +683,7 @@ export default function App() {
               <ThemeToggle />
               <a className="header-progress" href="#path">
                 <span className="live-dot" /> {progress.completed.length}/
-                {lessons.length} lessons <span className="avatar">ψ</span>
+                {lessons.length} lessons
               </a>
               <RepositoryLink />
             </div>
@@ -1165,15 +1168,19 @@ export default function App() {
                   </>
                 )}
                 <div
-                  className="section-bottom"
+                  className={`section-bottom ${lesson.id === 'why' || lesson.id === 'waves' ? 'lesson-assessment-bottom' : ''}`}
                   id={`${lesson.id}-check`}
                   tabIndex={-1}
                 >
-                  <KnowledgeCheck
-                    check={lesson.check}
-                    answer={progress.answers[lesson.check.id]}
-                    onChange={(answer) => setAnswer(lesson.check.id, answer)}
-                  />
+                  {lesson.id === 'why' || lesson.id === 'waves' ? (
+                    <LessonAssessment lessonId={lesson.id} />
+                  ) : (
+                    <KnowledgeCheck
+                      check={lesson.check}
+                      answer={progress.answers[lesson.check.id]}
+                      onChange={(answer) => setAnswer(lesson.check.id, answer)}
+                    />
+                  )}
                   <div className="completion-action">
                     <span className="completion-icon">
                       <Icon name="spark" size={25} />
