@@ -8,5 +8,10 @@ work/
 
 # Generated learning kit and local Python environments
 public/downloads/
+public/notebooks/
 __pycache__/
 .venv/
+.venv-notebooks/
+
+# Local screenshots and verification captures
+scratch/

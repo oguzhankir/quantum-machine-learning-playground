@@ -1,4 +1,4 @@
-export type AssessmentLessonId = 'why' | 'waves';
+export type AssessmentLessonId = 'why' | 'waves' | 'math';
 
 export type AssessmentQuestion = {
   id: string;
@@ -284,6 +284,204 @@ export const assessments: Record<
           },
         ],
         correct: 1,
+      },
+    ],
+  },
+  math: {
+    introduction:
+      'Eight questions connect probabilities, complex arrows, normalization, and the measurement settings that reveal phase.',
+    questions: [
+      {
+        id: 'math-probability-total',
+        topic: 'All outcomes count',
+        prompt:
+          'A measurement has just two possible outcomes. If P(0) is 0.36, what must P(1) be?',
+        choices: [
+          {
+            text: '0.64',
+            explanation:
+              'The outcomes cover every possibility, so their probabilities add to 1. The remaining probability is 1 − 0.36 = 0.64.',
+          },
+          {
+            text: '0.80',
+            explanation:
+              '0.80 could be an amplitude magnitude whose square is 0.64. The probability itself is 0.64.',
+          },
+          {
+            text: '0.36',
+            explanation:
+              'Equal probabilities are possible, but they would both be 0.50. Here 0.36 + 0.36 leaves some probability unaccounted for.',
+          },
+        ],
+        correct: 0,
+      },
+      {
+        id: 'math-amplitude-square',
+        topic: 'Amplitude versus probability',
+        prompt:
+          'The amplitude for outcome 0 is −0.6 in a normalized state. What is P(0)?',
+        choices: [
+          {
+            text: '−0.36',
+            explanation:
+              'Probabilities are nonnegative. The amplitude can be negative, but its squared magnitude is (−0.6)² = 0.36.',
+          },
+          {
+            text: '0.60',
+            explanation:
+              '0.60 is the amplitude magnitude. Probability is that magnitude squared: 0.36.',
+          },
+          {
+            text: '0.36',
+            explanation:
+              'Taking the squared magnitude removes the sign: (−0.6)² = 0.36. The sign still matters before squaring when this amplitude interferes with another.',
+          },
+        ],
+        correct: 2,
+      },
+      {
+        id: 'math-complex-components',
+        topic: 'A complex arrow',
+        prompt:
+          'An amplitude is 0.3 + 0.4i. Which is its probability, and which is its length?',
+        choices: [
+          {
+            text: 'Probability 0.7; length 0.7.',
+            explanation:
+              'Adding the real and imaginary components is not a length calculation. Their squared lengths add: 0.09 + 0.16 = 0.25.',
+          },
+          {
+            text: 'Probability 0.25; length 0.5.',
+            explanation:
+              'The squared magnitude is 0.3² + 0.4² = 0.25. Its magnitude is √0.25 = 0.5. Probability uses the square, not the length.',
+          },
+          {
+            text: 'Probability 0.5; length 0.25.',
+            explanation:
+              'These quantities are reversed. Pythagoras gives length 0.5; squaring that length gives probability 0.25.',
+          },
+        ],
+        correct: 1,
+      },
+      {
+        id: 'math-normalization',
+        topic: 'One denominator for the whole vector',
+        prompt:
+          'You want to turn [3, 4i] into a normalized state. Which calculation keeps its proportions and phase?',
+        choices: [
+          {
+            text: 'Divide both entries by 5, giving [0.6, 0.8i].',
+            explanation:
+              'The common vector length is √(3² + 4²) = 5. The resulting probabilities are 0.36 and 0.64, totaling 1.',
+          },
+          {
+            text: 'Divide the first entry by 3 and the second by 4, giving [1, i].',
+            explanation:
+              'This changes their proportions and leaves squared magnitudes totaling 2. Every entry must share the same denominator.',
+          },
+          {
+            text: 'Divide both entries by 7 because 3 + 4 = 7.',
+            explanation:
+              'The length comes from squared magnitudes, not their sum. Dividing by 7 produces a total probability of 25/49, not 1.',
+          },
+        ],
+        correct: 0,
+      },
+      {
+        id: 'math-entry-order',
+        topic: 'What vector entries mean',
+        prompt:
+          'In the reference basis, the state vector is [0.6, 0.8i]. What do its entries refer to?',
+        choices: [
+          {
+            text: 'The locations of two separate particles.',
+            explanation:
+              'The two entries are amplitude coefficients for reference outcomes of one state. They do not identify two particles or their spatial coordinates.',
+          },
+          {
+            text: 'The probabilities 60% and 80%.',
+            explanation:
+              'These are amplitudes, not probabilities. Their squared magnitudes are 36% and 64%.',
+          },
+          {
+            text: 'The amplitudes for outcomes 0 and 1, in that order.',
+            explanation:
+              'A chosen basis gives the entries their meaning. Here entry 0 belongs to reference outcome 0, and entry 1 belongs to outcome 1.',
+          },
+        ],
+        correct: 2,
+      },
+      {
+        id: 'math-relative-phase',
+        topic: 'Reveal a hidden phase',
+        prompt:
+          'Compare [1/√2, 1/√2] with [1/√2, −1/√2]. Which prediction is correct?',
+        choices: [
+          {
+            text: 'Z can distinguish them because a negative entry means a negative probability.',
+            explanation:
+              'Squaring the magnitude makes both Z probabilities 1/2 for either state. A negative amplitude does not give a negative probability.',
+          },
+          {
+            text: 'Z gives 50/50 for both; X gives + for the first and − for the second with certainty.',
+            explanation:
+              'Z reads the individual squared magnitudes. X combines the amplitudes: the aligned pair reinforces in the sum, while the opposite pair reinforces in the difference.',
+          },
+          {
+            text: 'Every measurement gives the same probabilities because the lengths match.',
+            explanation:
+              'The matching lengths only establish matching Z probabilities. Relative direction can affect another setting that combines amplitudes.',
+          },
+        ],
+        correct: 1,
+      },
+      {
+        id: 'math-global-phase',
+        topic: 'Turn every arrow together',
+        prompt:
+          'You multiply every amplitude in a state by i, turning all arrows by 90°. What changes?',
+        choices: [
+          {
+            text: 'Only its mathematical global phase; every measurement probability stays the same.',
+            explanation:
+              'The relative angles stay fixed. Every measurement amplitude receives the same unit-magnitude factor, so every squared magnitude is unchanged.',
+          },
+          {
+            text: 'The Z probabilities swap while X stays fixed.',
+            explanation:
+              'A common phase does not swap amplitude magnitudes or probabilities. It changes neither Z nor X predictions.',
+          },
+          {
+            text: 'The relative phase increases by 90°, so interference changes.',
+            explanation:
+              'Both arrows turn equally. Their difference in angle does not change; this is global phase, not a relative-phase change.',
+          },
+        ],
+        correct: 0,
+      },
+      {
+        id: 'math-add-before-square',
+        topic: 'Combining amplitudes',
+        prompt:
+          'Two coherent contributions to one outcome are +0.5 and −0.5. What is that outcome’s probability?',
+        choices: [
+          {
+            text: '0.50, because 0.5² + (−0.5)² = 0.50.',
+            explanation:
+              'Squaring separately removes the relative sign and misses interference. Coherent contributions to the same outcome must be combined first.',
+          },
+          {
+            text: '1.00, because both magnitudes are 0.5.',
+            explanation:
+              'Summing magnitudes ignores direction. The contributions point opposite ways and cancel before probability is calculated.',
+          },
+          {
+            text: '0.00, because |0.5 − 0.5|² = 0.',
+            explanation:
+              'The amplitudes cancel exactly. This is the same add-first rule used by the interference measurement; other possible outcomes still account for the remaining probability.',
+          },
+        ],
+        correct: 2,
       },
     ],
   },

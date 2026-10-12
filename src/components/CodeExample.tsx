@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import type { LessonSection } from '../lessons/foundations/content';
+import PythonCode from './PythonCode';
 
 export default function CodeExample({
   example,
@@ -35,7 +36,13 @@ export default function CodeExample({
         tabIndex={0}
         aria-label={`${example.title} ${example.language} code`}
       >
-        <code ref={codeRef}>{example.code}</code>
+        <code ref={codeRef}>
+          {example.language === 'python' ? (
+            <PythonCode source={example.code} />
+          ) : (
+            example.code
+          )}
+        </code>
       </pre>
       <div className="code-result">
         <strong>What to expect</strong>

@@ -1,0 +1,585 @@
+.probability-lesson {
+  --probability-blue: var(--link);
+  --probability-green: var(--success-text);
+}
+.probability-lesson .lesson-header,
+.probability-lesson .lesson-topline,
+.probability-lesson .prerequisites,
+.probability-lesson .section-bottom,
+.probability-lesson .lesson-pagination,
+.probability-reading {
+  max-width: 900px;
+  margin-inline: auto;
+}
+.probability-lesson .lesson-header h1 {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+}
+.probability-lesson .opening-question {
+  font-family: inherit;
+  color: var(--text-muted);
+  font-size: 19px;
+}
+.probability-lesson-content {
+  margin-top: 24px;
+}
+.probability-reading,
+.probability-experiment {
+  scroll-margin-top: var(--lesson-sticky-top);
+  outline: none;
+}
+.probability-reading {
+  color: var(--text-copy);
+  font-size: 16px;
+  line-height: 1.85;
+}
+.probability-reading p {
+  max-width: 76ch;
+}
+.probability-reading h2 {
+  color: var(--text);
+  font-size: clamp(24px, 2.3vw, 29px);
+  letter-spacing: -0.025em;
+}
+.probability-introduction {
+  padding: 24px 0 26px;
+}
+.probability-learning-route {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.probability-learning-route span {
+  padding: 6px 10px;
+  border-radius: 7px;
+  background: var(--surface-muted);
+}
+.probability-learning-route i {
+  font-style: normal;
+}
+.probability-concept {
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+}
+.probability-concept-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.probability-concept-heading > span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.probability-concept-heading h2 {
+  margin: 0;
+}
+.probability-figure {
+  margin: 26px 0 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text-copy);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.probability-figure h3 {
+  color: var(--text);
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+.probability-figure > p {
+  margin-bottom: 16px;
+}
+.probability-figure figcaption {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.probability-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+.probability-presets button {
+  padding: 9px 12px;
+  font-size: 13px;
+}
+.probability-squares {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 22px;
+}
+.probability-squares span {
+  aspect-ratio: 1;
+  border-radius: 4px;
+}
+.probability-zero {
+  background: var(--probability-blue, var(--link));
+}
+.probability-one {
+  background: var(--probability-green, var(--success-text));
+}
+.probability-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin: 14px 0 18px;
+  color: var(--text);
+  font-size: 13px;
+}
+.probability-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.probability-legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+.probability-legend strong {
+  margin-left: auto;
+}
+.probability-equation {
+  background: var(--surface-muted);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.normalization-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+.normalization-flow li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px 12px;
+  background: var(--surface-muted);
+  border-radius: 10px;
+}
+.normalization-flow span {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.normalization-flow code {
+  color: var(--text);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.normalization-flow strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.normalization-flow small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.complex-amplitude-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.9fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+.complex-plane {
+  width: 100%;
+  height: auto;
+  max-width: 380px;
+  margin-inline: auto;
+  color: var(--text-copy);
+}
+.complex-plane text {
+  font-size: 12px;
+  fill: currentColor;
+}
+.complex-plane .probability-guide {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.25;
+  stroke-dasharray: 5 5;
+}
+.complex-plane .probability-axis {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.4;
+}
+.probability-arrow-zero {
+  color: var(--probability-blue, var(--link));
+  fill: var(--probability-blue, var(--link));
+}
+.probability-arrow-one {
+  color: var(--probability-green, var(--success-text));
+  fill: var(--probability-green, var(--success-text));
+}
+.complex-plane .probability-vector {
+  stroke: currentColor;
+  stroke-width: 3;
+}
+.complex-plane .probability-component-guide {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 4 5;
+  opacity: 0.65;
+}
+.complex-plane .probability-arrow-zero text,
+.complex-plane .probability-arrow-one text {
+  fill: currentColor;
+  font-size: 15px;
+  font-weight: 700;
+}
+.complex-amplitude-values .range {
+  margin: 12px 0 22px;
+  color: var(--text);
+  font-size: 13px;
+}
+.complex-amplitude-values .range output {
+  color: var(--link);
+}
+.complex-amplitude-values dl {
+  margin: 0;
+  font-size: 13px;
+}
+.complex-amplitude-values dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.complex-amplitude-values dd {
+  margin: 0;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.probability-state-pair {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 18px;
+  color: var(--text);
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+}
+.basis-preview-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.basis-preview-panels > div {
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.basis-preview-panels h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text);
+}
+.basis-preview-panels p {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.basis-preview-strip {
+  display: flex;
+  width: 100%;
+  height: 26px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.basis-preview-strip span {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  color: var(--surface);
+  background: var(--probability-blue, var(--link));
+  font-weight: 700;
+  line-height: 1;
+}
+.basis-preview-strip span + span {
+  background: var(--probability-green, var(--success-text));
+}
+.probability-experiment {
+  margin: 28px 0 36px;
+}
+.probability-mission {
+  margin-bottom: 24px;
+}
+.probability-mission ol {
+  padding-left: 22px;
+  display: grid;
+  gap: 14px;
+  font-size: 15px;
+}
+.probability-practice > h2 {
+  margin-bottom: 12px;
+}
+.probability-code-bridge {
+  margin: 30px 0;
+}
+.probability-code-bridge h3 {
+  color: var(--text);
+  font-size: 20px;
+}
+.probability-code-bridge > p {
+  font-size: 14px;
+}
+.probability-takeaway {
+  margin: 26px 0 20px;
+  padding: 22px 24px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.probability-takeaway strong {
+  color: var(--text);
+  font-size: 14px;
+}
+.probability-takeaway p {
+  font-size: 15px;
+  margin: 10px 0 0;
+}
+.probability-lab {
+  --probability-blue: #a3c1ff;
+  --probability-green: #92d2bc;
+}
+.probability-magnitude-figure {
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid #3d5573;
+  border-radius: 12px;
+  color: #c9d8e9;
+  background: #10203a;
+}
+.probability-magnitude-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  align-items: center;
+}
+.probability-magnitude-panels h4 {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  color: #e7eefb;
+}
+.probability-magnitude-panels svg {
+  display: block;
+  width: 100%;
+  max-width: 240px;
+  margin-inline: auto;
+}
+.probability-magnitude-vector svg {
+  max-width: 270px;
+}
+.probability-magnitude-vector text {
+  fill: currentColor;
+  font-size: 13px;
+}
+.probability-magnitude-figure .probability-axis,
+.probability-magnitude-figure .probability-component-guide {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.6;
+}
+.probability-magnitude-figure .probability-component-guide {
+  stroke-dasharray: 4 5;
+}
+.probability-magnitude-figure .probability-guide {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 5 5;
+  opacity: 0.3;
+}
+.probability-unit-vector {
+  stroke: var(--probability-blue);
+  stroke-width: 3;
+}
+.probability-unit-tip {
+  fill: var(--probability-blue);
+}
+.probability-square-one {
+  fill: var(--probability-green);
+}
+.probability-square-guide {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 3 3;
+  opacity: 0.65;
+}
+.probability-square-panel p {
+  color: #c9d8e9;
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  font-variant-numeric: tabular-nums;
+}
+.probability-square-panel strong {
+  color: #e7eefb;
+}
+.probability-magnitude-figure figcaption {
+  color: #aabed9;
+  font-size: 12px;
+  line-height: 1.75;
+  margin-top: 22px;
+}
+.probability-lab-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #3d5573;
+}
+.probability-lab-tabs button {
+  font-size: 14px;
+}
+:root[data-theme] .probability-lab-tabs button[aria-selected='true'] {
+  color: var(--control-selected-text);
+  background: var(--control-selected-background);
+  border-color: var(--control-selected-border);
+}
+.probability-lab [role='tabpanel'] {
+  outline: none;
+}
+.probability-lab [role='tabpanel']:focus-visible {
+  outline: 2px solid #a3c1ff;
+  outline-offset: 8px;
+}
+.probability-phase-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 24px;
+}
+.probability-lab .complex-plane {
+  color: #c9d8e9;
+}
+.probability-measurements {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+.probability-measurements .distribution {
+  min-width: 0;
+}
+.probability-compact-prediction table {
+  width: 100%;
+  margin-bottom: 0;
+}
+.probability-compact-prediction th {
+  width: 1%;
+}
+.probability-compact-prediction td {
+  width: 100%;
+}
+.probability-compact-value {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.probability-compact-value .bar-track {
+  flex: 1;
+  min-width: 0;
+}
+.probability-compact-value > span {
+  min-width: 64px;
+  text-align: right;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 900px) {
+  .normalization-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .probability-phase-layout {
+    gap: 16px;
+  }
+}
+@media (max-width: 650px) {
+  .probability-magnitude-figure {
+    padding: 18px 12px;
+  }
+  .probability-magnitude-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 14px;
+  }
+  .probability-magnitude-vector {
+    grid-column: 1 / -1;
+  }
+  .probability-magnitude-vector h4 {
+    text-align: center;
+  }
+  .probability-square-panel p {
+    font-size: 12px;
+  }
+  .probability-reading {
+    font-size: 15px;
+  }
+  .probability-figure {
+    padding: 20px 16px;
+  }
+  .probability-figure h3 {
+    font-size: 18px;
+  }
+  .probability-squares {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .complex-amplitude-layout,
+  .probability-phase-layout,
+  .probability-measurements,
+  .basis-preview-panels {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .complex-plane {
+    max-width: 310px;
+  }
+  .probability-learning-route {
+    gap: 6px;
+    font-size: 12px;
+  }
+  .probability-learning-route i {
+    display: none;
+  }
+  .probability-state-pair {
+    flex-direction: column;
+  }
+  .probability-legend strong {
+    margin-left: 0;
+  }
+  .probability-lab-tabs {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .probability-lab-tabs button {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+  .probability-takeaway {
+    padding: 20px 16px;
+  }
+}

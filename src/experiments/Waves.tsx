@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MathFormula } from '../components/Math';
+import FocusDialog from '../components/FocusDialog';
 import { complexText, numberText, Range } from '../components/Outputs';
 import { screenModel } from '../lib/learning/lab-models';
 import { sampleShots } from '../lib/quantum';
@@ -10,6 +11,7 @@ export default function Waves() {
   const [whichPath, setWhichPath] = useState(false);
   const [counts, setCounts] = useState(() => Array<number>(16).fill(0));
   const [lastBin, setLastBin] = useState<number | null>(null);
+  const [tableOpen, setTableOpen] = useState(false);
   const radians = (phase * Math.PI) / 180;
   const model = screenModel(radians, whichPath);
   const largest = Math.max(...model.active);
@@ -361,7 +363,7 @@ export default function Waves() {
               <p className="waves-histogram-note">
                 Compare this observed shape with the exact probability chart
                 above. Finite samples fluctuate; all 16 counts are available in
-                the calculation table below.
+                the calculation table.
               </p>
             </>
           )}
@@ -390,10 +392,16 @@ export default function Waves() {
             </p>
           </div>
         </div>
-        <details>
-          <summary>
-            Inspect amplitudes and probabilities for all 16 bins
-          </summary>
+        <button onClick={() => setTableOpen(true)}>
+          Inspect amplitudes and probabilities for all 16 bins →
+        </button>
+        <FocusDialog
+          open={tableOpen}
+          onClose={() => setTableOpen(false)}
+          title="All 16 screen bins"
+          eyebrow="AMPLITUDES · PROBABILITIES · DETECTIONS"
+          className="waves-table-dialog"
+        >
           <p className="small">
             N = 16, j = 0…15. aⱼ = 1/√(2N), bⱼ = exp[i(φ + 2πj/N)]/√(2N). The
             two path modes are orthogonal and equally weighted; each
@@ -435,7 +443,7 @@ export default function Waves() {
               </tbody>
             </table>
           </div>
-        </details>
+        </FocusDialog>
       </section>
       <p className="lab-note">
         Model boundary: this normalized 16-bin screen illustrates interference.

@@ -28,6 +28,9 @@ import IntroLesson from '../components/IntroLesson';
 import RepositoryLink from '../components/RepositoryLink';
 import ThemeToggle from '../components/ThemeToggle';
 import WaveLesson from '../components/WaveLesson';
+import ProbabilityLesson from '../components/ProbabilityLesson';
+import NotebookLesson from '../components/NotebookLesson';
+import LessonCompletion from '../components/LessonCompletion';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
 import ConceptContext from '../components/ConceptContext';
@@ -978,7 +981,7 @@ export default function App() {
             )}
             {lesson && (
               <article
-                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : lesson.id === 'waves' ? 'wave-lesson' : ''}`}
+                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : lesson.id === 'waves' ? 'wave-lesson' : lesson.id === 'math' ? 'probability-lesson wave-lesson' : lesson.id === 'intuition-code' ? 'notebook-lesson' : ''}`}
                 key={lesson.id}
               >
                 <div className="lesson-topline">
@@ -1032,21 +1035,22 @@ export default function App() {
                     <WaveLesson
                       lesson={lesson}
                       experiment={experiments.waves}
-                      mathOpen={progress.math.includes(lesson.id)}
-                      onMathToggle={(open) => {
-                        setProgress((old) =>
-                          old.math.includes(lesson.id) === open
-                            ? old
-                            : {
-                                ...old,
-                                math: open
-                                  ? [...old.math, lesson.id]
-                                  : old.math.filter((id) => id !== lesson.id),
-                              },
-                        );
-                      }}
                     />
                   </>
+                ) : lesson.id === 'math' ? (
+                  <>
+                    <LessonNavigator
+                      lesson={lesson}
+                      hasExperiment
+                      layout="sequential"
+                    />
+                    <ProbabilityLesson
+                      lesson={lesson}
+                      experiment={experiments.math}
+                    />
+                  </>
+                ) : lesson.id === 'intuition-code' ? (
+                  <NotebookLesson />
                 ) : (
                   <>
                     <ConceptContext lessonId={lesson.id} />
@@ -1168,11 +1172,14 @@ export default function App() {
                   </>
                 )}
                 <div
-                  className={`section-bottom ${lesson.id === 'why' || lesson.id === 'waves' ? 'lesson-assessment-bottom' : ''}`}
+                  className={`section-bottom ${['why', 'waves', 'math', 'intuition-code'].includes(lesson.id) ? 'lesson-assessment-bottom' : ''}`}
                   id={`${lesson.id}-check`}
                   tabIndex={-1}
                 >
-                  {lesson.id === 'why' || lesson.id === 'waves' ? (
+                  {lesson.id === 'intuition-code' ? null : lesson.id ===
+                      'why' ||
+                    lesson.id === 'waves' ||
+                    lesson.id === 'math' ? (
                     <LessonAssessment lessonId={lesson.id} />
                   ) : (
                     <KnowledgeCheck
@@ -1181,35 +1188,11 @@ export default function App() {
                       onChange={(answer) => setAnswer(lesson.check.id, answer)}
                     />
                   )}
-                  <div className="completion-action">
-                    <span className="completion-icon">
-                      <Icon name="spark" size={25} />
-                    </span>
-                    <h3>
-                      {lesson.id === 'why'
-                        ? 'You have your first explanation.'
-                        : lesson.id === 'waves'
-                          ? 'Can you predict a new situation?'
-                          : 'One more idea falls into place.'}
-                    </h3>
-                    <p>
-                      {lesson.id === 'why'
-                        ? 'Can you explain why hydrogen gives specific colours? Mark this introduction complete, then try the light experiment.'
-                        : lesson.id === 'waves'
-                          ? 'Before marking this complete, explain what phase changes, why a perfect path record removes interference, and why one detection cannot show the whole pattern.'
-                          : 'Mark this lesson complete when you can explain the idea in your own words.'}
-                    </p>
-                    <button
-                      className={`button ${progress.completed.includes(lesson.id) ? 'completed' : 'primary'}`}
-                      aria-pressed={progress.completed.includes(lesson.id)}
-                      onClick={() => mark(lesson.id)}
-                    >
-                      {progress.completed.includes(lesson.id)
-                        ? '✓ Completed'
-                        : 'Mark lesson complete'}
-                    </button>
-                    <small>Your progress is saved in this browser.</small>
-                  </div>
+                  <LessonCompletion
+                    lesson={lesson}
+                    completed={progress.completed.includes(lesson.id)}
+                    onToggle={() => mark(lesson.id)}
+                  />
                 </div>
                 <nav
                   className="lesson-pagination"
@@ -1361,22 +1344,6 @@ export default function App() {
             )}
           </main>
           <FeedbackPanel />
-          <footer>
-            <a href="#top">
-              <Icon name="atom" size={19} /> Quantum ML Playground
-            </a>
-            <p>Read. Wonder. Understand by experimenting.</p>
-            <a href={feedbackHref}>
-              Contact <Icon name="mail" size={13} />
-            </a>
-            <a
-              href="https://github.com/oguzhankir/quantum-machine-learning-playground"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub <Icon name="arrow" size={13} />
-            </a>
-          </footer>
         </div>
       </div>
     </>

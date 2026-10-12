@@ -1,0 +1,166 @@
+/* Keep the reading column stationary when a modal locks page scrolling. */
+html {
+  scrollbar-gutter: stable;
+}
+.focus-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(780px, calc(100vw - 40px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 24px 100px #03091b66;
+}
+.focus-dialog::backdrop {
+  background: #060e1db8;
+  backdrop-filter: blur(5px);
+}
+.focus-dialog-layout {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 42px);
+}
+.focus-dialog-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 28px 22px;
+  border-bottom: 1px solid var(--border);
+}
+.focus-dialog-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(19px, 2vw, 24px);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+}
+.focus-dialog .focus-dialog-eyebrow {
+  margin: 0 0 7px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.focus-dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 26px 28px;
+  color: var(--text-copy);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.focus-dialog-body p {
+  margin: 0 0 16px;
+}
+.focus-dialog-body p:last-child {
+  margin-bottom: 0;
+}
+.focus-dialog-footer {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-raised);
+}
+:root[data-theme] .focus-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.5;
+  cursor: pointer;
+}
+:root[data-theme] .focus-button:hover:not(:disabled) {
+  border-color: var(--accent-text);
+  background: var(--accent-surface);
+  color: var(--accent-text);
+}
+:root[data-theme] .focus-button:disabled {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: default;
+}
+:root[data-theme] .focus-button.primary {
+  background: #4267bd;
+  color: #fff;
+  border-color: #4267bd;
+}
+:root[data-theme] .focus-button.primary:hover:not(:disabled) {
+  background: #31549f;
+  color: #fff;
+  border-color: #31549f;
+}
+:root[data-theme='dark'] .focus-button.primary {
+  background: #aac6ff;
+  color: #112344;
+  border-color: #aac6ff;
+}
+:root[data-theme='dark'] .focus-button.primary:hover:not(:disabled) {
+  background: #d4e2ff;
+  color: #112344;
+  border-color: #d4e2ff;
+}
+.focus-dialog .formula {
+  min-width: 0;
+  overflow-x: auto;
+  padding: 10px 0;
+  color: var(--text);
+}
+.focus-dialog .katex-display {
+  margin: 0.5em 0;
+}
+@media (max-width: 560px) {
+  .focus-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 14px;
+  }
+  .focus-dialog-layout {
+    max-height: calc(100dvh - 18px);
+  }
+  .focus-dialog-header {
+    gap: 12px;
+    padding: 18px;
+  }
+  .focus-dialog-header h2 {
+    font-size: 18px;
+  }
+  .focus-dialog-header .focus-button {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+  .focus-dialog-body {
+    padding: 20px 18px;
+    font-size: 14px;
+  }
+  .focus-dialog-footer {
+    padding: 14px 18px;
+  }
+}

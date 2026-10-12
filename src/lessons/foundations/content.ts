@@ -1,4 +1,5 @@
 import { introLessons } from './foundations';
+import { intuitionCodeLesson } from './notebooks';
 import { quantumLessons } from './quantum';
 import { qmlLessons } from './qml';
 import { physicsLessons } from './physics';
@@ -134,7 +135,7 @@ export const stages: {
     title: 'Build your intuition',
     subtitle: 'Curiosity first, mathematics next',
     description:
-      'Start with a physical experiment, then discover waves, probability, and the mathematical language of quantum mechanics.',
+      'Start with a physical experiment, discover waves and quantum probabilities, then connect the diagrams to executed Python notebooks.',
   },
   {
     id: 'quantum',
@@ -175,6 +176,7 @@ export const stages: {
 
 export const lessons: Lesson[] = [
   ...introLessons,
+  intuitionCodeLesson,
   ...quantumLessons,
   ...physicsLessons,
   ...qmlLessons

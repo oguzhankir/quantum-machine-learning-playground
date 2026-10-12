@@ -168,6 +168,8 @@
   margin-bottom: 20px;
   color: #426080;
   font-size: 14px;
+  min-height: 116px;
+  box-sizing: border-box;
 }
 .intro-prediction-feedback p {
   margin: 8px 0 0;

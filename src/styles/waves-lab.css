@@ -381,6 +381,35 @@
 .waves-lab table {
   min-width: 620px;
 }
+.waves-table-dialog {
+  width: min(1000px, calc(100vw - 32px));
+}
+.waves-table-dialog table {
+  min-width: 660px;
+}
+.waves-table-dialog .table-scroll {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  scrollbar-width: thin;
+}
+.waves-table-dialog table caption {
+  padding: 14px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.waves-table-dialog table :is(th, td) {
+  border-color: var(--border);
+  padding: 10px 14px;
+  color: var(--text-copy);
+}
+.waves-table-dialog thead th {
+  color: var(--text);
+  background: var(--surface-muted);
+}
+.waves-table-dialog tbody tr:nth-child(even) {
+  background: var(--surface-raised);
+}
 .waves-lab .lab-note {
   margin-bottom: 0;
 }

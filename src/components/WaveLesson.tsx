@@ -1,11 +1,13 @@
 import { useState, type ReactNode } from 'react';
 import type { Lesson } from '../lessons/foundations/content';
 import { sources } from '../lessons/foundations/content';
-import { MathFormula } from './Math';
 import { scrollToLessonSection } from './LessonNavigator';
 import WaveBasics from './WaveBasics';
 import WaveVideo from './WaveVideo';
 import { AmplitudeReasoning, PathRecordReasoning } from './WaveReasoning';
+import PracticeDeck from './PracticeDeck';
+import MathExplorer from './MathExplorer';
+import LessonReferences from './LessonReferences';
 import '../styles/wave-lesson.css';
 
 function WaveComparison() {
@@ -123,13 +125,9 @@ function WaveComparison() {
 export default function WaveLesson({
   lesson,
   experiment,
-  mathOpen,
-  onMathToggle,
 }: {
   lesson: Lesson;
   experiment: ReactNode;
-  mathOpen: boolean;
-  onMathToggle: (open: boolean) => void;
 }) {
   const sections = lesson.sections ?? [];
   return (
@@ -224,64 +222,50 @@ export default function WaveLesson({
         tabIndex={-1}
       >
         <p className="eyebrow">03 / CHECK YOUR REASONING</p>
-        <h2>Explain it before opening the answer.</h2>
+        <h2>Make the idea your own.</h2>
         <p>
-          The goal is to predict a new situation, not just repeat the slider
-          settings. Try these questions in your own words.
+          Predict a new situation and explain why. Work through one prompt at a
+          time, then compare your reasoning with the explanation.
         </p>
-        {sections.map(
-          (section) =>
-            section.exercise && (
-              <section
-                className="wave-practice-card practice-card"
-                key={section.title}
-              >
-                <h3>{section.title}</h3>
-                <p>{section.exercise.prompt}</p>
-                <details>
-                  <summary>Show worked solution</summary>
-                  <p>{section.exercise.solution}</p>
-                  {section.exercise.equations?.map((formula) => (
-                    <MathFormula key={formula}>{formula}</MathFormula>
-                  ))}
-                </details>
-              </section>
-            ),
-        )}
-        <details
-          className="math-panel wave-math"
-          open={mathOpen}
-          onToggle={(event) => onMathToggle(event.currentTarget.open)}
-        >
-          <summary>
-            Explore the math <span aria-hidden="true">＋</span>
-          </summary>
-          <p>{lesson.mathNote}</p>
-          {sections
+        <PracticeDeck
+          items={sections.flatMap((section, index) =>
+            section.exercise
+              ? [
+                  {
+                    id: `waves-${index}`,
+                    title: section.title,
+                    ...section.exercise,
+                  },
+                ]
+              : [],
+          )}
+        />
+        <MathExplorer
+          note={lesson.mathNote}
+          steps={sections
             .flatMap((section) => section.equations ?? [])
-            .map(({ formula, explanation }) => (
-              <div className="derivation-step" key={formula}>
-                <MathFormula>{formula}</MathFormula>
-                <p>{explanation}</p>
-              </div>
-            ))}
-        </details>
+            .map(({ formula, explanation }, index) => ({
+              title: [
+                'Add displacements',
+                'Square the amplitude sum',
+                'Calculate bin 1',
+                'Keep the total at 1',
+                'Record the route',
+              ][index],
+              formula:
+                index === 2
+                  ? String.raw`\begin{aligned}m&=\frac{1}{\sqrt{32}}\\P_1(0^\circ)&=|m+m|^2=\frac18\\P_1(180^\circ)&=|m-m|^2=0\end{aligned}`
+                  : index === 3
+                    ? String.raw`\begin{aligned}P_1(\phi)&=\frac{1+\cos\phi}{16}\\\sum_{k=1}^{16}P_k(\phi)&=1\end{aligned}`
+                    : formula,
+              explanation,
+            }))}
+        />
         <div className="wave-takeaway">
           <strong>Take this with you</strong>
           <p>{lesson.takeaway}</p>
         </div>
-        <details className="wave-sources">
-          <summary>References and further reading</summary>
-          <ul>
-            {lesson.sources.map((key) => (
-              <li key={key}>
-                <a href={sources[key].url} target="_blank" rel="noreferrer">
-                  {sources[key].title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
+        <LessonReferences items={lesson.sources.map((key) => sources[key])} />
       </div>
     </section>
   );
