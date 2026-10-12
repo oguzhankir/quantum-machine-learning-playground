@@ -21,6 +21,7 @@ import PhysicsLab from '../experiments/PhysicsLab';
 import ClassicalLab from '../experiments/ClassicalLab';
 import AppliedLab from '../experiments/AppliedLab';
 import LessonDepth from '../components/LessonDepth';
+import LessonNavigator from '../components/LessonNavigator';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
 import ConceptContext from '../components/ConceptContext';
@@ -423,6 +424,54 @@ export default function App() {
   useEffect(() => {
     document.title = `${lesson?.short ?? resourceTitle ?? 'Quantum from scratch'} · Quantum ML Playground`;
   }, [lesson, resourceTitle]);
+  useEffect(() => {
+    const sidebar = document.getElementById('course-navigation');
+    const selected = sidebar?.querySelector('a[aria-current="page"]');
+    if (!sidebar || !selected || (!menuOpen && window.innerWidth <= 700))
+      return;
+    const rail = sidebar.getBoundingClientRect();
+    const item = selected.getBoundingClientRect();
+    if (item.top < rail.top + 20 || item.bottom > rail.bottom - 20)
+      sidebar.scrollTop += item.top - rail.top - sidebar.clientHeight / 3;
+  }, [lesson, resourceRoute, menuOpen]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const sidebar = document.getElementById('course-navigation');
+    const opener = document.querySelector<HTMLButtonElement>('.mobile-menu');
+    const focusable = () =>
+      Array.from(sidebar?.querySelectorAll<HTMLElement>('a, button') ?? []);
+    (
+      sidebar?.querySelector<HTMLElement>('a[aria-current="page"]') ??
+      focusable()[0]
+    )?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const mobileViewport = window.matchMedia('(max-width: 700px)');
+    const closeOnDesktop = () => {
+      if (!mobileViewport.matches) setMenuOpen(false);
+    };
+    mobileViewport.addEventListener('change', closeOnDesktop);
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+      if (event.key !== 'Tab') return;
+      const elements = focusable();
+      const index = elements.indexOf(document.activeElement as HTMLElement);
+      if (event.shiftKey && index <= 0) {
+        event.preventDefault();
+        elements.at(-1)?.focus();
+      } else if (!event.shiftKey && index === elements.length - 1) {
+        event.preventDefault();
+        elements[0]?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      mobileViewport.removeEventListener('change', closeOnDesktop);
+      document.body.style.overflow = previousOverflow;
+      opener?.focus({ preventScroll: true });
+    };
+  }, [menuOpen]);
 
   return (
     <>
@@ -441,7 +490,16 @@ export default function App() {
           className={`sidebar ${menuOpen ? 'is-open' : ''}`}
           id="course-navigation"
           aria-label="Learning path"
+          role={menuOpen ? 'dialog' : undefined}
+          aria-modal={menuOpen ? true : undefined}
         >
+          <button
+            className="sidebar-close"
+            aria-label="Close navigation"
+            onClick={() => setMenuOpen(false)}
+          >
+            <Icon name="close" size={18} />
+          </button>
           <a className="brand" href="#top">
             <span className="brand-mark">
               <Icon name="atom" size={28} />
@@ -665,8 +723,8 @@ export default function App() {
                       </a>
                     </div>
                     <div className="hero-footnotes">
-                      <span>✓ No prior knowledge</span>
-                      <span>✓ No installation</span>
+                      <span>✓ Start without quantum knowledge</span>
+                      <span>✓ Browser labs need no setup</span>
                       <span>✓ Learn at your pace</span>
                     </div>
                   </div>
@@ -754,7 +812,7 @@ export default function App() {
                     <div>
                       <p className="eyebrow">YOUR LEARNING PATH</p>
                       <h2 id="path-heading">
-                        From curiosity to a circuit that learns.
+                        From first principles to projects you can build.
                       </h2>
                       <p>
                         Build intuition, explore the math, then connect the
@@ -949,12 +1007,22 @@ export default function App() {
                   </p>
                 )}
                 <ConceptContext lessonId={lesson.id} />
+                <LessonNavigator
+                  lesson={lesson}
+                  hasExperiment={!!experiments[lesson.id]}
+                />
                 <section
                   id={lesson.id}
                   className={`lesson-body ${experiments[lesson.id] ? 'with-experiment' : ''}`}
                   aria-label={lesson.short}
                 >
-                  <div className="reading">
+                  <div
+                    className="reading"
+                    id={`${lesson.id}-idea`}
+                    tabIndex={-1}
+                    role="region"
+                    aria-label="Lesson explanation"
+                  >
                     <div className="reading-label">
                       <Icon name="book" size={17} /> 01{' '}
                       <span>UNDERSTAND THE IDEA</span>
@@ -1014,7 +1082,11 @@ export default function App() {
                       ))}
                     </p>
                   </div>
-                  <div className="playground-column">
+                  <div
+                    className="playground-column"
+                    id={`${lesson.id}-lab`}
+                    tabIndex={-1}
+                  >
                     <div className="reading-label">
                       <Icon name="atom" size={18} /> 02{' '}
                       <span>
@@ -1044,7 +1116,11 @@ export default function App() {
                   </div>
                 </section>
                 <LessonDepth lesson={lesson} />
-                <div className="section-bottom">
+                <div
+                  className="section-bottom"
+                  id={`${lesson.id}-check`}
+                  tabIndex={-1}
+                >
                   <KnowledgeCheck
                     check={lesson.check}
                     answer={progress.answers[lesson.check.id]}
@@ -1143,7 +1219,19 @@ export default function App() {
                     value={glossaryQuery}
                     onChange={(e) => setGlossaryQuery(e.target.value)}
                   />
+                  {glossaryQuery && (
+                    <button
+                      type="button"
+                      aria-label="Clear glossary search"
+                      onClick={() => setGlossaryQuery('')}
+                    >
+                      <Icon name="close" size={16} />
+                    </button>
+                  )}
                 </label>
+                <p className="glossary-results" role="status">
+                  {filteredTerms.length} of {glossary.length} concepts
+                </p>
                 <dl>
                   {filteredTerms.map(({ term, definition, section }) => (
                     <div key={term}>

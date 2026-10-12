@@ -36,7 +36,13 @@ const readingList = [
   ).values(),
 ].sort((a, b) => b.year - a.year || a.title.localeCompare(b.title, 'en'));
 
-function DirectionDetails({ direction }: { direction: ResearchDirection }) {
+function DirectionDetails({
+  direction,
+  onBrowse,
+}: {
+  direction: ResearchDirection;
+  onBrowse: () => void;
+}) {
   const previousId = useRef(direction.id);
   useEffect(() => {
     if (previousId.current !== direction.id) {
@@ -60,10 +66,20 @@ function DirectionDetails({ direction }: { direction: ResearchDirection }) {
           {readinessNames[direction.readiness]}
         </span>
       </div>
+      <div className="research-detail-context">
+        <span>{inputNames[direction.input]}</span>
+        <button type="button" onClick={onBrowse}>
+          Choose another question ↑
+        </button>
+      </div>
       <h2 id="research-detail-heading" tabIndex={-1}>
         {direction.title}
       </h2>
       <p className="research-question">{direction.question}</p>
+      <p className="research-detail-guide">
+        Start with the opportunity and its limits. Open the evidence, terms, or
+        experiment when you want to go deeper.
+      </p>
       <div className="research-detail-visual">
         <MilestoneVisual
           kind={direction.visual}
@@ -176,6 +192,32 @@ export default function ResearchLandscape({ route }: { route: string }) {
   const [query, setQuery] = useState('');
   const [input, setInput] = useState('all');
   const [focus, setFocus] = useState('all');
+  const mapRef = useRef<HTMLDivElement>(null);
+  const selectedCardRef = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    const map = mapRef.current;
+    const card = selectedCardRef.current;
+    if (!map || !card) return;
+    const viewport = map.getBoundingClientRect();
+    const item = card.getBoundingClientRect();
+    if (item.top < viewport.top || item.bottom > viewport.bottom)
+      map.scrollTo({
+        top: map.scrollTop + item.top - viewport.top - 12,
+        behavior: 'instant',
+      });
+  }, [selected.id, query, input, focus]);
+  const filtersActive =
+    query.trim() !== '' || input !== 'all' || focus !== 'all';
+  const clearFilters = () => {
+    setInput('all');
+    setFocus('all');
+    setQuery('');
+  };
+  const browseQuestions = () => {
+    const heading = document.getElementById('research-map-heading');
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
   const visible = researchDirections.filter(
     (direction) =>
       (input === 'all' || direction.input === input) &&
@@ -278,157 +320,171 @@ export default function ResearchLandscape({ route }: { route: string }) {
           </p>
         </div>
       </details>
-      <div className="research-map-heading">
-        <div>
-          <p className="eyebrow">CHOOSE YOUR NEXT QUESTION</p>
-          <h2>The research map.</h2>
-        </div>
-        <p>{researchDirections.length} directions · click to explore</p>
-      </div>
-      <div className="research-filters">
-        <label>
-          <span>Find an idea</span>
-          <input
-            aria-label="Search research directions"
-            type="search"
-            placeholder="Kernels, noise, quantum data…"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-        <label>
-          <span>Input / task</span>
-          <select
-            aria-label="Filter research input"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-          >
-            <option value="all">All input types</option>
-            {Object.entries(inputNames).map(([value, name]) => (
-              <option value={value} key={value}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Research focus</span>
-          <select
-            aria-label="Filter research focus"
-            value={focus}
-            onChange={(event) => setFocus(event.target.value)}
-          >
-            <option value="all">All research focuses</option>
-            {Object.entries(focusNames).map(([value, name]) => (
-              <option value={value} key={value}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-      <div className="research-map-grid">
-        {visible.map((direction) => (
-          <a
-            className={`research-direction signal-${direction.signal}`}
-            href={directionHref(direction.id)}
-            key={direction.id}
-            data-testid={`direction-card-${direction.id}`}
-            aria-label={direction.title}
-            onClick={() => {
-              if (selected.id === direction.id) {
-                const heading = document.getElementById(
-                  'research-detail-heading',
-                );
-                heading?.focus({ preventScroll: true });
-                heading?.scrollIntoView({
-                  block: 'start',
-                  behavior: 'instant',
-                });
-              }
-            }}
-            aria-current={selected.id === direction.id ? 'true' : undefined}
-          >
-            <div className="research-card-visual" aria-hidden="true">
-              <MilestoneVisual kind={direction.visual} compact />
+      <div className="research-workspace">
+        <aside
+          className="research-explorer"
+          aria-labelledby="research-map-heading"
+        >
+          <div className="research-map-heading">
+            <div>
+              <p className="eyebrow">CHOOSE YOUR NEXT QUESTION</p>
+              <h2 id="research-map-heading" tabIndex={-1}>
+                The research map.
+              </h2>
             </div>
-            <div className="research-card-body">
-              <span className="research-input-label">
-                {inputNames[direction.input]}
-              </span>
-              <h3>{direction.title}</h3>
-              <p>{direction.short}</p>
-              <div className="research-card-footer">
-                <span>{readinessNames[direction.readiness]}</span>
-                <b className="idea-open-icon" aria-hidden="true">
-                  →
-                </b>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-      {!visible.length && (
-        <p className="empty-state">
-          No research directions match these filters. Try a broader idea or
-          clear the filters.
-        </p>
-      )}
-      <div className="research-legend">
-        <span>
-          <i className="signal-dot promising" /> A promising direction
-        </span>
-        <span>
-          <i className="signal-dot conditional" /> Depends on conditions
-        </span>
-        <span>
-          <i className="signal-dot bottleneck" /> A bottleneck to solve
-        </span>
-        <small>
-          Editorial focus labels. The expanded explanation states the evidence
-          and its limits.
-        </small>
-      </div>
-      {!visible.some((direction) => direction.id === selected.id) && (
-        <div className="research-filter-note" role="status">
-          <p>
-            The open direction is outside your current filters. Choose a visible
-            card or show all directions.
-          </p>
-          <button
-            onClick={() => {
-              setInput('all');
-              setFocus('all');
-              setQuery('');
-            }}
+            <p>Choose a question to read its evidence and limits.</p>
+          </div>
+          <div className="research-filters">
+            <label>
+              <span>Find an idea</span>
+              <input
+                aria-label="Search research directions"
+                type="search"
+                placeholder="Kernels, noise, quantum data…"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>Input / task</span>
+              <select
+                aria-label="Filter research input"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+              >
+                <option value="all">All input types</option>
+                {Object.entries(inputNames).map(([value, name]) => (
+                  <option value={value} key={value}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Research focus</span>
+              <select
+                aria-label="Filter research focus"
+                value={focus}
+                onChange={(event) => setFocus(event.target.value)}
+              >
+                <option value="all">All focuses</option>
+                {Object.entries(focusNames).map(([value, name]) => (
+                  <option value={value} key={value}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="research-results">
+            <p role="status" aria-live="polite">
+              {visible.length} of {researchDirections.length} questions
+            </p>
+            {filtersActive && (
+              <button type="button" onClick={clearFilters}>
+                Clear filters
+              </button>
+            )}
+          </div>
+          <div
+            className="research-map-grid"
+            ref={mapRef}
+            role="navigation"
+            aria-label="Research questions"
+            tabIndex={0}
           >
-            Show all directions
-          </button>
+            {visible.map((direction) => (
+              <a
+                className={`research-direction signal-${direction.signal}`}
+                href={directionHref(direction.id)}
+                key={direction.id}
+                ref={selected.id === direction.id ? selectedCardRef : undefined}
+                data-testid={`direction-card-${direction.id}`}
+                aria-label={direction.title}
+                onClick={() => {
+                  if (selected.id === direction.id) {
+                    const heading = document.getElementById(
+                      'research-detail-heading',
+                    );
+                    heading?.focus({ preventScroll: true });
+                    heading?.scrollIntoView({
+                      block: 'start',
+                      behavior: 'instant',
+                    });
+                  }
+                }}
+                aria-current={selected.id === direction.id ? 'true' : undefined}
+              >
+                <span className="research-card-index" aria-hidden="true">
+                  {String(researchDirections.indexOf(direction) + 1).padStart(
+                    2,
+                    '0',
+                  )}
+                </span>
+                <div className="research-card-body">
+                  <span className="research-input-label">
+                    {inputNames[direction.input]}
+                  </span>
+                  <h3>{direction.title}</h3>
+                  <p>{direction.short}</p>
+                  <div className="research-card-footer">
+                    <span>{focusNames[direction.signal]}</span>
+                    <b aria-hidden="true">→</b>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+          {!visible.length && (
+            <p className="empty-state">
+              No research directions match these filters. Try a broader idea or
+              clear the filters.
+            </p>
+          )}
+          <div className="research-legend">
+            <small>
+              Editorial focus labels. The expanded explanation states the
+              evidence and its limits.
+            </small>
+          </div>
+          {!visible.some((direction) => direction.id === selected.id) && (
+            <div className="research-filter-note" role="status">
+              <p>
+                The open direction is outside your current filters. Choose a
+                visible card or show all directions.
+              </p>
+              <button onClick={clearFilters}>Show all directions</button>
+            </div>
+          )}
+        </aside>
+        <div className="research-reading">
+          <DirectionDetails direction={selected} onBrowse={browseQuestions} />
+          <details className="research-library">
+            <summary>
+              Browse the research reading list ({readingList.length} papers)
+            </summary>
+            <p>
+              Primary studies establish specific results. Reviews provide
+              context. Read each claim together with its access model, classical
+              comparison, and resource accounting.
+            </p>
+            <CitationList sources={readingList} />
+          </details>
+          <div className="research-next">
+            <span>MAKE THE MAP USEFUL</span>
+            <h2>Pick one question. Reproduce one result.</h2>
+            <p>
+              Build the prerequisites, run a controlled experiment, and explain
+              what changes when you vary its assumptions.
+            </p>
+            <a className="button primary" href="#projects">
+              Choose a practical project →
+            </a>
+            <a href="#history?track=physics">
+              Return to the physics timeline →
+            </a>
+          </div>
         </div>
-      )}
-      <DirectionDetails direction={selected} />
-      <details className="research-library">
-        <summary>
-          Browse the research reading list ({readingList.length} papers)
-        </summary>
-        <p>
-          Primary studies establish specific results. Reviews provide context.
-          Read each claim together with its access model, classical comparison,
-          and resource accounting.
-        </p>
-        <CitationList sources={readingList} />
-      </details>
-      <div className="research-next">
-        <span>MAKE THE MAP USEFUL</span>
-        <h2>Pick one question. Reproduce one result.</h2>
-        <p>
-          Build the prerequisites, run a controlled experiment, and explain what
-          changes when you vary its assumptions.
-        </p>
-        <a className="button primary" href="#projects">
-          Choose a practical project →
-        </a>
-        <a href="#history?track=physics">Return to the physics timeline →</a>
       </div>
     </section>
   );

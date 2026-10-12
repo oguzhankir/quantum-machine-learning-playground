@@ -160,7 +160,7 @@ export const classicalLessons: Lesson[] = [
     ],
     example:
       'For x = [0, 1, 2] and y = [1, 2, 2], the least-squares line has b = 7/6 and w = 1/2. Its predictions are [7/6, 5/3, 13/6], its residuals are [1/6, −1/3, 1/6], and its MSE is 1/18.',
-    try: 'Compute the three predictions and residuals yourself before running the code. Then change the middle target from 2 to 5 and observe how one large residual changes the fitted line.',
+    try: 'In the browser lab, move “Linear slope w” and “Linear intercept b” and compare the line with the five fixed targets. Inspect the training-data table to see which errors grow or shrink. For the separate three-point worked example below, calculate the predictions by hand, then edit the Python target array to test an outlier.',
     why: 'This model makes the roles of data, parameters, prediction, and loss explicit. The same roles reappear in a variational quantum model, even when its prediction formula is different.',
     math: [
       '\\widehat y_i=b+\\sum_{k=1}^d w_kX_{ik}',
@@ -297,7 +297,7 @@ export const classicalLessons: Lesson[] = [
     ],
     example:
       'Use x = [1, 2], y = [2, 4], and start with w = b = 0. The residuals are [−2, −4], loss is 10, gradient with respect to w is −10, and gradient with respect to b is −6. At learning rate 0.1, the new parameters are w = 1 and b = 0.6. Their predictions [1.6, 2.6] give loss 1.06.',
-    try: 'Calculate the first update before running any code. Then compare the analytic derivative with a central finite difference. If the derivatives disagree, debug the implementation before tuning the learning rate.',
+    try: 'Select “Start with a flat line,” read the two gradients, and predict the next w and b using the displayed learning rate. Take one training step and check your calculation. Reset before comparing learning rates over 20 steps. In the Python example below, verify the analytic gradient with a central finite difference.',
     why: 'The outer optimizer in hybrid QML still subtracts a loss gradient. Parameter-shift supplies a circuit derivative; the chain rule connects that derivative to the loss.',
     math: [
       'r_i=wx_i+b-y_i',
@@ -438,7 +438,7 @@ export const classicalLessons: Lesson[] = [
     ],
     example:
       'For x = 2, w = 0.5, b = −1, and target y = 1, the logit is 0, p is 0.5, and loss is log(2) ≈ 0.6931. The weight gradient is (0.5 − 1)2 = −1, and the bias gradient is −0.5. One step with eta = 0.1 gives w = 0.6 and b = −0.95, so z = 0.25, p ≈ 0.5622, and loss ≈ 0.5759.',
-    try: 'Calculate the initial logit, loss, and gradients in the worked example. Then try changing the target to 0: which gradient signs reverse, and why should the estimated probability decrease?',
+    try: 'Compare “A useful separator” with “Confident and reversed.” Move “Logistic bias b” and watch the probability curve and training decisions change. Targets and the 0.5 threshold stay fixed. For the separate worked example above, change the target from 1 to 0 on paper and explain why the gradient signs reverse.',
     why: 'The loss and its derivative depend on the output convention. A raw quantum expectation in [−1, 1] must be mapped to a probability before it can be used as p in this binary loss.',
     math: [
       'z_i=x_i^Tw+b,\\qquad p_i=\\sigma(z_i)=\\frac1{1+e^{-z_i}}',

@@ -295,7 +295,7 @@ print("Full gradient:", qml.grad(loss)(parameters))`,
     ],
     example:
       'For the one-qubit map |φ(x)⟩ = Ry(x)|0⟩, the overlap is cos((x − x′)/2), so K(x, x′) = cos²((x − x′)/2). Inputs 0 and π have similarity zero; inputs 0 and π/2 have similarity one-half. This particular kernel has a simple classical formula.',
-    try: 'Build a small training Gram matrix, check its diagonal and eigenvalues, then predict on a test–training matrix. Compare against an RBF SVC trained on the same processed features.',
+    try: 'In the browser lab, select two states and predict their similarity. Set their angles equal, then 180° apart, and check the matrix entries. In the Python example below, check the eigenvalues, build separate training and test–training matrices, and compare an SVC using this kernel with an RBF SVC on the same processed features.',
     why: 'The feature map controls the notion of similarity. Correct matrix construction and honest baseline comparisons are necessary to decide whether that similarity helps.',
     math: [
       'K(x,x\\prime)=\\left|\\langle\\phi(x)\\mid\\phi(x\\prime)\\rangle\\right|^2',

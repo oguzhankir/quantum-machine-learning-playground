@@ -1,7 +1,10 @@
 import CodeExample from './CodeExample';
+import '../styles/resource-polish.css';
 
 const projects = [
   {
+    id: 'project-classifiers',
+    name: 'Compare classifiers',
     title: 'Build a fair classifier comparison',
     tag: 'CLASSICAL ML × QUANTUM ML',
     files: ['classical_ml.py', 'quantum_classifier.py'],
@@ -17,6 +20,8 @@ const projects = [
     done: 'Your report includes the same split for every model, train-only scaling, numerical gradient checks, held-out metrics, and no unsupported quantum advantage claim.',
   },
   {
+    id: 'project-reconstruction',
+    name: 'Reconstruct a quantum state',
     title: 'Reconstruct a quantum state from measurements',
     tag: 'ML FOR QUANTUM PHYSICS',
     files: ['quantum_tomography.py'],
@@ -32,6 +37,8 @@ const projects = [
     done: 'The density matrix is Hermitian, has trace one and nonnegative eigenvalues. Your uncertainty analysis uses repeated simulations rather than a single lucky estimate.',
   },
   {
+    id: 'project-predictions',
+    name: 'Predict quantum outcomes',
     title: 'Make quantum predictions from linear algebra',
     tag: 'QUANTUM FOUNDATIONS',
     files: ['quantum_basics.py'],
@@ -60,6 +67,29 @@ export default function ProjectHub() {
         working starting code, concrete deliverables, and a way to judge whether
         your result is ready to share.
       </p>
+      <nav className="project-overview" aria-label="Choose a project">
+        <h2>Choose a project</h2>
+        <div>
+          {projects.map((project, i) => (
+            <button
+              type="button"
+              key={project.id}
+              aria-controls={project.id}
+              onClick={() => {
+                const card = document.getElementById(project.id);
+                card?.scrollIntoView({ block: 'start', behavior: 'instant' });
+                card
+                  ?.querySelector<HTMLHeadingElement>('h2')
+                  ?.focus({ preventScroll: true });
+              }}
+            >
+              <span>0{i + 1}</span>
+              {project.name}
+              <span aria-hidden="true">↓</span>
+            </button>
+          ))}
+        </div>
+      </nav>
       <div className="kit-banner">
         <div>
           <span className="eyebrow">THE RUNNABLE LEARNING KIT</span>
@@ -91,11 +121,11 @@ export default function ProjectHub() {
       />
       <div className="project-cards">
         {projects.map((project, i) => (
-          <article className="project-card" key={project.title}>
+          <article className="project-card" id={project.id} key={project.title}>
             <div className="project-number">
               PROJECT 0{i + 1} <span>{project.tag}</span>
             </div>
-            <h2>{project.title}</h2>
+            <h2 tabIndex={-1}>{project.title}</h2>
             <p className="project-outcome">{project.outcome}</p>
             <a
               className="project-prerequisite"
