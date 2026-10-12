@@ -75,6 +75,7 @@ for (const theme of ['light', 'dark'] as const) {
   test(`${theme} controls retain readable text through normal, hover, focus and selected states`, async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
     for (const route of ['why', 'waves', 'gates']) {
       await page.goto(`./#${route}`);

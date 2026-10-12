@@ -1,0 +1,42 @@
+{
+  "generation_provider": "fal.ai",
+  "quoted_generation_estimate_usd": 0.3,
+  "actual_invoice_cost": null,
+  "pricing_note": "Three 5-second generation jobs at verified rates; invoice cost not queried. Four frame-extraction inspections use a separate $0.0002-per-second utility rate.",
+  "assets": [
+    {
+      "name": "moving-pattern",
+      "file": "moving-pattern.mp4",
+      "poster": "moving-pattern.webp",
+      "endpoint_id": "minimax/h3-max/image-to-video",
+      "request_id": "01a131e6-9076-7fa1-9249-139ac445625f",
+      "requested_duration_seconds": 5,
+      "resolution": "768P",
+      "quoted_unit_price_usd": 0.03,
+      "billing_unit": "seconds",
+      "published_duration_seconds": 5.166667,
+      "processing": "H264 CRF27, audio removed, faststart. Reviewed first/middle/last frames; illustration is qualitative, with minor cork drift."
+    },
+    {
+      "name": "overlapping-ripples",
+      "url": "https://v3b.fal.media/files/b/0aae20a3/Xj58qkErVBgJKZDEFQh28_minimax-h3.mp4",
+      "poster": "overlapping-ripples.webp",
+      "endpoint_id": "minimax/h3-max-turbo/text-to-video",
+      "request_id": "01a131da-e5ba-7da1-abdf-c5a234d00085",
+      "requested_duration_seconds": 5,
+      "resolution": "768P",
+      "quoted_unit_price_usd": 0.015,
+      "billing_unit": "seconds",
+      "review": "Middle frame inspected. Multiple nearby ripple sources are visible; no exact source count or measured interference claim is made.",
+      "retention": "Public Fal CDN; account-default retention, fallback provided."
+    }
+  ],
+  "discarded_draft": {
+    "endpoint_id": "minimax/h3-max-turbo/text-to-video",
+    "request_id": "01a131da-c587-77b0-8c1c-5e6adfda7f78",
+    "requested_duration_seconds": 5,
+    "quoted_unit_price_usd": 0.015,
+    "billing_unit": "seconds",
+    "reason": "Large horizontal cork drift did not support the intended local-motion illustration."
+  }
+}

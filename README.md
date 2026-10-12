@@ -29,6 +29,8 @@ Use the sun/moon control in the header to switch between light and dark reading 
 
 The website runs entirely in the browser. No accounts, backend, API keys, or runtime external scripts are required. Numerical charts and animations are generated locally from their documented models; they do not rely on AI-generated depictions for scientific claims. Python examples run on your own computer or in a notebook environment, rather than inside the website.
 
+The Waves lesson includes two optional short AI-generated water illustrations made through Fal. Their players are collapsed initially, do not autoplay, and start muted. The cork clip and both poster frames are bundled locally; the overlapping-ripple clip streams from its public Fal CDN URL only when played. If it is unavailable, the page offers a fallback and the local diagrams remain usable. Videos illustrate a scene; the measured diagrams supply exact quantities. Model endpoints, request IDs, and quoted generation costs are recorded in [media provenance](public/media/waves/provenance.json).
+
 ## Local setup
 
 Use **Node 24.19.0 LTS**, pinned in `.nvmrc` and CI, and npm.
