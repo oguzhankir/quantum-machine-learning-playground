@@ -6,6 +6,10 @@ import { classicalLessons } from './classical';
 import { appliedLessons } from './applied';
 import { lessonDepth } from './depth';
 export const sources = {
+  atomicSpectra: {
+    title: 'NIST · Atomic spectra and emission lines',
+    url: 'https://physics.nist.gov/PhysRefData/ASD/lines_form.html',
+  },
   linearAlgebra: {
     title: 'MIT OpenCourseWare · Linear Algebra',
     url: 'https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/',

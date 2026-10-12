@@ -255,6 +255,9 @@
   }
 }
 @media (max-width: 360px) {
+  .learning-stats > div > svg {
+    display: none;
+  }
   .lesson-navigator .lesson-back-to-top {
     display: none;
   }

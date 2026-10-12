@@ -1,21 +1,6 @@
 import type { LessonSection } from './content';
 
 export const lessonDepth: Record<string, LessonSection[]> = {
-  why: [
-    {
-      title: 'A useful map of the whole course',
-      paragraphs: [
-        'Quantum mechanics predicts observations from a state, its evolution, and a measurement rule. Quantum computing uses controlled quantum systems to process information. Quantum machine learning uses quantum states or circuits inside a learning pipeline. These subjects overlap, but learning one does not automatically solve the others.',
-        'Your first milestone is to predict a small experiment. Your second is to implement a classical model and explain its loss. Your third is to train and evaluate a quantum model using the same discipline. The final projects turn these milestones into scripts and reports you can reproduce.',
-      ],
-      exercise: {
-        prompt:
-          'Write one question about physics, one about optimization, and one about evaluation that a quantum classifier must answer.',
-        solution:
-          'Physics: what distribution does the circuit predict? Optimization: how does changing a trainable angle change the loss? Evaluation: does the classifier generalize on examples excluded from training, compared with a suitable classical baseline?',
-      },
-    },
-  ],
   waves: [
     {
       title: 'Add amplitudes before calculating probability',
