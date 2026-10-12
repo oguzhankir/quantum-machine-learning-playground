@@ -1,0 +1,141 @@
+.wave-reasoning {
+  margin: 24px 0 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text-copy);
+  background: var(--surface);
+}
+.wave-reasoning h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.45;
+}
+.wave-reasoning figcaption > p,
+.wave-reasoning-note {
+  font-size: 14px;
+  line-height: 1.75;
+}
+.wave-addition-cases,
+.wave-record-cases {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.wave-addition-case,
+.wave-record-case {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 13px;
+}
+.wave-addition-case > strong,
+.wave-record-case > strong {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--text);
+  font-size: 14px;
+}
+.wave-addition-steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+}
+.wave-addition-steps > div {
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.wave-amplitude-arrow {
+  display: block;
+  width: 100%;
+  height: 44px;
+  color: var(--link);
+}
+.wave-arrow-axis {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.wave-amplitude-result {
+  color: var(--success-text);
+}
+.wave-probability-step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.wave-probability-step > strong {
+  color: var(--text);
+  font-size: 21px;
+  white-space: nowrap;
+}
+.wave-probability-step small {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+}
+.wave-reasoning .wave-reasoning-note {
+  margin: 20px 0 0;
+}
+.wave-route-records {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+}
+.wave-route-records b {
+  color: var(--link);
+  font-weight: 600;
+}
+.wave-record-screen {
+  display: flex;
+  align-items: end;
+  gap: 4px;
+  height: 90px;
+  margin-top: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.wave-record-screen > span {
+  flex: 1;
+  min-width: 0;
+  background: var(--accent-text);
+  border-radius: 2px 2px 0 0;
+}
+.wave-record-screen > span:first-child {
+  background: var(--success-text);
+}
+.wave-record-readout {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.wave-record-readout strong {
+  color: var(--text);
+}
+.wave-record-case > p {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+.wave-record-case .wave-record-result {
+  color: var(--text-copy);
+}
+@media (max-width: 700px) {
+  .wave-reasoning {
+    padding: 20px 16px;
+  }
+  .wave-addition-cases,
+  .wave-record-cases {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

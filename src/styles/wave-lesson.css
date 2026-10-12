@@ -111,7 +111,19 @@
   box-shadow: inset 0 0 0 1px var(--teal, #527de8);
 }
 .wave-curves {
-  margin-top: 20px;
+  margin-top: 12px;
+}
+.wave-comparison-axis {
+  margin: 16px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.wave-comparison-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  font-size: 11px;
+  color: var(--text-muted);
 }
 .wave-curve {
   background: var(--surface-muted, #f5f7fb);
@@ -230,6 +242,35 @@
 }
 .wave-sources li + li {
   margin-top: 8px;
+}
+.lesson-assessment-bottom.section-bottom {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.lesson-assessment-bottom.section-bottom .completion-action {
+  margin-top: 18px;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  text-align: left;
+}
+.lesson-assessment-bottom .completion-icon {
+  display: none;
+}
+.lesson-assessment-bottom .completion-action h3 {
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+.lesson-assessment-bottom .completion-action p {
+  max-width: 76ch;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+.lesson-assessment-bottom .completion-action > small {
+  display: inline-block;
+  margin: 0 0 0 12px;
 }
 @media (max-width: 1100px) {
   .header-actions .avatar {

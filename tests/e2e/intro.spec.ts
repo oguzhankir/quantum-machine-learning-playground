@@ -38,8 +38,10 @@ test('the introduction explains one observation, invites a guess, and continues 
       name: 'Understand the light and materials around you.',
     }),
   ).toBeVisible();
-  await expect(page.locator('.knowledge-check input:checked')).toHaveCount(0);
-  await expect(page.locator('.knowledge-check .check-feedback')).toHaveCount(0);
+  await expect(page.locator('.lesson-assessment input:checked')).toHaveCount(0);
+  await expect(
+    page.locator('.lesson-assessment .assessment-explanation'),
+  ).toHaveCount(0);
   await intro
     .getByRole('button', {
       name: 'No, an extra route should make it brighter.',
@@ -62,18 +64,26 @@ test('the introduction explains one observation, invites a guess, and continues 
       exact: true,
     }),
   ).toHaveAttribute('aria-pressed', 'true');
-  const check = page.locator('.knowledge-check');
+  const assessment = page.locator('.lesson-assessment');
+  await assessment
+    .getByRole('button', { name: 'Start the quiz', exact: true })
+    .click();
+  const check = page.getByRole('dialog', {
+    name: 'Check your understanding',
+    exact: true,
+  });
   await check
     .getByRole('radio', {
-      name: 'Its electrons have specific allowed energy changes.',
+      name: 'Its electrons can make specific allowed energy changes.',
     })
     .check();
   await check
     .getByRole('button', { name: 'Check answer', exact: true })
     .click();
-  await expect(check.locator('.check-feedback')).toContainText(
-    'Quantum mechanics predicts the allowed energies',
+  await expect(check.locator('.assessment-explanation')).toContainText(
+    'An atom has allowed energy levels',
   );
+  await check.getByRole('button', { name: 'Pause quiz', exact: true }).click();
   await page
     .getByRole('button', { name: 'Mark lesson complete', exact: true })
     .click();
@@ -81,11 +91,13 @@ test('the introduction explains one observation, invites a guess, and continues 
   await expect(
     page.getByRole('button', { name: '✓ Completed', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
-  await expect(
-    check.getByRole('radio', {
-      name: 'Its electrons have specific allowed energy changes.',
-    }),
-  ).toBeChecked();
+  await assessment
+    .getByRole('button', { name: 'Resume quiz', exact: true })
+    .click();
+  await expect(check.locator('.assessment-your-answer')).toContainText(
+    'Its electrons can make specific allowed energy changes.',
+  );
+  await check.getByRole('button', { name: 'Pause quiz', exact: true }).click();
   await page
     .getByRole('navigation', { name: 'Lesson navigation' })
     .locator('a[href="#waves"]')

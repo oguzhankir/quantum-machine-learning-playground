@@ -57,14 +57,13 @@ export const introLessons: Lesson[] = [
     objective:
       'Explain what a wave carries, predict how phase changes interference, and distinguish one quantum detection from the pattern built by many detections.',
     takeaway:
-      'For coherent, indistinguishable routes to the same outcome, add quantum amplitudes before calculating probability. Phase can brighten one region and darken another; a physical path record can remove this interference.',
+      'For coherent, indistinguishable routes to one outcome, add amplitudes, then square the magnitude. Phase changes where detections are likely; a physical path record can remove the interference.',
     paragraphs: [
-      'The introduction asked whether opening another route for light could make a spot darker. To understand how, begin with a ripple: a moving pattern of highs and lows on water. Overlapping ripples can strengthen each other or cancel at a particular place. This combination is called interference.',
-      'First learn what amplitude and phase describe using water waves. Then use the same idea of combining contributions to understand a quantum experiment. Individual particles give separate detection clicks; many fresh repetitions reveal a pattern of probabilities.',
-      'The experiment at the end lets you change the relative phase between two routes and create a record that distinguishes them. Before using the controls, learn what each change means and make a prediction. The screen is a simplified probability model, rather than a drawing of a particle’s journey.',
+      'Watch a ripple move, measure its height and spacing, then shift a second ripple beside it. The diagrams will help you see how two contributions can add or cancel. This is interference.',
+      'Then follow the same idea into a quantum experiment: one detection at a time, a pattern across many repetitions. Predict what phase and a path record will change before trying the screen controls.',
     ],
     example:
-      'For small water ripples, a +1 cm displacement and a −1 cm displacement at the same place and time add to 0 cm. Two +1 cm displacements add to +2 cm. In the quantum calculation, we similarly combine amplitude contributions first, then calculate an outcome probability from the squared magnitude.',
+      'At the same place and time, small water ripples with displacements +1 cm and −1 cm add to 0 cm. Two +1 cm displacements add to +2 cm. A quantum probability needs another step: combine its amplitude contributions, then square the magnitude.',
     try: 'With the path record off, compare phases 0°, 90°, 180°, and 360°. Predict bin 1 before checking it. Use “Collect 1 detection,” then “Collect 100 detections” to compare individual events with the probability bars. Turn on “Record which-path information” and repeat the phase changes: why are all bins now 6.25%? Changing phase or the path record clears the detections so different experiments do not mix.',
     why: 'Phase controls whether contributions to an outcome reinforce or cancel. A reliable path record makes the routes distinguishable, so their probabilities combine without the interference term. Neither process removes the total probability.',
     math: ['P=|a_1+a_2|^2'],

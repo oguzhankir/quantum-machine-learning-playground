@@ -297,7 +297,9 @@ export default function Waves() {
           <button onClick={() => collectDetections(100)}>
             Collect 100 detections
           </button>
-          <button onClick={clearDetections}>Clear detections</button>
+          <button onClick={clearDetections} disabled={detectionTotal === 0}>
+            Clear detections
+          </button>
         </div>
         <p className="waves-detection-status" role="status">
           <strong data-testid="waves-detection-total">

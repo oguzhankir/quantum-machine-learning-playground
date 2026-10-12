@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Lesson } from '../lessons/foundations/content';
+import '../styles/lesson-navigation.css';
 
 export function scrollToLessonSection(id: string) {
   const target = document.getElementById(id);
@@ -45,12 +46,14 @@ export default function LessonNavigator({
     let frame = 0;
     const update = () => {
       frame = 0;
-      const offset =
-        parseFloat(
-          getComputedStyle(document.documentElement).getPropertyValue(
-            '--lesson-sticky-top',
-          ),
-        ) + 32;
+      // A custom property can contain calc(...), whose raw value is not a
+      // pixel number. The computed scroll margin resolves the same offset
+      // used by the section anchors into pixels.
+      const firstSection = document.getElementById(`${lesson.id}-idea`);
+      const scrollMargin = firstSection
+        ? parseFloat(getComputedStyle(firstSection).scrollMarginTop)
+        : NaN;
+      const offset = (Number.isFinite(scrollMargin) ? scrollMargin : 142) + 32;
       // The lab and reading share a row on desktop; both become distinct
       // reading steps when the layout stacks on a smaller screen.
       const candidates = [
@@ -64,6 +67,13 @@ export default function LessonNavigator({
         const target = document.getElementById(id);
         if (target && target.getBoundingClientRect().top <= offset) next = id;
       }
+      // A short final section cannot always reach the top of the viewport.
+      // Once the reader reaches the end, the final section is still current.
+      if (
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 2
+      )
+        next = candidates[candidates.length - 1];
       setActive((current) =>
         layout === 'parallel' &&
         window.matchMedia('(min-width: 1101px)').matches &&
@@ -88,9 +98,8 @@ export default function LessonNavigator({
 
   return (
     <nav className="lesson-navigator" aria-label="Lesson sections">
-      <span className="lesson-navigator-title">IN THIS LESSON</span>
       <div>
-        {steps.map((step, index) => (
+        {steps.map((step) => (
           <button
             key={step.id}
             aria-current={active === step.id ? 'step' : undefined}
@@ -99,16 +108,17 @@ export default function LessonNavigator({
               scrollToLessonSection(step.id);
             }}
           >
-            <span>{String(index + 1).padStart(2, '0')}</span> {step.label}
+            {step.label}
           </button>
         ))}
       </div>
       <button
         className="lesson-back-to-top"
         aria-label="Back to lesson title"
+        title="Back to lesson title"
         onClick={() => scrollToLessonSection('page-heading')}
       >
-        ↑ <span>Top</span>
+        ↑
       </button>
     </nav>
   );

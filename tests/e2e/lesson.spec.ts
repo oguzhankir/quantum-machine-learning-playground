@@ -1121,7 +1121,9 @@ test('leaving an active training lesson cancels its scheduled steps', async ({
 test('two path interference reverses with phase and path records remove the pattern', async ({
   page,
 }) => {
-  const section = await openLesson(page, 'waves');
+  const section = (await openLesson(page, 'waves')).getByRole('region', {
+    name: 'Wave and interference laboratory',
+  });
   await section
     .getByText('Inspect amplitudes and probabilities for all 16 bins')
     .click();
