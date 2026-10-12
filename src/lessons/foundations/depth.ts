@@ -268,7 +268,7 @@ export const lessonDepth: Record<string, LessonSection[]> = {
     {
       title: 'Demonstrate readiness with a reproducible result',
       paragraphs: [
-        'Choose a project in the project studio. You should be able to state its data-generating process, write the model and loss, verify at least one analytic gradient numerically, and explain how the result was evaluated.',
+        'Choose a project in the project workshop. State its data-generating process, write the model and loss, verify an analytic gradient numerically where training uses one, and explain how the result was evaluated. For tomography, check normalization, eigenvalues, and reconstruction error instead.',
         'A completed course does not establish quantum advantage. A useful first result is a clear, runnable comparison with controlled assumptions, documented limitations, and an explanation of what the experiment taught you.',
       ],
       exercise: {

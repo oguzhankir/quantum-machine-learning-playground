@@ -1,0 +1,123 @@
+.story-controls {
+  border-bottom: 1px solid #2c3d58;
+}
+.story-studio .story-controls .secondary:hover:not(:disabled) {
+  background: #324a6f;
+}
+.story-diagram-viewport {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.story-diagram-viewport svg {
+  display: block;
+  width: 100%;
+  max-width: 850px;
+  margin-inline: auto;
+  padding: 12px;
+}
+.story-diagram-actions {
+  display: none;
+}
+.project-overview {
+  margin: 28px 0;
+}
+.project-overview > h2 {
+  margin: 0 0 12px;
+  color: #354b6c;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+.project-overview > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.project-overview button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-color: #dce4f0;
+  background: #fff;
+  color: #354b6c;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.project-overview button > span:first-child {
+  flex: 0 0 auto;
+  color: #6380b1;
+  font-size: 11px;
+}
+.project-overview button > span:last-child {
+  margin-left: auto;
+  color: #6380b1;
+}
+.project-hub .project-card {
+  scroll-margin-top: var(--workspace-sticky-top, 96px);
+}
+.project-hub .project-card h2 {
+  scroll-margin-top: var(--workspace-sticky-top, 96px);
+}
+@media (max-width: 700px) {
+  .story-studio .story-tabs button {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 4px 9px;
+    align-items: start;
+  }
+  .story-studio .story-tabs strong {
+    margin: 0;
+    line-height: 1.5;
+  }
+  .story-studio .story-tabs small {
+    display: none;
+    grid-column: 2;
+    font-weight: 400;
+  }
+  .story-studio .story-tabs button[aria-pressed='true'] small {
+    display: block;
+  }
+  .story-diagram-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #2c3d58;
+  }
+  .story-diagram-actions button {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    border-color: #657b9e;
+    background: #273c5d;
+    color: #d4e1f7;
+    font-size: 11px;
+  }
+  .story-diagram-actions button:hover:not(:disabled) {
+    background: #324a6f;
+  }
+  .story-diagram-actions p {
+    margin: 0;
+    color: #c4d3eb;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .story-diagram-viewport.is-enlarged {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .story-diagram-viewport.is-enlarged svg {
+    min-width: 700px;
+  }
+  .story-diagram-viewport:focus-visible {
+    outline: 3px solid #89a8fc;
+    outline-offset: -3px;
+  }
+  .project-overview > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .project-overview button {
+    padding: 12px 14px;
+  }
+}

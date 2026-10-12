@@ -47,6 +47,8 @@ export default function HistoryExplorer({ route }: { route: string }) {
   const [era, setEra] = useState('all');
   const headingRef = useRef<HTMLHeadingElement>(null);
   const railRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLElement>(null);
+  const selectedEventRef = useRef<HTMLAnchorElement>(null);
   const previousSelection = useRef(selected.id);
   useEffect(() => {
     if (previousSelection.current === selected.id) return;
@@ -56,7 +58,7 @@ export default function HistoryExplorer({ route }: { route: string }) {
     heading.focus({ preventScroll: true });
     const position = heading.getBoundingClientRect();
     if (
-      window.innerWidth <= 700 ||
+      window.innerWidth <= 1050 ||
       position.top < 90 ||
       position.bottom > window.innerHeight
     ) {
@@ -73,10 +75,31 @@ export default function HistoryExplorer({ route }: { route: string }) {
         words.every((word) => searchText(event).includes(word)),
     );
   }, [events, search, activeEra]);
+  useEffect(() => {
+    const timeline = timelineRef.current;
+    const current = selectedEventRef.current;
+    if (!timeline || !current) return;
+    const viewport = timeline.getBoundingClientRect();
+    const item = current.getBoundingClientRect();
+    if (item.top < viewport.top || item.bottom > viewport.bottom) {
+      timeline.scrollTo({
+        top:
+          timeline.scrollTop +
+          item.top -
+          viewport.top -
+          (timeline.clientHeight - item.height) / 2,
+        behavior: 'instant',
+      });
+    }
+  }, [selected.id, filtered]);
   const selectedIndex = events.indexOf(selected);
   const clearFilters = () => {
     setSearch('');
     setEra('all');
+  };
+  const browseMilestones = () => {
+    railRef.current?.querySelector('input')?.focus({ preventScroll: true });
+    railRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
   const trackName =
     track === 'physics' ? 'Quantum mechanics' : 'Quantum machine learning';
@@ -91,8 +114,8 @@ export default function HistoryExplorer({ route }: { route: string }) {
           </h1>
           <p>
             Follow the questions that changed physics, then see how those ideas
-            became tools for learning. Choose a milestone to reveal the concept,
-            the evidence, and something you can try yourself.
+            became tools for learning. Explore a timeline, open a milestone,
+            then connect its discovery to an experiment you can try.
           </p>
         </div>
         <a className="history-research-link" href="#research">
@@ -145,23 +168,22 @@ export default function HistoryExplorer({ route }: { route: string }) {
         <p>
           <strong>{events.length} milestones</strong> · {trackName}
         </p>
-        <p>Dates show order. Spacing groups ideas, rather than elapsed time.</p>
+        <p>A curated timeline of discoveries, evidence, and their limits.</p>
       </div>
       <button
         type="button"
         className="history-browse-button"
-        onClick={() =>
-          railRef.current?.scrollIntoView({
-            block: 'start',
-            behavior: 'instant',
-          })
-        }
+        onClick={browseMilestones}
       >
         Browse the milestones ↓
       </button>
 
       <div className="history-layout">
         <aside className="history-rail" ref={railRef}>
+          <div className="history-rail-heading">
+            <h2>Browse milestones</h2>
+            <span>{track === 'physics' ? 'Physics' : 'QML'}</span>
+          </div>
           <div className="history-filters">
             <label className="history-search">
               <span>Find an idea</span>
@@ -192,7 +214,12 @@ export default function HistoryExplorer({ route }: { route: string }) {
           <p className="history-results" role="status">
             {filtered.length} of {events.length} milestones
           </p>
-          <nav aria-label="Historical milestones">
+          <nav
+            className="history-timeline"
+            aria-label="Historical milestones"
+            ref={timelineRef}
+            tabIndex={0}
+          >
             {eras.map((name) => {
               const group = filtered.filter((event) => event.era === name);
               if (!group.length) return null;
@@ -204,6 +231,11 @@ export default function HistoryExplorer({ route }: { route: string }) {
                       <li key={event.id}>
                         <a
                           href={eventHref(track, event)}
+                          ref={
+                            event.id === selected.id
+                              ? selectedEventRef
+                              : undefined
+                          }
                           onClick={() => {
                             if (event.id === selected.id) {
                               headingRef.current?.focus({
@@ -257,6 +289,29 @@ export default function HistoryExplorer({ route }: { route: string }) {
           data-testid="milestone-detail"
           key={selected.id}
         >
+          <nav className="history-detail-nav" aria-label="Milestone navigation">
+            <span>
+              Milestone <strong>{selectedIndex + 1}</strong> of {events.length}
+            </span>
+            <div>
+              {selectedIndex > 0 && (
+                <a
+                  href={eventHref(track, events[selectedIndex - 1])}
+                  aria-label={`Previous milestone: ${events[selectedIndex - 1].title}`}
+                >
+                  ← Previous
+                </a>
+              )}
+              {selectedIndex < events.length - 1 && (
+                <a
+                  href={eventHref(track, events[selectedIndex + 1])}
+                  aria-label={`Next milestone: ${events[selectedIndex + 1].title}`}
+                >
+                  Next →
+                </a>
+              )}
+            </div>
+          </nav>
           <div className="history-detail-heading">
             <p className="eyebrow">
               {selected.displayYear ?? selected.year}{' '}
@@ -384,12 +439,7 @@ export default function HistoryExplorer({ route }: { route: string }) {
           <button
             type="button"
             className="history-browse-button"
-            onClick={() =>
-              railRef.current?.scrollIntoView({
-                block: 'start',
-                behavior: 'instant',
-              })
-            }
+            onClick={browseMilestones}
           >
             Browse the milestones ↓
           </button>

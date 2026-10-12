@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { MathFormula } from './Math';
+import '../styles/resource-polish.css';
 
 const stories = [
   {
@@ -100,6 +101,8 @@ export default function StoryStudio() {
   const [selected, setSelected] = useState(0);
   const [progress, setProgress] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [enlarged, setEnlarged] = useState(false);
+  const diagramId = useId();
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const stop = () => {
@@ -149,6 +152,7 @@ export default function StoryStudio() {
               setSelected(i);
               setProgress(0);
               setPlaying(false);
+              setEnlarged(false);
             }}
           >
             <span>0{i + 1}</span>
@@ -165,196 +169,6 @@ export default function StoryStudio() {
         <div className="story-top">
           <span>STORY 0{selected + 1} / MATHEMATICAL ANIMATION</span>
           <span>{active ? 'PLAYING' : 'PAUSED'}</span>
-        </div>
-        <svg
-          viewBox="0 0 700 320"
-          role="img"
-          aria-label={
-            selected === 0
-              ? `Relative phase ${phase.toFixed(2)} radians. Output zero probability ${probability.toFixed(3)}.`
-              : selected === 1
-                ? `${n} simulated shots, ${ones} ones.`
-                : `Training step ${frame.step}, loss ${frame.loss.toFixed(4)}.`
-          }
-        >
-          <defs>
-            <linearGradient id="story-bar">
-              <stop stopColor="#8ca6ff" />
-              <stop offset="1" stopColor="#b4e8dd" />
-            </linearGradient>
-          </defs>
-          {selected === 0 && (
-            <>
-              <path
-                d="M45 160 Q200 30 370 110 M45 160 Q200 290 370 210"
-                stroke="#6175a5"
-                strokeWidth="2"
-                fill="none"
-              />
-              <circle cx="45" cy="160" r="9" fill="#b4e8dd" />
-              <text x="82" y="56">
-                PATH A: 1/2
-              </text>
-              <text x="82" y="286">
-                PATH B: exp(iφ)/2
-              </text>
-              <circle cx="240" cy="220" r="30" fill="none" stroke="#586b96" />
-              <path
-                d={`M240 220 L${240 + 30 * Math.cos(phase)} ${220 - 30 * Math.sin(phase)}`}
-                stroke="#b4e8dd"
-                strokeWidth="3"
-              />
-              <path
-                d="M370 110 L425 160 M370 210 L425 160"
-                stroke="#8ca6ff"
-                strokeWidth="3"
-                fill="none"
-              />
-              <circle cx="425" cy="160" r="10" fill="#8ca6ff" />
-              <text x="465" y="55">
-                OUTPUT PROBABILITIES
-              </text>
-              <text x="465" y="98">
-                0: {probability.toFixed(3)}
-              </text>
-              <rect
-                x="465"
-                y="112"
-                width="185"
-                height="23"
-                rx="5"
-                fill="#243453"
-              />
-              <rect
-                x="465"
-                y="112"
-                width={185 * probability}
-                height="23"
-                rx="5"
-                fill="url(#story-bar)"
-              />
-              <text x="465" y="179">
-                1: {(1 - probability).toFixed(3)}
-              </text>
-              <rect
-                x="465"
-                y="194"
-                width="185"
-                height="23"
-                rx="5"
-                fill="#243453"
-              />
-              <rect
-                x="465"
-                y="194"
-                width={185 * (1 - probability)}
-                height="23"
-                rx="5"
-                fill="url(#story-bar)"
-              />
-              <text x="465" y="265">
-                φ = {phase.toFixed(2)} rad
-              </text>
-            </>
-          )}
-          {selected === 1 && (
-            <>
-              <text x="45" y="38">
-                ONE DOT = ONE FRESH PREPARATION
-              </text>
-              {shots.map((value, i) => (
-                <circle
-                  key={i}
-                  cx={55 + (i % 20) * 30}
-                  cy={72 + Math.floor(i / 20) * 31}
-                  r="8"
-                  fill={i < n ? (value ? '#b4e8dd' : '#8ca6ff') : '#273751'}
-                  opacity={i < n ? 1 : 0.6}
-                />
-              ))}
-              <circle cx="52" cy="252" r="7" fill="#8ca6ff" />
-              <text x="68" y="257">
-                0
-              </text>
-              <circle cx="117" cy="252" r="7" fill="#b4e8dd" />
-              <text x="133" y="257">
-                1
-              </text>
-              <text x="215" y="257">
-                Shots: {n} / Ones: {ones}
-              </text>
-              <text x="215" y="289">
-                Estimated P(1): {n ? (ones / n).toFixed(3) : 'collect a shot'} /
-                true P(1): 0.350
-              </text>
-            </>
-          )}
-          {selected === 2 && (
-            <>
-              {['CIRCUIT', 'EXPECTATION', 'LOSS', 'GRADIENT'].map(
-                (label, i) => (
-                  <g key={label}>
-                    <rect
-                      x={30 + i * 170}
-                      y="36"
-                      width="145"
-                      height="70"
-                      rx="12"
-                      fill="#20304f"
-                      stroke="#637ab1"
-                    />
-                    <text x={42 + i * 170} y="59">
-                      {label}
-                    </text>
-                    <text x={42 + i * 170} y="87">
-                      {
-                        [
-                          `w = ${frame.w.toFixed(3)}`,
-                          `f = ${frame.f.toFixed(3)}`,
-                          `L = ${frame.loss.toFixed(4)}`,
-                          frame.gradient.toFixed(4),
-                        ][i]
-                      }
-                    </text>
-                    {i < 3 && (
-                      <path
-                        d={`M${176 + i * 170} 72 h22`}
-                        stroke="#b4e8dd"
-                        strokeWidth="2"
-                      />
-                    )}
-                  </g>
-                ),
-              )}
-              <path d="M50 145 V278 H650" stroke="#6175a5" fill="none" />
-              <text x="65" y="150">
-                SQUARED ERROR
-              </text>
-              <polyline
-                points={training
-                  .slice(0, frame.step + 1)
-                  .map((value, i) => `${50 + i * 15},${278 - value.loss * 850}`)
-                  .join(' ')}
-                fill="none"
-                stroke="#b4e8dd"
-                strokeWidth="3"
-              />
-              <circle
-                cx={50 + frame.step * 15}
-                cy={278 - frame.loss * 850}
-                r="5"
-                fill="#8ca6ff"
-              />
-              <text x="460" y="307">
-                Step {frame.step} / 40
-              </text>
-            </>
-          )}
-        </svg>
-        <div className="story-caption">
-          <span>CHAPTER 0{chapter + 1}</span>
-          <h2>{story.chapters[chapter][0]}</h2>
-          <p>{story.chapters[chapter][1]}</p>
         </div>
         <div className="story-controls">
           <button
@@ -391,6 +205,221 @@ export default function StoryStudio() {
             />
           </label>
           <span>{Math.round(progress)}%</span>
+        </div>
+        <div className="story-diagram-actions">
+          <button
+            type="button"
+            aria-expanded={enlarged}
+            aria-controls={diagramId}
+            onClick={() => setEnlarged((value) => !value)}
+          >
+            {enlarged ? 'Fit diagram' : 'Enlarge diagram'}
+          </button>
+          {enlarged && <p>Scroll sideways to read the labels.</p>}
+        </div>
+        <div
+          id={diagramId}
+          className={`story-diagram-viewport${enlarged ? ' is-enlarged' : ''}`}
+          role={enlarged ? 'region' : undefined}
+          aria-label={
+            enlarged
+              ? 'Enlarged story diagram. Scroll horizontally to read the labels.'
+              : undefined
+          }
+          tabIndex={enlarged ? 0 : undefined}
+        >
+          <svg
+            viewBox="0 0 700 320"
+            role="img"
+            aria-label={
+              selected === 0
+                ? `Relative phase ${phase.toFixed(2)} radians. Output zero probability ${probability.toFixed(3)}.`
+                : selected === 1
+                  ? `${n} simulated shots, ${ones} ones.`
+                  : `Training step ${frame.step}, loss ${frame.loss.toFixed(4)}.`
+            }
+          >
+            <defs>
+              <linearGradient id="story-bar">
+                <stop stopColor="#8ca6ff" />
+                <stop offset="1" stopColor="#b4e8dd" />
+              </linearGradient>
+            </defs>
+            {selected === 0 && (
+              <>
+                <path
+                  d="M45 160 Q200 30 370 110 M45 160 Q200 290 370 210"
+                  stroke="#6175a5"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                <circle cx="45" cy="160" r="9" fill="#b4e8dd" />
+                <text x="82" y="56">
+                  PATH A: 1/2
+                </text>
+                <text x="82" y="286">
+                  PATH B: exp(iφ)/2
+                </text>
+                <circle cx="240" cy="220" r="30" fill="none" stroke="#586b96" />
+                <path
+                  d={`M240 220 L${240 + 30 * Math.cos(phase)} ${220 - 30 * Math.sin(phase)}`}
+                  stroke="#b4e8dd"
+                  strokeWidth="3"
+                />
+                <path
+                  d="M370 110 L425 160 M370 210 L425 160"
+                  stroke="#8ca6ff"
+                  strokeWidth="3"
+                  fill="none"
+                />
+                <circle cx="425" cy="160" r="10" fill="#8ca6ff" />
+                <text x="465" y="55">
+                  OUTPUT PROBABILITIES
+                </text>
+                <text x="465" y="98">
+                  0: {probability.toFixed(3)}
+                </text>
+                <rect
+                  x="465"
+                  y="112"
+                  width="185"
+                  height="23"
+                  rx="5"
+                  fill="#243453"
+                />
+                <rect
+                  x="465"
+                  y="112"
+                  width={185 * probability}
+                  height="23"
+                  rx="5"
+                  fill="url(#story-bar)"
+                />
+                <text x="465" y="179">
+                  1: {(1 - probability).toFixed(3)}
+                </text>
+                <rect
+                  x="465"
+                  y="194"
+                  width="185"
+                  height="23"
+                  rx="5"
+                  fill="#243453"
+                />
+                <rect
+                  x="465"
+                  y="194"
+                  width={185 * (1 - probability)}
+                  height="23"
+                  rx="5"
+                  fill="url(#story-bar)"
+                />
+                <text x="465" y="265">
+                  φ = {phase.toFixed(2)} rad
+                </text>
+              </>
+            )}
+            {selected === 1 && (
+              <>
+                <text x="45" y="38">
+                  ONE DOT = ONE FRESH PREPARATION
+                </text>
+                {shots.map((value, i) => (
+                  <circle
+                    key={i}
+                    cx={55 + (i % 20) * 30}
+                    cy={72 + Math.floor(i / 20) * 31}
+                    r="8"
+                    fill={i < n ? (value ? '#b4e8dd' : '#8ca6ff') : '#273751'}
+                    opacity={i < n ? 1 : 0.6}
+                  />
+                ))}
+                <circle cx="52" cy="252" r="7" fill="#8ca6ff" />
+                <text x="68" y="257">
+                  0
+                </text>
+                <circle cx="117" cy="252" r="7" fill="#b4e8dd" />
+                <text x="133" y="257">
+                  1
+                </text>
+                <text x="215" y="257">
+                  Shots: {n} / Ones: {ones}
+                </text>
+                <text x="215" y="289">
+                  Estimated P(1): {n ? (ones / n).toFixed(3) : 'collect a shot'}{' '}
+                  / true P(1): 0.350
+                </text>
+              </>
+            )}
+            {selected === 2 && (
+              <>
+                {['CIRCUIT', 'EXPECTATION', 'LOSS', 'GRADIENT'].map(
+                  (label, i) => (
+                    <g key={label}>
+                      <rect
+                        x={30 + i * 170}
+                        y="36"
+                        width="145"
+                        height="70"
+                        rx="12"
+                        fill="#20304f"
+                        stroke="#637ab1"
+                      />
+                      <text x={42 + i * 170} y="59">
+                        {label}
+                      </text>
+                      <text x={42 + i * 170} y="87">
+                        {
+                          [
+                            `w = ${frame.w.toFixed(3)}`,
+                            `f = ${frame.f.toFixed(3)}`,
+                            `L = ${frame.loss.toFixed(4)}`,
+                            frame.gradient.toFixed(4),
+                          ][i]
+                        }
+                      </text>
+                      {i < 3 && (
+                        <path
+                          d={`M${176 + i * 170} 72 h22`}
+                          stroke="#b4e8dd"
+                          strokeWidth="2"
+                        />
+                      )}
+                    </g>
+                  ),
+                )}
+                <path d="M50 145 V278 H650" stroke="#6175a5" fill="none" />
+                <text x="65" y="150">
+                  SQUARED ERROR
+                </text>
+                <polyline
+                  points={training
+                    .slice(0, frame.step + 1)
+                    .map(
+                      (value, i) => `${50 + i * 15},${278 - value.loss * 850}`,
+                    )
+                    .join(' ')}
+                  fill="none"
+                  stroke="#b4e8dd"
+                  strokeWidth="3"
+                />
+                <circle
+                  cx={50 + frame.step * 15}
+                  cy={278 - frame.loss * 850}
+                  r="5"
+                  fill="#8ca6ff"
+                />
+                <text x="460" y="307">
+                  Step {frame.step} / 40
+                </text>
+              </>
+            )}
+          </svg>
+        </div>
+        <div className="story-caption">
+          <span>CHAPTER 0{chapter + 1}</span>
+          <h2>{story.chapters[chapter][0]}</h2>
+          <p>{story.chapters[chapter][1]}</p>
         </div>
       </div>
       <div className="story-equation">

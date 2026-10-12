@@ -76,7 +76,7 @@ export const quantumLessons: Lesson[] = [
     ],
     example:
       'Even when P(1) = 0.25, the first measurement can return 1. The next Z measurement of that same qubit immediately returns 1 again. If we prepare the initial state 100 separate times, we might see 23 ones; we are not required to see exactly 25.',
-    try: 'Measure once, then measure again. Explain why you get the same result. Prepare the initial state again and compare the frequencies from 10, 100, and 1,000 fresh shots.',
+    try: 'In A, click “Measure once” twice and explain why the result repeats. Click “Prepare again” to restart that qubit. In B, collect 10, 100, and 1,000 fresh shots, using “Reset histogram” between comparisons. Each collection automatically prepares a fresh state for every shot.',
     why: 'A single measurement updates the current state. Fresh shots sample your chosen initial preparation. Changing the preparation clears the histogram so that counts from different experiments do not mix.',
     math: [
       'P(k)=|\\langle k\\mid\\psi\\rangle|^2',
@@ -125,7 +125,7 @@ export const quantumLessons: Lesson[] = [
     ],
     example:
       'After H → Rz(180°) → H, P(1) = 1. If the middle angle is 90°, P(1) = 0.5. At 0°, the two H gates undo each other and P(0) = 1.',
-    try: 'Build H → H first, then H → Z → H. Undo the final H and compare the probabilities of the two intermediate states. Try the phase sweep. Then apply the same H operation to a coherent |+⟩ preparation and to the classical mixture.',
+    try: 'Use the guided examples to compare H → H with H → Z → H. Undo the final gate in each circuit: both intermediate states have 50/50 Z probabilities. Next, compare 0°, 90°, and 180° in the phase experiment. In the final comparison, enable “Apply H before measuring both preparations” and explain why only the coherent state becomes certain.',
     why: 'H combines amplitudes that carry signs and phases. The final distribution depends on more information than the direct measurement probabilities that looked identical before H.',
     math: [
       'H=\\frac1{\\sqrt2}\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix},\\quad Z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}',

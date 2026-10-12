@@ -106,7 +106,7 @@ export const qmlLessons: Lesson[] = [
     stage: 'qml',
     minutes: 15,
     prerequisites: ['encoding'],
-    title: 'Your first learning quantum circuit',
+    title: 'Train your first quantum circuit',
     short: 'Predict and reduce error',
     question: 'How do we learn a quantum gate’s angle from examples?',
     objective:
@@ -224,7 +224,7 @@ export const qmlLessons: Lesson[] = [
       'We started with a physics question: why can two possible paths sometimes cancel each other? Amplitudes and phase let us calculate interference. A state carries amplitudes, a gate transforms them, and a measurement gives one classical outcome. The distribution of fresh shots estimates probabilities. Each step has a distinct role.',
       'With two qubits, we saw why the joint state matters. Classical randomness can also create correlation, but a coherent Bell state can behave differently in different measurement bases. One matching result does not establish entanglement, and random local outcomes cannot send a chosen message to a distant partner.',
       'In machine learning, the input set one gate angle and the learned parameter set another. We used an expectation value as the prediction and its mismatch with the target to define the loss. A classical optimizer updated the parameter. This small model has an easy classical equivalent; low training loss alone establishes neither generalization nor quantum advantage.',
-      'Choose an idea you found difficult in the final check and repeat its experiment. Explaining it in your own words gives you a useful foundation for your next step. For physics, continue with wavefunctions, the Schrödinger equation, energy, and spin. For QML, continue with linear algebra, density matrices, models with multiple parameters, and separate test data.',
+      'You have now connected wavefunctions, operators, classical optimization, quantum circuits, and evaluated projects. Choose an idea you found difficult in the final check and repeat its experiment. Then use the project workshop to produce a runnable result: include the task, assumptions, gradient or state-validity checks, classical comparisons, and held-out evaluation. Let the questions your project raises guide your next study topic.',
     ],
     example:
       'When someone says “the outcomes are fifty-fifty,” ask which preparation, measurement basis, and number of fresh shots they used. When someone says “the model learned well,” ask on which data, at what total cost, and compared with which classical model.',

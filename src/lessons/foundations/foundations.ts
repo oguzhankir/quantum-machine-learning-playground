@@ -17,7 +17,7 @@ export const introLessons: Lesson[] = [
       'When we throw a ball, we can track its position and speed. In some experiments with atoms, electrons, and light, this everyday picture is not enough. Quantum mechanics describes how to prepare these systems and predicts which measurement outcomes we can see, with what probabilities.',
       'The theory is about much more than computers. Quantum physics explains the specific energies of atoms, lasers, and semiconductors. We will first build intuition through an experiment in which two paths interfere. Then we will work with a qubit: a small mathematical model of quantum behavior.',
       'A qubit represents a quantum system with two distinguishable reference states. We will call them 0 and 1. Real devices can implement this model using photons, trapped ions, or superconducting circuits. The arrows and spheres on this screen do not show the shape of a particle or its path through space.',
-      'In the final part, we will introduce classical machine learning from scratch and train an adjustable angle in a quantum circuit. This journey is an introduction to quantum mechanics and quantum information. It does not cover a complete university course. The goal is to explain the experiments and understand a quantum machine learning example in your own words.',
+      'The learning path connects quantum physics to classical machine learning, then to quantum models. You will predict small experiments, train a circuit, and build runnable Python projects with classical comparisons. Start with no prior quantum knowledge; later lessons introduce the linear algebra, calculus, and code as you need them. By the end, you should be able to explain what a model does, test it, and state what its results establish.',
     ],
     example:
       'An apparatus gives either 0 or 1 each time it runs. A fifty-fifty split does not prove that it is quantum: a coin toss can do that too. A better clue is how the same prepared system behaves after different operations.',
@@ -67,7 +67,7 @@ export const introLessons: Lesson[] = [
     ],
     example:
       'If two paths have amplitudes +0.5 and −0.5 for the same outcome, their total amplitude is zero. The probability of that outcome is also zero. Adding two separate classical probabilities, 0.25 + 0.25, instead gives 0.5. These are different calculations.',
-    try: 'First, change the phase without recording which path was taken. Predict how the pattern will change, then observe it. Next, turn on path information and compare the visibility of the interference.',
+    try: 'Compare “Same phase · 0°” with “Opposite phase · 180°.” Predict which screen bins will brighten before checking the pattern. Then enable the path record and change the phase again: does the distribution still shift?',
     why: 'Phase determines how the contributions from the paths combine. A path record affects whether those contributions can interfere coherently.',
     math: ['P=|a_1+a_2|^2'],
     mathNote:
@@ -112,7 +112,7 @@ export const introLessons: Lesson[] = [
     ],
     example:
       'If an amplitude is 0.3 + 0.4i, its probability is 0.3² + 0.4² = 0.25. The amplitudes −0.5 and 0.5i also give a probability of 0.25. These amplitudes have different phases, so they can behave differently when combined with other amplitudes.',
-    try: 'Change the amplitudes and watch the probabilities. In a balanced state, check that each amplitude needs a magnitude of about 0.707. Then consider the effect of a sign or a phase: does changing it alone change the probability?',
+    try: 'Select “α = 0.5” and predict P(0) before reading the bars. Then select “Equal probabilities” and check that both amplitudes are about 0.707. Move either slider: the other amplitude is calculated automatically so the probabilities always sum to 1. This lab uses positive real amplitudes; you will explore phase in the qubit lesson.',
     why: 'Squaring the magnitude turns an amplitude into a probability. The signs and phases of amplitudes matter when they interfere, before we calculate the probability.',
     math: [
       '|a+bi|^2=a^2+b^2',

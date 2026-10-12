@@ -1,0 +1,197 @@
+.gate-lab {
+  container-type: inline-size;
+}
+
+.gate-lab .experiment-heading {
+  margin-bottom: 22px;
+}
+
+.gate-lab .experiment-heading > p {
+  margin-bottom: 0;
+}
+
+.gate-lab-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+  padding: 5px;
+  margin-bottom: 24px;
+  background: #0f1b30;
+  border: 1px solid #344865;
+  border-radius: 10px;
+}
+
+.gate-lab .gate-lab-modes button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 10px 11px;
+  color: #b9cae4;
+  background: transparent;
+  border: 1px solid transparent;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.gate-lab .gate-lab-modes button[aria-pressed='true'] {
+  color: #fff;
+  background: #2b436d;
+  border-color: #789ce9;
+  box-shadow: 0 2px 8px #07112533;
+}
+
+.gate-lab .gate-lab-modes button:hover:not([aria-pressed='true']) {
+  background: #1d304e;
+}
+
+.gate-lab-mode-number {
+  color: #9ebefb;
+  font-family: ui-monospace, monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.08em;
+}
+
+.gate-lab .gate-lab-panel {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.gate-lab-intro h4 {
+  margin-bottom: 7px;
+}
+
+.gate-lab-intro > p {
+  margin-bottom: 18px;
+  color: #b9cbe2;
+  font-size: 0.79rem;
+  line-height: 1.65;
+}
+
+.gate-lab-circuit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 12px;
+}
+
+.gate-lab-circuit-actions > .small {
+  margin: 0;
+  font-size: 0.71rem;
+}
+
+.gate-lab .circuit {
+  margin: 14px 0 20px;
+}
+
+.gate-lab-results {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.gate-lab-results > .amplitudes,
+.gate-lab-results > .distribution {
+  min-width: 0;
+  margin: 0;
+}
+
+.gate-lab-results .distribution h4 {
+  min-height: 2.8em;
+  margin-bottom: 14px;
+}
+
+.gate-lab-comparison {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 24px;
+}
+
+.gate-lab .guided {
+  padding: 14px;
+  margin-top: 20px;
+  background: #192c49;
+  border-color: #3b5478;
+}
+
+.gate-lab .guided > .eyebrow {
+  margin-bottom: 10px;
+  font-size: 0.62rem;
+}
+
+.gate-lab-examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.gate-lab .gate-lab-examples button {
+  margin: 0;
+  padding: 9px 10px;
+  background: #233c5f;
+  border-color: #48658f;
+  font-size: 0.7rem;
+}
+
+.gate-lab-examples button:last-child {
+  grid-column: 1 / -1;
+}
+
+.gate-lab .toggle {
+  padding: 14px;
+  background: #24395a;
+  border: 1px solid #46648c;
+  border-radius: 8px;
+}
+
+.gate-lab-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: 24px;
+  border-top: 1px solid #3b526f;
+}
+
+.gate-lab-footer > .small {
+  flex: 1 1 180px;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.gate-lab .gate-lab-footer button {
+  padding: 9px 11px;
+  background: transparent;
+  border-color: #486084;
+  font-size: 0.71rem;
+}
+
+@container (max-width: 420px) {
+  .gate-lab .gate-lab-modes button {
+    padding: 8px 6px;
+    font-size: 0.7rem;
+  }
+
+  .gate-lab-results {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .gate-lab-results .distribution h4 {
+    min-height: 0;
+  }
+
+  .gate-lab-examples {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .gate-lab .gate-lab-modes button {
+    min-height: 75px;
+  }
+}

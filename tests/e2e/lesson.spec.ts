@@ -187,17 +187,20 @@ test('circuit gates, undo, interference, and mixture comparison derive different
     .click();
   await expect(
     section
-      .locator('.experiment')
-      .locator(':scope > .distribution')
+      .getByRole('region', { name: 'Circuit builder' })
+      .locator('.distribution')
       .getByRole('row', { name: '1 100.00%' }),
   ).toBeVisible();
   await section.getByRole('button', { name: 'Undo gate' }).click();
   await expect(
     section
-      .locator('.experiment')
-      .locator(':scope > .distribution')
+      .getByRole('region', { name: 'Circuit builder' })
+      .locator('.distribution')
       .getByRole('row', { name: '1 50.00%' }),
   ).toBeVisible();
+  await section
+    .getByRole('button', { name: 'Phase interference', exact: true })
+    .click();
   const phase = section.getByRole('region', {
     name: 'Phase interference experiment',
   });
@@ -205,6 +208,9 @@ test('circuit gates, undo, interference, and mixture comparison derive different
   await expect(phase.getByRole('row', { name: '1 100.00%' })).toBeVisible();
   await phase.getByRole('button', { name: '90° phase' }).click();
   await expect(phase.getByRole('row', { name: '0 50.00%' })).toBeVisible();
+  await section
+    .getByRole('button', { name: 'Coherent vs mixed', exact: true })
+    .click();
   const mixture = section.getByRole('region', {
     name: 'Coherent and mixed comparison',
   });
@@ -222,8 +228,73 @@ test('circuit gates, undo, interference, and mixture comparison derive different
       .getByRole('row', { name: '0 50.00%' }),
   ).toBeVisible();
   await section.getByRole('button', { name: 'Reset gates and phase' }).click();
+  await section
+    .getByRole('button', { name: 'Coherent vs mixed', exact: true })
+    .click();
   await expect(mixture.getByRole('checkbox')).not.toBeChecked();
+  await section
+    .getByRole('button', { name: 'Phase interference', exact: true })
+    .click();
   await expect(phase.getByRole('slider')).toHaveValue('0');
+});
+
+test('lesson section tools stay reachable and navigate without changing the lesson route', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await openLesson(page, 'gates');
+  const tools = page.getByRole('navigation', { name: 'Lesson sections' });
+  await tools.getByRole('button', { name: /Self-check/ }).click();
+  await expect(page).toHaveURL(/#gates$/);
+  await expect(page.locator('#gates-check .knowledge-check')).toBeInViewport();
+  const position = await tools.boundingBox();
+  expect(position?.y).toBeGreaterThanOrEqual(64);
+  expect(position?.y).toBeLessThan(90);
+  await tools.getByRole('button', { name: /Practice/ }).click();
+  await expect(page.locator('#gates-practice .depth-heading')).toBeInViewport();
+  await page.locator('.reading').evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await tools.getByRole('button', { name: /Understand/ }).click();
+  await expect(
+    tools.getByRole('button', { name: /Understand/ }),
+  ).toHaveAttribute('aria-current', 'step');
+  const ideaPosition = await page.locator('#gates').boundingBox();
+  expect(ideaPosition?.y).toBeGreaterThanOrEqual(130);
+  expect(ideaPosition?.y).toBeLessThan(180);
+  expect(
+    await page.locator('.reading').evaluate((element) => element.scrollTop),
+  ).toBe(0);
+  await tools.getByRole('button', { name: 'Back to lesson title' }).click();
+  await expect(page.locator('#page-heading')).toBeInViewport();
+});
+
+test('experiment modes preserve independent circuit and phase choices', async ({
+  page,
+}) => {
+  await openLesson(page, 'gates');
+  const experiment = page.locator('.gate-lab');
+  await experiment
+    .getByRole('button', { name: 'H → Z → H: reveal the phase' })
+    .click();
+  await experiment
+    .getByRole('button', { name: 'Phase interference', exact: true })
+    .click();
+  await experiment.getByRole('button', { name: '180° phase' }).click();
+  await experiment
+    .getByRole('button', { name: 'Build a circuit', exact: true })
+    .click();
+  await expect(
+    experiment
+      .getByRole('region', { name: 'Circuit builder' })
+      .getByRole('row', { name: '1 100.00%' }),
+  ).toBeVisible();
+  await experiment
+    .getByRole('button', { name: 'Phase interference', exact: true })
+    .click();
+  await expect(
+    experiment.getByRole('slider', { name: 'Interference phase φ' }),
+  ).toHaveValue('180');
 });
 test('Bell and classical mixture agree in Z and differ in X, resetting joint samples', async ({
   page,

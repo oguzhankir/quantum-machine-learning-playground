@@ -155,7 +155,7 @@ print("|+> tensor |1>:", np.kron(plus, [0, 1]))`,
     ],
     example:
       'A uniform density on a region 2 nm wide is 0.5 nm⁻¹. The probability in a 0.4 nm subregion is 0.5 × 0.4 = 0.2. Changing from nm to metres changes the numerical density, but not the probability of the same physical region.',
-    try: 'Change the width of the Gaussian wavepacket in the wavefunction lab. Predict whether its peak density rises or falls when you make it narrower. Compare the probability in a fixed interval with the height at a single point.',
+    try: 'Compare “Localize position” with “Localize wave number.” Predict which density becomes taller and narrower before checking both graphs. Halve the position width and read how the wave-number width changes. Use the integration example below to calculate an interval probability; a graph’s height alone is a density.',
     why: 'Normalization redistributes a fixed total probability. Narrowing the packet makes its density higher over a smaller region; probabilities still come from areas, not individual heights.',
     math: [
       '\\int_{-\\infty}^{\\infty}|\\psi(x)|^2\\,dx=1',
@@ -293,7 +293,7 @@ print("within one sigma:", np.trapezoid(window_density, window_x))`,
     ],
     example:
       'If H = ℏΩY/2, evolution for time t produces Ry(Ωt). With Ω = 2π × 1 MHz, a 250 ns pulse gives angle π/2, taking |0⟩ to an equal-amplitude superposition. This is an ideal effective two-level model; real pulse calibration and leakage are additional concerns.',
-    try: 'Compare θ = 0, π/2, and π for a Ry evolution from |0⟩. Interpret each angle as Ωt and predict the two probabilities before checking them. Then change the energy gap in the potential-well superposition and watch the oscillation period.',
+    try: 'In the Python evolution example below, compare times giving Ωt = 0, π/2, and π. Predict the two probabilities before running each case. Then revisit the particle-in-a-box lab: its relative-phase slider represents (E₂ − E₁)t/ℏ, so one full turn corresponds to one beating period.',
     why: 'The evolution angle comes from an energy scale multiplied by time and divided by ℏ. Different energy components accumulate relative phase at different rates.',
     math: [
       'i\\hbar\\frac{\\partial}{\\partial t}\\lvert\\psi(t)\\rangle=H\\lvert\\psi(t)\\rangle',
@@ -428,7 +428,7 @@ for t in [0, np.pi / 2, np.pi]:
     ],
     example:
       'For an electron in a 1 nm infinite box, E₁ ≈ 0.376 eV and E₂ ≈ 1.504 eV. Halving the box width multiplies every energy by four. The ground-state probability in the central half of the box is about 81.83%, despite that region occupying only 50% of its length.',
-    try: 'Switch between the first and second stationary states in the box lab. Count internal nodes and watch whether the density changes with time. Then select their coherent superposition and compare it with a mixture containing the same energy probabilities.',
+    try: 'Select “One energy eigenstate” and compare n = 1 with n = 2: count the interior nodes and check the energy ratio. Then choose “Combine n = 1 and n = 2” and move the relative phase from 0° to 180°. The density changes while mean energy stays fixed. Use the derivation below to compare this coherent state with an equal classical mixture.',
     why: 'The boundaries restrict the wavelengths. Time dependence of a density requires interference between components with different energy phases, so a single eigenstate stays stationary.',
     math: [
       '\\psi_n(x)=\\sqrt{\\frac{2}{L}}\\sin\\!\\left(\\frac{n\\pi x}{L}\\right),\\quad n=1,2,3,\\ldots',
@@ -564,7 +564,7 @@ print("central half:", np.trapezoid(abs(psi[central])**2, x[central]))`,
     ],
     example:
       'Prepare |0⟩. A Z measurement gives +1 with certainty, an X measurement gives ±1 equally often, and a Y measurement does too. Thus ΔZ = 0 and ΔX = ΔY = 1 in Pauli units. Those results describe ensembles of fresh preparations, not three simultaneous readings of one untouched qubit.',
-    try: 'Choose a +z preparation in the spin lab and rotate the measurement axis. Predict P(+1) along z, x, and −z. Then compare the sequence Z → Z with Z → X → Z using fresh preparations.',
+    try: 'Select “Certain +Z” and predict both the Z and X bars. Then select “Certain +X” and “Certain −X.” At θ = 90°, move the relative phase from 0° to 180°: which measurement changes? The lab compares X and Z on separate fresh copies. On paper, explain why inserting X into a Z → Z sequence can remove the certainty of the final Z result.',
     why: 'A rotated measurement projects onto different eigenstates. An intermediate X measurement removes the original Z certainty by preparing an X eigenstate.',
     math: [
       'X=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\quad Y=\\begin{pmatrix}0&-i\\\\i&0\\end{pmatrix},\\quad Z=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}',
@@ -703,7 +703,7 @@ for name, A in [("X", X), ("Y", Y), ("Z", Z)]:
     ],
     example:
       'The |+⟩ density matrix is [[0.5, 0.5], [0.5, 0.5]] with purity 1. The equal Z mixture is [[0.5, 0], [0, 0.5]] with purity 0.5. For an observable X, their means are 1 and 0 respectively, despite identical direct Z probabilities.',
-    try: 'In the density-matrix lab, compare pure |+⟩, a classical Z mixture, and one qubit of a Bell pair. Read the off-diagonal entries, Bloch-vector length, and purity. Then increase depolarization and predict which quantities approach zero and which approach 1/2.',
+    try: 'Compare “Pure |+⟩” with “Maximally mixed.” Read the off-diagonal entries, X probabilities, and purity. The maximally mixed state also describes an equal Z mixture or one qubit of a Bell pair; local measurements cannot tell those origins apart. Reduce “Bloch vector length r” from 1 to 0 and predict which entries approach zero and which approach 1/2.',
     why: 'Coherence survives in off-diagonal matrix entries. Averaging over preparations or discarding an entangled partner can remove local coherence without making the full preparation classical.',
     math: [
       '\\rho=\\sum_s p_s\\lvert\\psi_s\\rangle\\langle\\psi_s\\rvert,\\quad \\operatorname{Tr}(\\rho)=1',
