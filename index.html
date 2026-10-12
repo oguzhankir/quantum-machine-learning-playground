@@ -4,6 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#111d38" />
+    <style>
+      html[data-theme='light'] {
+        color-scheme: light;
+        background: #f5f7fb;
+      }
+      html[data-theme='dark'] {
+        color-scheme: dark;
+        background: #0c1422;
+      }
+    </style>
+    <script>
+      (() => {
+        let preference;
+        try {
+          preference = localStorage.getItem('quantum-ml-playground:theme:v1');
+        } catch {}
+        const theme =
+          preference === 'light' || preference === 'dark'
+            ? preference
+            : matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+        document.documentElement.dataset.theme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute('content', theme === 'dark' ? '#0c1422' : '#f5f7fb');
+      })();
+    </script>
     <meta
       name="description"
       content="Learn quantum mechanics, classical machine learning, and quantum ML through 28 guided lessons, 19 interactive laboratories, worked derivations, and runnable Python projects."

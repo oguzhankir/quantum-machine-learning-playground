@@ -118,20 +118,11 @@ export default function IntroLesson({ lesson }: { lesson: Lesson }) {
                 : 'That can happen.'}
             </strong>
             <p>
-              {prediction === 'brighter'
-                ? 'Two independent streams would add together. But light can behave as a wave: two waves can reinforce each other or cancel at a particular spot. An extra route can make that spot darker.'
-                : 'Light can behave as a wave. Two waves can reinforce each other or cancel at a particular spot, so an extra route can make that spot darker.'}{' '}
-              The next lesson lets you change how the waves line up and see what
-              happens. This is a different puzzle from the atom’s colours.
+              Waves can reinforce each other or cancel at a spot. Keep your
+              guess in mind: we will explore this in the next lesson.
             </p>
           </div>
         )}
-        <a className="button primary intro-next" href="#waves">
-          Try the light experiment →
-        </a>
-        <p className="intro-guess-note">
-          Runs in your browser. No setup needed.
-        </p>
       </div>
 
       <div className="intro-takeaway">

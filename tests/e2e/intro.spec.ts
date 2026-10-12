@@ -25,6 +25,9 @@ test('the introduction explains one observation, invites a guess, and continues 
   );
   const intro = page.locator('#why');
   await expect(
+    intro.getByRole('link', { name: 'Try the light experiment →' }),
+  ).toHaveCount(0);
+  await expect(
     intro.getByRole('img', { name: /Four prominent visible hydrogen/ }),
   ).toBeVisible();
   await expect(
@@ -84,7 +87,8 @@ test('the introduction explains one observation, invites a guess, and continues 
     }),
   ).toBeChecked();
   await page
-    .getByRole('link', { name: 'Try the light experiment', exact: false })
+    .getByRole('navigation', { name: 'Lesson navigation' })
+    .locator('a[href="#waves"]')
     .click();
   await expect(page).toHaveURL(/#waves$/);
   await expect(page.locator('.experiment')).toBeVisible();

@@ -24,6 +24,8 @@ import LessonDepth from '../components/LessonDepth';
 import LessonNavigator from '../components/LessonNavigator';
 import IntroLesson from '../components/IntroLesson';
 import RepositoryLink from '../components/RepositoryLink';
+import ThemeToggle from '../components/ThemeToggle';
+import WaveLesson from '../components/WaveLesson';
 import ProjectHub from '../components/ProjectHub';
 import StoryStudio from '../components/StoryStudio';
 import ConceptContext from '../components/ConceptContext';
@@ -675,6 +677,7 @@ export default function App() {
               {lesson?.short ?? resourceTitle ?? 'Quantum from scratch'}
             </div>
             <div className="header-actions">
+              <ThemeToggle />
               <a className="header-progress" href="#path">
                 <span className="live-dot" /> {progress.completed.length}/
                 {lessons.length} lessons <span className="avatar">ψ</span>
@@ -972,7 +975,7 @@ export default function App() {
             )}
             {lesson && (
               <article
-                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : ''}`}
+                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : lesson.id === 'waves' ? 'wave-lesson' : ''}`}
                 key={lesson.id}
               >
                 <div className="lesson-topline">
@@ -1016,6 +1019,31 @@ export default function App() {
                 )}
                 {lesson.id === 'why' ? (
                   <IntroLesson lesson={lesson} />
+                ) : lesson.id === 'waves' ? (
+                  <>
+                    <LessonNavigator
+                      lesson={lesson}
+                      hasExperiment
+                      layout="sequential"
+                    />
+                    <WaveLesson
+                      lesson={lesson}
+                      experiment={experiments.waves}
+                      mathOpen={progress.math.includes(lesson.id)}
+                      onMathToggle={(open) => {
+                        setProgress((old) =>
+                          old.math.includes(lesson.id) === open
+                            ? old
+                            : {
+                                ...old,
+                                math: open
+                                  ? [...old.math, lesson.id]
+                                  : old.math.filter((id) => id !== lesson.id),
+                              },
+                        );
+                      }}
+                    />
+                  </>
                 ) : (
                   <>
                     <ConceptContext lessonId={lesson.id} />
@@ -1153,12 +1181,16 @@ export default function App() {
                     <h3>
                       {lesson.id === 'why'
                         ? 'You have your first explanation.'
-                        : 'One more idea falls into place.'}
+                        : lesson.id === 'waves'
+                          ? 'Can you predict a new situation?'
+                          : 'One more idea falls into place.'}
                     </h3>
                     <p>
                       {lesson.id === 'why'
                         ? 'Can you explain why hydrogen gives specific colours? Mark this introduction complete, then try the light experiment.'
-                        : 'Mark this lesson complete when you can explain the idea in your own words.'}
+                        : lesson.id === 'waves'
+                          ? 'Before marking this complete, explain what phase changes, why a perfect path record removes interference, and why one detection cannot show the whole pattern.'
+                          : 'Mark this lesson complete when you can explain the idea in your own words.'}
                     </p>
                     <button
                       className={`button ${progress.completed.includes(lesson.id) ? 'completed' : 'primary'}`}

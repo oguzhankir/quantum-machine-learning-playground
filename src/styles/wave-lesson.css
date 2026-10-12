@@ -1,0 +1,275 @@
+.wave-lesson .lesson-header,
+.wave-lesson .lesson-topline,
+.wave-lesson .prerequisites,
+.wave-lesson .section-bottom,
+.wave-lesson .lesson-pagination,
+.wave-reading {
+  max-width: 900px;
+  margin-inline: auto;
+}
+.wave-lesson .lesson-header h1 {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+}
+.wave-lesson .opening-question {
+  font-family: inherit;
+  color: var(--text-muted, #536984);
+  font-size: 19px;
+}
+.wave-lesson-content {
+  margin-top: 24px;
+}
+.wave-reading,
+.wave-experiment {
+  scroll-margin-top: var(--lesson-sticky-top);
+  outline: none;
+}
+.wave-reading {
+  margin-top: 30px;
+  color: var(--text, #334963);
+  font-size: 16px;
+  line-height: 1.9;
+}
+.wave-reading p,
+.wave-mission p {
+  max-width: 76ch;
+}
+.wave-reading h2,
+.wave-mission h2 {
+  color: var(--text, #294263);
+  font-size: clamp(24px, 2.3vw, 29px);
+  margin-bottom: 20px;
+  letter-spacing: -0.025em;
+}
+.wave-reading-intro {
+  border-bottom: 1px solid var(--border, #dce5f0);
+  padding-bottom: 26px;
+}
+.wave-learning-goals {
+  display: grid;
+  gap: 10px;
+  padding: 20px 24px 20px 46px;
+  border: 1px solid var(--border, #dce5f0);
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 24px 0 0;
+}
+.wave-section {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border, #dce5f0);
+}
+.wave-section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.wave-section-heading > span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted, #627997);
+  font-variant-numeric: tabular-nums;
+}
+.wave-section-heading h2 {
+  margin: 0;
+}
+.wave-section > p:last-child {
+  margin-bottom: 0;
+}
+.wave-concept-figure {
+  margin: 28px 0 0;
+  padding: 26px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #dce5f0);
+  border-radius: 16px;
+}
+.wave-concept-heading h3 {
+  font-size: 20px;
+  color: var(--text, #294263);
+  margin-bottom: 10px;
+}
+.wave-concept-heading p {
+  color: var(--text-muted, #536984);
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.wave-phase-presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.wave-phase-presets button {
+  padding: 11px 8px;
+  border-color: var(--border, #dce5f0);
+  background: var(--surface-muted, #f5f7fb);
+  color: var(--text, #334963);
+  font-size: 12px;
+}
+.wave-phase-presets button[aria-pressed='true'] {
+  border-color: var(--teal, #527de8);
+  box-shadow: inset 0 0 0 1px var(--teal, #527de8);
+}
+.wave-curves {
+  margin-top: 20px;
+}
+.wave-curve {
+  background: var(--surface-muted, #f5f7fb);
+  border-radius: 10px;
+  padding: 12px 16px 4px;
+  margin-bottom: 10px;
+  color: #547fc5;
+}
+.wave-curve-1 {
+  color: #3c947e;
+}
+.wave-curve-2 {
+  color: #af8241;
+}
+.wave-curve > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.wave-curve strong {
+  color: var(--text, #334963);
+}
+.wave-curve > div > span {
+  color: var(--text-muted, #536984);
+}
+.wave-curve svg {
+  width: 100%;
+  height: 100px;
+}
+.wave-phase-explanation {
+  font-size: 14px;
+  color: var(--text, #334963);
+  margin-top: 20px;
+}
+.wave-concept-figure figcaption {
+  color: var(--text-muted, #536984);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.wave-experiment {
+  margin-top: 36px;
+}
+.wave-mission {
+  max-width: 900px;
+  margin: 0 auto 26px;
+  color: var(--text, #334963);
+  font-size: 16px;
+  line-height: 1.85;
+}
+.wave-mission ol {
+  display: grid;
+  gap: 14px;
+  padding-left: 24px;
+  font-size: 15px;
+}
+.wave-lab-reflection {
+  max-width: 900px;
+  margin: 24px auto 36px;
+  padding: 24px;
+  border: 1px solid var(--border, #dce5f0);
+  border-radius: 12px;
+  background: var(--surface-muted, #edf4f1);
+  color: var(--text, #334963);
+  font-size: 15px;
+}
+.wave-lab-reflection h3 {
+  color: var(--text, #294263);
+  font-size: 20px;
+}
+.wave-lab-reflection button {
+  color: var(--text, #334963);
+  border-color: var(--border, #dce5f0);
+  background: var(--surface, #fff);
+}
+.wave-practice-card {
+  padding: 24px;
+  border: 1px solid var(--border, #dce5f0);
+  border-radius: 12px;
+  background: var(--surface, #fff);
+}
+.wave-practice-card h3 {
+  color: var(--text, #294263);
+  font-size: 19px;
+  line-height: 1.5;
+}
+.wave-practice-card p,
+.wave-math p {
+  color: var(--text, #334963);
+  font-size: 15px;
+  line-height: 1.9;
+}
+.wave-practice-card summary,
+.wave-sources summary {
+  color: var(--text-muted, #536984);
+  cursor: pointer;
+  font-size: 14px;
+}
+.wave-takeaway {
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border, #dce5f0);
+  background: var(--surface-muted, #edf4f1);
+}
+.wave-takeaway strong {
+  color: var(--text, #294263);
+  font-size: 14px;
+}
+.wave-takeaway p {
+  margin: 12px 0 0;
+}
+.wave-sources {
+  padding: 20px 0;
+  font-size: 14px;
+}
+.wave-sources li + li {
+  margin-top: 8px;
+}
+@media (max-width: 1100px) {
+  .header-actions .avatar {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .wave-reading {
+    font-size: 15px;
+    margin-top: 24px;
+  }
+  .wave-concept-figure,
+  .wave-practice-card,
+  .wave-lab-reflection,
+  .wave-takeaway {
+    padding: 20px 16px;
+  }
+  .wave-phase-presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wave-curve {
+    padding-inline: 10px;
+  }
+  .wave-curve > div {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .wave-section-heading {
+    gap: 10px;
+  }
+  .wave-reading h2,
+  .wave-mission h2 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 480px) {
+  .header-actions .header-progress {
+    display: none;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+}
