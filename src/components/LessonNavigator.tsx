@@ -22,9 +22,11 @@ export function scrollToLessonSection(id: string) {
 export default function LessonNavigator({
   lesson,
   hasExperiment,
+  layout = 'parallel',
 }: {
   lesson: Lesson;
   hasExperiment: boolean;
+  layout?: 'parallel' | 'sequential';
 }) {
   const steps = [
     { id: `${lesson.id}-idea`, label: 'Understand' },
@@ -63,6 +65,7 @@ export default function LessonNavigator({
         if (target && target.getBoundingClientRect().top <= offset) next = id;
       }
       setActive((current) =>
+        layout === 'parallel' &&
         window.matchMedia('(min-width: 1101px)').matches &&
         next === candidates[1] &&
         candidates.slice(0, 2).includes(current)
@@ -81,7 +84,7 @@ export default function LessonNavigator({
       window.removeEventListener('resize', onScroll);
       cancelAnimationFrame(frame);
     };
-  }, [lesson]);
+  }, [lesson, layout]);
 
   return (
     <nav className="lesson-navigator" aria-label="Lesson sections">

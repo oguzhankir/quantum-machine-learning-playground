@@ -1,0 +1,863 @@
+/* Shared reading colors. Scientific plots and laboratory colors stay independent. */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --page-background: #f5f7fb;
+  --surface: #ffffff;
+  --surface-muted: #eef3fa;
+  --surface-raised: #f8faff;
+  --text: #253650;
+  --text-copy: #435570;
+  --text-muted: #586a83;
+  --border: #dce4f0;
+  --link: #315db5;
+  --link-hover: #214a99;
+  --accent-surface: #eaf0fd;
+  --accent-text: #375f9e;
+  --success-surface: #edf5f0;
+  --success-text: #32654e;
+  --warning-surface: #faf4e8;
+  --warning-text: #755c32;
+  --purple-surface: #f1edf8;
+  --purple-text: #735297;
+  --header-background: #fdfefef2;
+  --line: var(--border);
+  --muted: var(--text-muted);
+  background: var(--page-background);
+  color: var(--text);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page-background: #0c1422;
+  --surface: #131e30;
+  --surface-muted: #18253a;
+  --surface-raised: #1c2b43;
+  --text: #e7eefb;
+  --text-copy: #c6d2e5;
+  --text-muted: #a1b1ca;
+  --border: #2d3d56;
+  --link: #aac6ff;
+  --link-hover: #d4e2ff;
+  --accent-surface: #1d3255;
+  --accent-text: #b3cbf7;
+  --success-surface: #172f2c;
+  --success-text: #acd6c2;
+  --warning-surface: #30291e;
+  --warning-text: #e4cfa1;
+  --purple-surface: #27263f;
+  --purple-text: #cfb1ef;
+  --header-background: #0f1a2bf2;
+}
+
+body {
+  background: var(--page-background);
+  color: var(--text);
+}
+
+:root[data-theme] .site-header {
+  background: var(--header-background);
+  border-color: var(--border);
+}
+
+:root[data-theme] :is(.breadcrumb, .header-progress, .mobile-menu) {
+  color: var(--text-muted);
+}
+
+:root[data-theme] :is(.breadcrumb > span, .breadcrumb i) {
+  color: var(--text-muted);
+}
+
+:root[data-theme] .avatar {
+  background: var(--accent-surface);
+  border-color: var(--border);
+  color: var(--accent-text);
+}
+
+:root[data-theme] :is(.theme-toggle, .repository-link) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 36px;
+  color: var(--text-copy);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+:root[data-theme] .theme-toggle {
+  width: 36px;
+  padding: 7px;
+}
+
+:root[data-theme] :is(.theme-toggle, .repository-link):hover {
+  color: var(--link-hover);
+  background: var(--accent-surface);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme] .repository-link-invitation {
+  color: var(--text-copy);
+  border-color: var(--border);
+}
+
+:root[data-theme] .skip-link {
+  background: var(--surface);
+  color: var(--link);
+}
+
+/* Labels and supporting copy remain readable in both palettes. */
+:root[data-theme]
+  :is(
+    .welcome-line,
+    .hero-label,
+    .hero-secondary,
+    .hero-footnotes,
+    .learning-stats small,
+    .path-count,
+    .eyebrow,
+    .lesson-meta,
+    .lesson-meta > span,
+    .lesson-meta small,
+    .lesson-topline,
+    .lesson-topline a,
+    .lesson-topline > span,
+    .lesson-header .eyebrow > span,
+    .reading-label,
+    .prerequisites,
+    .section-sources,
+    .first-attempt,
+    .completion-action > small,
+    .lesson-pagination small,
+    .glossary-results,
+    .references li > span,
+    .feedback-eyebrow,
+    .feedback-prompts li > span,
+    .intro-guess-note,
+    .intro-route-sketch > div,
+    .intro-takeaway > span,
+    .intro-references,
+    .project-number,
+    .project-number span,
+    .project-overview button > span,
+    .detail-title > span,
+    footer,
+    footer a
+  ) {
+  color: var(--text-muted);
+}
+
+:root[data-theme]
+  :is(
+    .hero h1,
+    .learning-stats strong,
+    .section-title h2,
+    .lesson-header h1,
+    .resource-page h1,
+    .lesson-list strong,
+    .stage-card > strong,
+    .learning-note h3,
+    .reading strong,
+    .concept-card h3,
+    .knowledge-check legend,
+    .completion-action h3,
+    .lesson-pagination strong,
+    .home-extras h2,
+    .depth-heading h2,
+    .detail-title h3,
+    .project-overview h2,
+    .project-card h2,
+    .context-discovery-copy h2,
+    .feedback-copy h2,
+    .intro-content h2
+  ) {
+  color: var(--text);
+}
+
+:root[data-theme]
+  :is(
+    .hero-copy > p:not(.hero-label),
+    .section-title p:last-child,
+    .reading,
+    .reading > p,
+    .opening-question,
+    .intro-lesson .opening-question,
+    .intro-content,
+    .lesson-list p,
+    .stage-card > span:not(.stage-card-top),
+    .learning-note p,
+    .concept-card,
+    .completion-action p,
+    .choice,
+    .glossary-section dd,
+    .resource-page > p:not(.eyebrow),
+    .depth-heading > p:last-child,
+    .lesson-detail-section > p,
+    .derivation-step > p,
+    .project-outcome,
+    .project-card li,
+    .context-discovery-copy > p:not(.eyebrow),
+    .feedback-copy > p:not(.feedback-eyebrow),
+    .feedback-prompts li
+  ) {
+  color: var(--text-copy);
+}
+
+:root[data-theme]
+  :is(
+    .hero h1 em,
+    .prerequisites a,
+    .section-sources a,
+    .math-panel summary,
+    .concept-card > a,
+    .learning-note > a,
+    .glossary-section dt a,
+    .references li > a,
+    .home-extras strong,
+    .project-prerequisite,
+    .project-downloads a,
+    .story-equation a,
+    .context-discovery-copy a,
+    .lesson-context a,
+    .feedback-email,
+    .intro-next,
+    .intro-references a,
+    .wave-sources a
+  ) {
+  color: var(--link);
+}
+
+:root[data-theme] .reading a,
+:root[data-theme] .lesson-detail-section > p a {
+  color: var(--link);
+}
+
+/* Card and form surfaces outside the deliberately dark laboratories. */
+:root[data-theme]
+  :is(
+    .reading,
+    .lesson-navigator,
+    .lesson-list,
+    .section-bottom,
+    .lesson-pagination a,
+    .glossary-section dl > div,
+    .references ul,
+    .home-extras > a,
+    .lesson-detail-section,
+    .project-card,
+    .project-overview button,
+    .story-tabs button,
+    .story-equation,
+    .context-discovery,
+    .intro-prediction
+  ) {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .learning-note,
+    .review-panel,
+    .concept-card,
+    .lesson-context,
+    .derivation-step,
+    .context-discovery-visual,
+    .intro-prediction-feedback
+  ) {
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
+:root[data-theme] :is(.feedback-card, .hero) {
+  background: linear-gradient(120deg, var(--surface-muted), var(--surface));
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .objective,
+    .worked-example,
+    .concept-icon,
+    .completion-icon,
+    .lesson-list-number,
+    .filter-tabs button[aria-pressed='true'],
+    .lesson-navigator button[aria-current='step'],
+    .story-tabs button[aria-pressed='true']
+  ) {
+  background: var(--accent-surface);
+  color: var(--accent-text);
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .objective p,
+    .objective strong,
+    .worked-example,
+    .worked-example .eyebrow
+  ) {
+  color: var(--accent-text);
+}
+
+:root[data-theme]
+  :is(
+    .takeaway,
+    .check-feedback,
+    .practice-card,
+    .button.completed,
+    .project-done,
+    .kit-banner,
+    .intro-payoff,
+    .module-status
+  ) {
+  color: var(--success-text);
+  background: var(--success-surface);
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .takeaway > span,
+    .takeaway p,
+    .check-feedback > strong,
+    .check-feedback p,
+    .practice-card p,
+    .practice-card summary,
+    .kit-banner h2,
+    .kit-banner p,
+    .intro-payoff h2,
+    .intro-content .intro-later
+  ) {
+  color: var(--success-text);
+}
+
+:root[data-theme] .try-this {
+  background: var(--warning-surface);
+  border-color: var(--border);
+  color: var(--warning-text);
+}
+
+:root[data-theme] .try-this .eyebrow {
+  color: var(--warning-text);
+}
+
+:root[data-theme]
+  :is(
+    .reading-label,
+    .math-panel,
+    .lesson-pagination,
+    .depth-heading,
+    .practice-card details,
+    .concept-steps li,
+    .concept-steps li > span,
+    .lesson-list > li + li,
+    .references li,
+    .learning-stats,
+    .learning-stats > div,
+    .stage-card small,
+    footer
+  ) {
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .lesson-navigator button,
+    .lesson-navigator-title,
+    .lesson-navigator button > span:first-child,
+    .filter-tabs button,
+    .depth-links button,
+    .project-overview button,
+    .story-tabs button,
+    .story-tabs small,
+    .story-tabs span,
+    .intro-prediction-choices button
+  ) {
+  color: var(--text-copy);
+}
+
+:root[data-theme]
+  :is(
+    .depth-links button,
+    .knowledge-check .button,
+    .intro-prediction-choices button
+  ) {
+  background: var(--surface-raised);
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .lesson-navigator button[aria-current='step'],
+    .story-tabs button[aria-pressed='true'],
+    .filter-tabs button[aria-pressed='true'],
+    .intro-prediction-choices button[aria-pressed='true']
+  ) {
+  color: var(--link);
+  background: var(--accent-surface);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme] .choice {
+  background: var(--surface-raised);
+  border-color: var(--border);
+}
+
+:root[data-theme] .choice:has(input:checked) {
+  background: var(--accent-surface);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme]
+  :is(
+    .search-field,
+    .glossary-section > .search-field,
+    .history-filters input,
+    .history-filters select,
+    .research-filters input,
+    .research-filters select
+  ) {
+  color: var(--text-copy);
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+:root[data-theme] .search-field input {
+  color: var(--text);
+}
+
+:root[data-theme]
+  :is(.search-field, .history-filters, .research-filters)
+  input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+:root[data-theme] .search-field button {
+  color: var(--text-copy);
+  background: transparent;
+}
+
+:root[data-theme] .button.primary {
+  background: #4267bd;
+  color: #ffffff;
+}
+
+:root[data-theme] .button.primary:hover {
+  background: #31549f;
+}
+
+:root[data-theme='dark'] .button.primary {
+  background: #89afff;
+  color: #112344;
+}
+
+:root[data-theme='dark'] .button.primary:hover {
+  background: #a7c3ff;
+}
+
+:root[data-theme]
+  :is(
+    .lesson-list a:hover,
+    .lesson-pagination a:hover,
+    .home-extras > a:hover,
+    .depth-links button:hover,
+    .project-overview button:hover,
+    .story-tabs button:hover,
+    .intro-prediction-choices button:hover
+  ) {
+  background: var(--surface-muted);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme] .stage-card {
+  color: var(--accent-text);
+  background: var(--accent-surface);
+  border-color: var(--border);
+}
+
+:root[data-theme] :is(.stage-card.stage-quantum, .stage-card.stage-physics) {
+  color: var(--purple-text);
+  background: var(--purple-surface);
+}
+
+:root[data-theme] :is(.stage-card.stage-qml, .stage-card.stage-classical) {
+  color: var(--success-text);
+  background: var(--success-surface);
+}
+
+:root[data-theme] .stage-card.stage-applications {
+  color: var(--warning-text);
+  background: var(--warning-surface);
+}
+
+:root[data-theme] .stage-card:hover:not(:disabled) {
+  border-color: var(--accent-text);
+}
+
+:root[data-theme] :is(.stage-text-quantum, .stage-text-physics) {
+  color: var(--purple-text);
+}
+
+:root[data-theme] :is(.stage-text-qml, .stage-text-classical) {
+  color: var(--success-text);
+}
+
+:root[data-theme] .stage-text-applications {
+  color: var(--warning-text);
+}
+
+:root[data-theme]
+  :is(
+    .context-discovery-visual,
+    .context-discovery-visual li,
+    .context-discovery-visual > p
+  ) {
+  color: var(--text-copy);
+}
+
+:root[data-theme] .context-discovery-visual li i {
+  border-color: var(--surface-muted);
+}
+
+:root[data-theme]
+  :is(.lesson-context strong, .lesson-context p, .intro-answer) {
+  color: var(--text-copy);
+}
+
+:root[data-theme] .intro-takeaway p {
+  color: var(--text);
+}
+
+/* History and research keep their own blue, green, and amber distinctions. */
+:root[data-theme] .history-page {
+  --history-ink: var(--text);
+  --history-muted: var(--text-muted);
+  --history-blue: var(--link);
+  --history-teal: var(--success-text);
+  --history-wash: var(--accent-surface);
+  --history-border: var(--border);
+}
+
+:root[data-theme] .history-track-qml {
+  --history-wash: var(--success-surface);
+}
+
+:root[data-theme] .research-page {
+  --research-ink: var(--text);
+  --research-muted: var(--text-muted);
+}
+
+:root[data-theme]
+  :is(
+    .history-research-link,
+    .history-tracks a,
+    .history-rail,
+    .history-event,
+    .history-detail,
+    .history-lesson-links a,
+    .research-explorer,
+    .research-paths button,
+    .research-snapshot,
+    .research-direction,
+    .research-detail,
+    .research-library,
+    .research-filter-note button
+  ) {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+:root[data-theme]
+  :is(
+    .history-track-symbol,
+    .history-equation,
+    .history-concepts > div,
+    .history-citation-meta > span:first-child,
+    .history-empty,
+    .history-filter-note,
+    .research-filter-note,
+    .research-detail-visual,
+    .research-summary > div,
+    .research-terms > div,
+    .research-card-index
+  ) {
+  background: var(--surface-muted);
+  border-color: var(--border);
+}
+
+:root[data-theme]
+  :is(
+    .history-tracks a[aria-current='page'],
+    .history-event[aria-current='true'],
+    .history-bridge,
+    .research-direction[aria-current='true'],
+    .research-direction[aria-current='true'] .research-card-index
+  ) {
+  background: var(--accent-surface);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme]
+  :is(
+    .history-research-link:hover,
+    .history-tracks a:hover,
+    .history-event:hover,
+    .history-detail-nav a:hover,
+    .history-lesson-links a:hover,
+    .research-direction:hover,
+    .research-paths button:hover
+  ) {
+  background: var(--surface-muted);
+  border-color: var(--accent-text);
+}
+
+:root[data-theme]
+  :is(
+    .history-intro p:not(.eyebrow),
+    .history-tracks small,
+    .history-track-range,
+    .history-filters label > span,
+    .history-era h2,
+    .history-event-short,
+    .history-detail-heading > p:last-child,
+    .history-facts p,
+    .history-expanded p,
+    .history-bridge p,
+    .history-concepts dd,
+    .history-citation-meta,
+    .history-citations .history-citation-authors,
+    .history-citations .history-citation-note,
+    .history-next a span,
+    .history-empty p,
+    .history-filter-note p,
+    .research-date,
+    .research-paths p,
+    .research-paths b,
+    .research-snapshot p,
+    .research-snapshot li,
+    .research-map-heading > p,
+    .research-filters label > span,
+    .research-filter-note p,
+    .research-card-body p,
+    .research-card-footer > span,
+    .research-legend,
+    .research-legend small,
+    .research-question,
+    .research-detail-visual > p,
+    .research-summary p,
+    .research-bottlenecks li,
+    .research-expanded > p,
+    .research-expanded li,
+    .research-expanded .research-experiment-note,
+    .research-terms dd,
+    .research-library > p,
+    .research-next p,
+    .research-input-label,
+    .research-card-index,
+    .research-summary span
+  ) {
+  color: var(--text-copy);
+}
+
+:root[data-theme]
+  :is(
+    .history-event-open,
+    .history-disclosure > summary::after,
+    .research-card-footer b,
+    .research-paths button > span
+  ) {
+  color: var(--text-muted);
+}
+
+:root[data-theme]
+  :is(
+    .history-citations a,
+    .history-lesson-links a,
+    .history-citation-meta > span:first-child,
+    .research-results button,
+    .research-detail-context button,
+    .research-snapshot > summary,
+    .research-library > summary,
+    .research-disclosures > details > summary,
+    .research-terms dt,
+    .research-lesson-links a,
+    .research-project-link,
+    .research-next > a:last-child
+  ) {
+  color: var(--link);
+}
+
+:root[data-theme]
+  :is(
+    .history-filters,
+    .history-detail-nav,
+    .history-detail-nav a,
+    .history-disclosure,
+    .history-citations > li,
+    .history-next,
+    .research-detail-context,
+    .research-disclosures > details,
+    .research-snapshot .research-editorial,
+    .milestone-visual figcaption
+  ) {
+  border-color: var(--border);
+}
+
+:root[data-theme] .history-event-list::before {
+  background: var(--border);
+}
+
+:root[data-theme] .history-event::before {
+  border-color: var(--surface);
+}
+
+:root[data-theme] .history-event[aria-current='true']::before {
+  box-shadow: 0 0 0 3px var(--accent-surface);
+}
+
+:root[data-theme] .history-limit {
+  background: var(--warning-surface);
+}
+
+:root[data-theme] :is(.history-limit p, .history-limit .history-overline) {
+  color: var(--warning-text);
+}
+
+:root[data-theme]
+  :is(
+    .research-orientation,
+    .research-summary > .research-promise,
+    .research-deliverable,
+    .research-readiness,
+    .research-next
+  ) {
+  background: var(--success-surface);
+  border-color: var(--border);
+  color: var(--success-text);
+}
+
+:root[data-theme]
+  :is(
+    .research-orientation h2,
+    .research-orientation p:not(.eyebrow),
+    .research-orientation a,
+    .research-deliverable strong,
+    .research-deliverable p,
+    .research-next > span
+  ) {
+  color: var(--success-text);
+}
+
+:root[data-theme] :is(.research-scope, .readiness-theoretical-result) {
+  color: var(--purple-text);
+  background: var(--purple-surface);
+  border-color: var(--border);
+}
+
+:root[data-theme] :is(.research-scope strong, .research-scope p) {
+  color: var(--purple-text);
+}
+
+:root[data-theme] .readiness-research-prototype {
+  color: var(--warning-text);
+  background: var(--warning-surface);
+  border-color: var(--border);
+}
+
+:root[data-theme] .research-lesson-links a {
+  background: var(--accent-surface);
+  border-color: var(--border);
+}
+
+:root[data-theme] .milestone-visual {
+  background: var(--surface-raised);
+  border-color: var(--border);
+}
+
+:root[data-theme] .milestone-visual svg text {
+  fill: var(--text);
+}
+
+:root[data-theme] .milestone-visual svg .milestone-svg-kicker {
+  fill: var(--text-muted);
+}
+
+:root[data-theme] .milestone-visual figcaption {
+  color: var(--text-muted);
+}
+
+:root[data-theme='dark']
+  .milestone-visual
+  svg
+  :is([fill='white'], [fill='#f1f6fa'], [fill='#f2f6fb']) {
+  fill: var(--surface-raised);
+}
+
+:root[data-theme='dark'] .milestone-visual svg [fill='#e7effa'] {
+  fill: var(--accent-surface);
+}
+
+:root[data-theme='dark'] .milestone-visual svg [fill='#e8f3ee'] {
+  fill: var(--success-surface);
+}
+
+:root[data-theme='dark'] .milestone-visual svg [fill='#fff4de'] {
+  fill: var(--warning-surface);
+}
+
+/* These surfaces intentionally retain their scientific palette in both modes. */
+:is(
+  .sidebar,
+  .experiment,
+  .hero-visual,
+  .story-player,
+  .code-example,
+  .intro-spectrum
+) {
+  color-scheme: dark;
+}
+
+:root[data-theme='dark'] .sidebar {
+  background: #0d1729;
+  border-right: 1px solid var(--border);
+}
+
+:root[data-theme] :is(.nav-stage > p, .nav-stage > p span, .sidebar-note) {
+  color: #9aabc8;
+}
+
+:root[data-theme] :is(.experiment .eyebrow, .code-example .eyebrow) {
+  color: var(--mint);
+}
+
+:root[data-theme] .reading {
+  scrollbar-color: var(--text-muted) transparent;
+}
+
+:root[data-theme] :is(.history-timeline, .research-map-grid) {
+  scrollbar-color: var(--text-muted) transparent;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 700px) {
+  :root[data-theme] .theme-toggle {
+    min-height: 44px;
+    width: 36px;
+    padding-inline: 7px;
+  }
+
+  :root[data-theme] .repository-link {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 420px) {
+  :root[data-theme] :is(.theme-toggle, .repository-link) {
+    background: transparent;
+    border-color: transparent;
+  }
+}

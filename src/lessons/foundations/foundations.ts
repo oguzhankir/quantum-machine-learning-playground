@@ -48,29 +48,28 @@ export const introLessons: Lesson[] = [
   {
     id: 'waves',
     stage: 'foundations',
-    minutes: 10,
+    minutes: 16,
     prerequisites: ['why'],
     title: 'Two paths, one interference pattern',
     short: 'Waves and interference',
     question:
       'How can two possible paths strengthen some outcomes and cancel others?',
     objective:
-      'Explore wave interference and distinguish individual detection clicks from the probability pattern that builds up in a quantum experiment.',
+      'Explain what a wave carries, predict how phase changes interference, and distinguish one quantum detection from the pattern built by many detections.',
     takeaway:
-      'Amplitudes from indistinguishable quantum paths combine. Recording which path was taken can reduce interference.',
+      'For coherent, indistinguishable routes to the same outcome, add quantum amplitudes before calculating probability. Phase can brighten one region and darken another; a physical path record can remove this interference.',
     paragraphs: [
-      'Imagine dropping two stones into water. When the crests of two waves meet, they can make a taller crest. When a crest meets a trough, they can reduce each other. This combination is called interference. Phase describes how far one wave is shifted relative to the other in its cycle.',
-      'In the double-slit experiment, light or electrons can reach a detector through two open paths. Each detection is a single event at a particular location. Under suitable conditions, many events build up a distribution of bright and dark bands. One event does not draw the whole pattern. The experiment asks us to think about individual detections together with wave-like probabilities.',
-      'In a quantum calculation, we do not directly add the probabilities of indistinguishable paths. We first add their amplitudes, then square the magnitude of the total. This can strengthen some outcomes and cancel others. Water waves provide a useful analogy, but an electron is not an ordinary water wave.',
-      'If a recording device can distinguish the paths, its interaction with the particle can reduce the interference seen in the particle detections. Fully distinguishable paths remove interference in the ideal model. Whether a person reads the record is not what matters. The diagram below shows the effects of path information and phase. It does not simulate an electron trajectory or the full physics of a double-slit experiment.',
+      'The introduction asked whether opening another route for light could make a spot darker. To understand how, begin with a ripple: a moving pattern of highs and lows on water. Overlapping ripples can strengthen each other or cancel at a particular place. This combination is called interference.',
+      'First learn what amplitude and phase describe using water waves. Then use the same idea of combining contributions to understand a quantum experiment. Individual particles give separate detection clicks; many fresh repetitions reveal a pattern of probabilities.',
+      'The experiment at the end lets you change the relative phase between two routes and create a record that distinguishes them. Before using the controls, learn what each change means and make a prediction. The screen is a simplified probability model, rather than a drawing of a particle’s journey.',
     ],
     example:
-      'If two paths have amplitudes +0.5 and −0.5 for the same outcome, their total amplitude is zero. The probability of that outcome is also zero. Adding two separate classical probabilities, 0.25 + 0.25, instead gives 0.5. These are different calculations.',
-    try: 'Compare “Same phase · 0°” with “Opposite phase · 180°.” Predict which screen bins will brighten before checking the pattern. Then enable the path record and change the phase again: does the distribution still shift?',
-    why: 'Phase determines how the contributions from the paths combine. A path record affects whether those contributions can interfere coherently.',
+      'For small water ripples, a +1 cm displacement and a −1 cm displacement at the same place and time add to 0 cm. Two +1 cm displacements add to +2 cm. In the quantum calculation, we similarly combine amplitude contributions first, then calculate an outcome probability from the squared magnitude.',
+    try: 'With the path record off, compare phases 0°, 90°, 180°, and 360°. Predict bin 1 before checking it. Use “Collect 1 detection,” then “Collect 100 detections” to compare individual events with the probability bars. Turn on “Record which-path information” and repeat the phase changes: why are all bins now 6.25%? Changing phase or the path record clears the detections so different experiments do not mix.',
+    why: 'Phase controls whether contributions to an outcome reinforce or cancel. A reliable path record makes the routes distinguishable, so their probabilities combine without the interference term. Neither process removes the total probability.',
     math: ['P=|a_1+a_2|^2'],
     mathNote:
-      'a₁ and a₂ are the amplitudes of two indistinguishable paths leading to the same detection outcome. The vertical bars mean magnitude. The next lesson will explain how these numbers differ from probabilities.',
+      'a₁ and a₂ are contributions to the same detection outcome. The vertical bars mean magnitude; the superscript 2 means to square it. Quantum amplitudes can have signs and phases, while probabilities are nonnegative. The next lesson develops the number system behind this rule.',
     sources: ['interference', 'states'],
     check: {
       id: 'waves-check',
