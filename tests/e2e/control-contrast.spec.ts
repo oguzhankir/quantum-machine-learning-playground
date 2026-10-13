@@ -75,11 +75,13 @@ for (const theme of ['light', 'dark'] as const) {
   test(`${theme} controls retain readable text through normal, hover, focus and selected states`, async ({
     page,
   }) => {
-    test.setTimeout(60_000);
+    test.setTimeout(90_000);
     await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
-    for (const route of ['why', 'waves', 'gates']) {
+    for (const route of ['why', 'waves', 'math', 'intuition-code', 'gates']) {
       await page.goto(`./#${route}`);
       await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+      if (route === 'intuition-code')
+        await expect(page.locator('.notebook-execution-status')).toBeVisible();
       const controls = page.locator('button:visible');
       for (let index = 0; index < (await controls.count()); index++) {
         const control = controls.nth(index);

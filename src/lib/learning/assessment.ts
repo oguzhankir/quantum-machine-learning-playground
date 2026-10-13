@@ -91,7 +91,7 @@ export function saveAssessment(
 }
 
 export function resetAssessments() {
-  for (const lessonId of ['why', 'waves']) {
+  for (const lessonId of Object.keys(assessments)) {
     try {
       localStorage.removeItem(`${ASSESSMENT_STORAGE_KEY}:${lessonId}`);
     } catch {

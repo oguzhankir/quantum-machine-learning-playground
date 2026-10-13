@@ -102,6 +102,7 @@ it('remains usable when storage is blocked and resets only assessment keys', () 
   expect(storage.removeItem.mock.calls.map(([key]) => key)).toEqual([
     `${ASSESSMENT_STORAGE_KEY}:why`,
     `${ASSESSMENT_STORAGE_KEY}:waves`,
+    `${ASSESSMENT_STORAGE_KEY}:math`,
   ]);
   expect(dispatchEvent).toHaveBeenCalledOnce();
 });

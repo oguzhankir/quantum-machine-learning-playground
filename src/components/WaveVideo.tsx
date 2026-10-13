@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import FocusDialog from './FocusDialog';
+import OpenArrow from './OpenArrow';
 import '../styles/wave-video.css';
 
 export const waveClips = {
@@ -31,15 +33,8 @@ export default function WaveVideo({ clip }: { clip: keyof typeof waveClips }) {
   }, [open, failed]);
 
   return (
-    <details
-      className="wave-video"
-      onToggle={(event) => {
-        const expanded = event.currentTarget.open;
-        if (!expanded) videoRef.current?.pause();
-        setOpen(expanded);
-      }}
-    >
-      <summary>
+    <div className="wave-video">
+      <button className="wave-video-launcher" onClick={() => setOpen(true)}>
         <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
           <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" />
           <path d="M10 7.5 17 12l-7 4.5Z" fill="currentColor" />
@@ -48,11 +43,20 @@ export default function WaveVideo({ clip }: { clip: keyof typeof waveClips }) {
           <strong>{data.title}</strong>
           <small>Optional water illustration · about 5 seconds</small>
         </span>
-        <span className="wave-video-chevron" aria-hidden="true">
-          ⌄
+        <span className="wave-video-arrow">
+          <OpenArrow />
         </span>
-      </summary>
-      {open && (
+      </button>
+      <FocusDialog
+        open={open}
+        onClose={() => {
+          videoRef.current?.pause();
+          setOpen(false);
+        }}
+        title={data.title}
+        eyebrow="OPTIONAL · ABOUT 5 SECONDS"
+        className="wave-video-dialog"
+      >
         <div className="wave-video-content">
           {failed ? (
             <div className="wave-video-fallback" role="status">
@@ -86,7 +90,7 @@ export default function WaveVideo({ clip }: { clip: keyof typeof waveClips }) {
             diagrams for exact measurements and predictions.
           </p>
         </div>
-      )}
-    </details>
+      </FocusDialog>
+    </div>
   );
 }

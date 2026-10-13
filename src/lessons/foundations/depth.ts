@@ -97,30 +97,112 @@ export const lessonDepth: Record<string, LessonSection[]> = {
   ],
   math: [
     {
-      title: 'Normalize a vector and apply the Born rule',
+      title: 'A probability list accounts for every outcome',
       paragraphs: [
-        'A state vector must have total squared magnitude one. Starting with an arbitrary nonzero vector v, divide by its Euclidean norm. Complex entries require conjugation: v†v, not vᵀv. A global phase changes every amplitude by the same unit complex number and changes no measurement probabilities.',
-        'This normalization is also central to amplitude encoding later. The overall length of the original data is discarded by normalization unless you preserve it separately.',
+        'Suppose a measurement gives either 0 or 1. Probability is a chance from 0 to 1: 0 means impossible; 1 means certain. The list [0.75, 0.25] predicts a 75% chance of 0 and a 25% chance of 1. Together they cover all outcomes, so they add to 1.',
+        'A vector is an ordered list. We agree that its first entry belongs to outcome 0 and its second to outcome 1. A quantum state vector contains amplitudes in those positions. We call them α and β. These names label numbers; they do not name two particles.',
+        'Amplitude and probability are different: an amplitude of 0.5 gives probability 0.5² = 0.25, or 25%. For a valid state, the squared magnitudes of all entries add to 1. Adding the amplitudes themselves is not this normalization rule.',
       ],
       equations: [
         {
-          formula: String.raw`|\psi\rangle=\frac{v}{\sqrt{v^\dagger v}},\qquad P(j)=|\langle j|\psi\rangle|^2`,
+          formula: String.raw`\begin{aligned}|\psi\rangle&=\begin{pmatrix}\alpha\\\beta\end{pmatrix}\\&=\alpha|0\rangle+\beta|1\rangle\\P(0)&=|\alpha|^2\\P(1)&=|\beta|^2\end{aligned}`,
           explanation:
-            'The denominator makes probabilities sum to one. The overlap selects the amplitude for basis outcome j.',
+            'The first and second entries are amplitudes for the two reference outcomes. The vertical bars mean magnitude, not another outcome. Squaring each magnitude gives the probabilities for this basis.',
+        },
+      ],
+      exercise: {
+        prompt:
+          'A normalized state has amplitude α = 0.5 for outcome 0. What are P(0) and P(1)? Is the other amplitude magnitude 0.75?',
+        solution:
+          'P(0) = 0.5² = 0.25. The remaining probability is P(1) = 0.75. Its amplitude magnitude is √0.75 ≈ 0.866, not 0.75. Squaring 0.866 gives approximately 0.75.',
+        equations: [
+          String.raw`P(0)=\tfrac14,\quad P(1)=\tfrac34,\quad |\beta|=\sqrt{\tfrac34}`,
+        ],
+      },
+    },
+    {
+      title: 'A complex amplitude has a length and a direction',
+      paragraphs: [
+        'A real amplitude can point right or left: +0.5 and −0.5 have the same length but different signs. A complex number adds a second component, so its arrow can point anywhere in a plane. Write the whole amplitude as z = a + bi: a is horizontal and b is vertical. The symbol i obeys i² = −1; it lets us calculate with those two components.',
+        'For 0.3 + 0.4i, the arrow goes 0.3 across and 0.4 up. Pythagoras gives its squared length: 0.3² + 0.4² = 0.25. Its length is √0.25 = 0.5. Probability uses the squared length, so this amplitude contributes 25%.',
+        'Phase is the arrow’s angle. The amplitudes 0.5, 0.5i, and −0.5 have phases 0°, 90°, and 180°. All have length 0.5 and give the same individual probability. Their directions matter when we add them to another amplitude.',
+      ],
+      equations: [
+        {
+          formula: String.raw`\begin{aligned}|a+bi|^2&=a^2+b^2\\|0.3+0.4i|^2&=0.09+0.16\\&=0.25\end{aligned}`,
+          explanation:
+            'Magnitude squared adds the squares of the real and imaginary components. It produces a real, nonnegative probability, even when the amplitude is negative or complex.',
+        },
+        {
+          formula: String.raw`\begin{aligned}z&=r\bigl(\cos\phi+i\sin\phi\bigr)\\&=r e^{i\phi}\end{aligned}`,
+          explanation:
+            'z is the whole complex amplitude, r is its arrow length, and φ is its phase. The exponential is a compact name for the same rotating arrow. Its squared magnitude stays r² at every angle.',
+        },
+      ],
+      exercise: {
+        prompt:
+          'Compare 0.3 + 0.4i, −0.5, and 0.5i. Which gives the largest individual probability? Which can cancel +0.5 when added before squaring?',
+        solution:
+          'All three have magnitude 0.5, so all give probability 0.25. Only −0.5 cancels +0.5 exactly. Equal probabilities do not mean equal amplitude directions.',
+      },
+    },
+    {
+      title: 'Normalize the whole vector, not one entry at a time',
+      paragraphs: [
+        'The list [3, 4] is a useful starting proportion, but it is not a valid state yet: 3² + 4² = 25, not 1. Its vector length is √25 = 5. Divide both entries by 5 to get [0.6, 0.8]. Now the probabilities are 0.36 and 0.64; they add to 1.',
+        'The same rule works for complex entries. For [1 + i, 2], the squared magnitudes are 2 and 4. The length is √6. Divide both entries by √6; the probabilities become 2/6 and 4/6. The imaginary part stays with its entry.',
+        'Dividing every entry by the same positive length preserves their proportions and relative phases. It discards the original overall size. Dividing each entry by its own length would change the state. All-zero entries have no direction and cannot be normalized.',
+      ],
+      equations: [
+        {
+          formula: String.raw`\begin{aligned}N&=\sqrt{|v_0|^2+|v_1|^2}\\\alpha&=v_0/N\\\beta&=v_1/N\end{aligned}`,
+          explanation:
+            'Find one length N from every entry, then divide every entry by that same N. Afterward |α|² + |β|² = 1. The denominator must be nonzero.',
         },
       ],
       code: {
-        title: 'Normalize complex amplitudes',
+        title: 'Normalize two complex amplitudes',
         language: 'python',
         setup:
-          'Run with Python 3.10+ and NumPy: python -m pip install "numpy>=2,<3".',
-        code: 'import numpy as np\n\nv = np.array([1 + 1j, 2], dtype=complex)\npsi = v / np.linalg.norm(v)\np = np.abs(psi) ** 2\nprint(psi)\nprint(p, p.sum())\nassert np.allclose(p, [1/3, 2/3])',
-        expected: 'Probabilities are [0.33333333, 0.66666667]; their sum is 1.',
+          'Python 3.10+ with NumPy. The module’s downloadable notebooks include this calculation and its plotted outputs.',
+        code: 'import numpy as np\n\nv = np.array([1 + 1j, 2], dtype=complex)\nlength = np.linalg.norm(v)\npsi = v / length\nprobabilities = np.abs(psi) ** 2\n\nprint("Vector length:", round(length, 3))\nprint("Probabilities:", np.round(probabilities, 3))\nprint("Total:", probabilities.sum())\nassert np.allclose(probabilities, [1/3, 2/3])',
+        expected:
+          'Vector length: 2.449 · Probabilities: [0.333 0.667] · Total: 1.0 (up to floating-point rounding). Python writes the imaginary unit as j.',
       },
       exercise: {
-        prompt: 'Normalize v=(3,4i). What are its Z-basis probabilities?',
+        prompt:
+          'Normalize the vector [3, 4i]. What are its two probabilities? Does multiplying the original entries by 10 change the normalized result?',
         solution:
-          'The norm is 5. The normalized amplitudes are 3/5 and 4i/5, so probabilities are 9/25 and 16/25.',
+          'The length is √(9 + 16) = 5. The normalized entries are 0.6 and 0.8i; probabilities are 0.36 and 0.64. Multiplying both original entries by 10 also multiplies the length by 10, so the normalized result is unchanged.',
+        equations: [
+          String.raw`[3,4i]/5=[0.6,0.8i],\qquad [|0.6|^2,|0.8i|^2]=[0.36,0.64]`,
+        ],
+      },
+    },
+    {
+      title: 'Relative phase can change interference',
+      paragraphs: [
+        'Compare [1/√2, 1/√2] with [1/√2, −1/√2]. In both, each squared magnitude is 1/2. A direct measurement of outcomes 0 and 1 therefore gives 50/50. We call this reference setting the Z basis. It reads the entries’ squared magnitudes and cannot distinguish these two states.',
+        'Another setting combines the entries: one output uses their sum divided by √2, the other their difference divided by √2. We call this the X basis, with outcomes + and −. The positive pair reinforces in the sum; the opposite pair cancels there. X can distinguish them with certainty. The √2 keeps the total probability equal to 1.',
+        'Relative phase is the angle difference between α and β. Turning just β changes that difference and can change an interference measurement. Global phase turns every amplitude by the same angle. Their angle difference and every measurement probability stay unchanged; this common rotation represents the same physical state.',
+      ],
+      equations: [
+        {
+          formula: String.raw`\begin{aligned}P(+)&=\left|\frac{\alpha+\beta}{\sqrt2}\right|^2\\P(-)&=\left|\frac{\alpha-\beta}{\sqrt2}\right|^2\end{aligned}`,
+          explanation:
+            'In the X setting, combine entries before squaring. Outcomes + and − label the two reference states; they are not negative probabilities. These predictions apply to fresh preparations measured in X.',
+        },
+        {
+          formula: String.raw`|e^{i\gamma}a|^2=|a|^2`,
+          explanation:
+            'A common factor of unit magnitude rotates all arrows together. Every measurement amplitude receives that same factor, so its squared magnitude is unchanged.',
+        },
+      ],
+      exercise: {
+        prompt:
+          'Begin with [1/√2, 1/√2]. First turn only the second amplitude by 180°. Then turn both amplitudes by another 90°. What do Z and X predict after each change?',
+        solution:
+          'The relative half-turn gives [1/√2, −1/√2]. Z stays 50/50; X gives − with certainty. The additional common quarter-turn gives [i/√2, −i/√2]. Z is still 50/50 and X still gives − with certainty: global phase changes neither prediction.',
       },
     },
   ],

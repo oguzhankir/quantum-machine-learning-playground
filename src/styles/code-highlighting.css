@@ -1,0 +1,16 @@
+/* The code surfaces deliberately keep a dark scientific palette in both themes. */
+.python-token-comment {
+  color: #a9bbd4;
+}
+.python-token-string {
+  color: #b5e2c3;
+}
+.python-token-number {
+  color: #ffd4a6;
+}
+.python-token-keyword {
+  color: #cfbbff;
+}
+.python-token-builtin {
+  color: #9edfe7;
+}

@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "moduleId": "intuition",
+  "notebooks": [
+    {
+      "id": "waves-and-interference",
+      "title": "Measure waves, then build interference",
+      "subtitle": "From centimetres to detection probabilities",
+      "description": "Measure a travelling ripple, add two wave displacements, and reproduce the lesson's 16-bin quantum screen with and without a path record.",
+      "path": "notebooks/build-your-intuition/01-waves-and-interference.ipynb",
+      "filename": "01-waves-and-interference.ipynb",
+      "lessonIds": ["waves"],
+      "estimatedMinutes": 20,
+      "learningGoals": [
+        "Read amplitude, wavelength, and frequency from labelled plots.",
+        "Predict reinforcement and cancellation before computing a probability.",
+        "Explain why a single detection differs from a probability distribution."
+      ],
+      "prerequisites": [
+        "Waves and interference",
+        "Basic Python lists and arithmetic"
+      ]
+    },
+    {
+      "id": "probability-and-normalization",
+      "title": "Turn amplitude lists into probabilities",
+      "subtitle": "Ordered vectors, complex magnitudes, and normalization",
+      "description": "Compare probability lists with amplitude lists, draw a complex amplitude, normalize an unscaled vector, and check predictions against repeated samples.",
+      "path": "notebooks/build-your-intuition/02-probability-and-normalization.ipynb",
+      "filename": "02-probability-and-normalization.ipynb",
+      "lessonIds": ["math"],
+      "estimatedMinutes": 20,
+      "learningGoals": [
+        "Keep outcome labels attached to vector entries.",
+        "Calculate a complex amplitude's squared magnitude.",
+        "Normalize a nonzero vector and verify that its probabilities sum to one."
+      ],
+      "prerequisites": [
+        "Probability, vectors, and phase",
+        "Basic Python lists and arithmetic"
+      ]
+    },
+    {
+      "id": "complex-and-relative-phase",
+      "title": "Find the information probabilities miss",
+      "subtitle": "Complex arrows, relative phase, and a new measurement basis",
+      "description": "Rotate complex amplitudes without changing their lengths, compare states with identical direct probabilities, and make their relative phase visible by measuring in a different basis.",
+      "path": "notebooks/build-your-intuition/03-complex-and-relative-phase.ipynb",
+      "filename": "03-complex-and-relative-phase.ipynb",
+      "lessonIds": ["math", "waves"],
+      "estimatedMinutes": 22,
+      "learningGoals": [
+        "Distinguish a complex arrow's length from its angle.",
+        "Explain why identical probabilities need not mean identical states.",
+        "Check that a shared global phase leaves all measurement predictions unchanged."
+      ],
+      "prerequisites": [
+        "Probability, vectors, and phase",
+        "Notebook 02 or familiarity with normalization"
+      ]
+    }
+  ]
+}

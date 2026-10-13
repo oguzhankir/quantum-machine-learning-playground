@@ -8,8 +8,11 @@ test('water clips are optional and never autoplay or continue after closing', as
   await expect(clips).toHaveCount(2);
   await expect(clips.locator('video')).toHaveCount(0);
   const motion = clips.first();
-  await motion.locator('summary').click();
-  const video = motion.locator('video');
+  await motion.getByRole('button').click();
+  const dialog = page.getByRole('dialog', {
+    name: 'Watch the ripples and floating cork',
+  });
+  const video = dialog.locator('video');
   await expect(video).toBeVisible();
   await expect(video).toHaveAttribute('preload', 'none');
   await expect(video).toHaveAttribute('controls', '');
@@ -35,8 +38,10 @@ test('water clips are optional and never autoplay or continue after closing', as
   expect(
     await video.evaluate((element: HTMLVideoElement) => element.duration),
   ).toBeGreaterThan(5);
-  await motion.locator('summary').click();
-  await expect(motion.locator('video')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page.locator('video')).toHaveCount(0);
+  await expect(motion.getByRole('button')).toBeFocused();
   expect(
     await handle!.evaluate((element: HTMLVideoElement) => element.paused),
   ).toBe(true);
@@ -49,8 +54,9 @@ test('a failed external clip explains the fallback and can reopen its player', a
   await page.route('https://v3b.fal.media/**', (route) => route.abort());
   await page.goto('./#waves');
   const overlap = page.locator('.wave-video').nth(1);
-  await overlap.locator('summary').click();
-  const video = overlap.locator('video');
+  await overlap.getByRole('button').click();
+  const dialog = page.getByRole('dialog', { name: 'Watch ripples meet' });
+  const video = dialog.locator('video');
   await expect(video).toBeVisible();
   await video.evaluate(async (element: HTMLVideoElement) => {
     try {
@@ -59,14 +65,14 @@ test('a failed external clip explains the fallback and can reopen its player', a
       /* Error text is the expected UI. */
     }
   });
-  await expect(overlap.getByRole('status')).toContainText(
+  await expect(dialog.getByRole('status')).toContainText(
     'measured diagrams above',
   );
-  await expect(overlap.locator('video')).toHaveCount(0);
-  await overlap
+  await expect(dialog.locator('video')).toHaveCount(0);
+  await dialog
     .getByRole('button', { name: 'Show the player again', exact: true })
     .click();
-  await expect(overlap.locator('video')).toBeVisible();
+  await expect(dialog.locator('video')).toBeVisible();
   await expect(page.locator('[data-testid="wave-basics"]')).toHaveCount(1);
 });
 
@@ -79,16 +85,18 @@ test('clip controls and bundled assets fit both themes at narrow and desktop wid
     for (const theme of ['light', 'dark'] as const) {
       await page.emulateMedia({ colorScheme: theme });
       const clip = page.locator('.wave-video').first();
-      if ((await clip.getAttribute('open')) === null)
-        await clip.locator('summary').click();
-      await expect(clip.locator('video')).toBeVisible();
+      await clip.getByRole('button').click();
+      const dialog = page.getByRole('dialog', {
+        name: 'Watch the ripples and floating cork',
+      });
+      await expect(dialog.locator('video')).toBeVisible();
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth),
       ).toBeLessThanOrEqual(width);
-      await expect(clip.locator('.wave-video-note')).toContainText(
+      await expect(dialog.locator('.wave-video-note')).toContainText(
         'AI-generated illustration',
       );
-      await clip.locator('summary').click();
+      await dialog.getByRole('button', { name: 'Close', exact: true }).click();
     }
   }
   for (const file of [

@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react';
 import { sources, type Lesson } from '../lessons/foundations/content';
+import LessonReferences from './LessonReferences';
 import '../styles/intro-lesson.css';
 
 export default function IntroLesson({ lesson }: { lesson: Lesson }) {
@@ -110,37 +111,30 @@ export default function IntroLesson({ lesson }: { lesson: Lesson }) {
             Maybe. Could the two routes cancel?
           </button>
         </div>
-        {prediction && (
-          <div className="intro-prediction-feedback" role="status">
-            <strong>
-              {prediction === 'brighter'
+        <div className="intro-prediction-feedback" role="status">
+          <strong>
+            {prediction
+              ? prediction === 'brighter'
                 ? 'A natural starting guess.'
-                : 'That can happen.'}
-            </strong>
-            <p>
-              Waves can reinforce each other or cancel at a spot. Keep your
-              guess in mind: we will explore this in the next lesson.
-            </p>
-          </div>
-        )}
+                : 'That can happen.'
+              : 'Choose your starting guess.'}
+          </strong>
+          <p>
+            {prediction
+              ? 'Waves can reinforce each other or cancel at a spot. Keep your guess in mind: we will explore this in the next lesson.'
+              : 'Both routes reach the same spot. Think about what might change when their contributions meet.'}
+          </p>
+        </div>
       </div>
 
       <div className="intro-takeaway">
         <span>THE ONE IDEA TO KEEP</span>
         <p>{lesson.takeaway}</p>
       </div>
-      <details className="intro-references">
-        <summary>Sources, if you want to look closer</summary>
-        <ul>
-          {lesson.sources.map((key) => (
-            <li key={key}>
-              <a href={sources[key].url} target="_blank" rel="noreferrer">
-                {sources[key].title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </details>
+      <LessonReferences
+        label="Sources, if you want to look closer"
+        items={lesson.sources.map((key) => sources[key])}
+      />
     </section>
   );
 }

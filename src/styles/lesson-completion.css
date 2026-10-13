@@ -1,0 +1,85 @@
+.lesson-completion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  margin-top: 24px;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--text);
+}
+.lesson-completion.is-complete {
+  border-color: var(--success-text);
+  background: var(--success-surface);
+}
+.lesson-completion-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  margin-bottom: 13px;
+}
+.lesson-completion-label svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.is-complete .lesson-completion-label {
+  color: var(--success-text);
+}
+.lesson-completion h3 {
+  color: var(--text);
+  font-size: 20px;
+  margin: 0 0 10px;
+}
+.lesson-completion p {
+  max-width: 64ch;
+  color: var(--text-copy);
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0;
+}
+.lesson-completion-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.lesson-completion-controls .button {
+  padding: 13px 21px;
+  min-height: 46px;
+  white-space: nowrap;
+}
+.lesson-completion-controls small,
+.completion-storage-note {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+.completion-storage-note {
+  font-size: 11px;
+}
+@media (max-width: 700px) {
+  .lesson-completion {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .lesson-completion-controls {
+    align-items: stretch;
+  }
+  .lesson-completion h3 {
+    font-size: 19px;
+  }
+}

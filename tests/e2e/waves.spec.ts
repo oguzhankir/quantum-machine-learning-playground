@@ -31,7 +31,8 @@ test('waves sections lead to separate reading, laboratory, practice, and self-ch
   }
   await navigator.getByRole('button', { name: /Practice/ }).click();
   await expect(page.locator('#waves-practice')).toBeInViewport();
-  await expect(page.locator('#waves-practice .practice-card')).toHaveCount(4);
+  await expect(page.locator('#waves-practice .practice-deck')).toHaveCount(1);
+  await expect(page.locator('.practice-deck-topline')).toContainText('1 / 4');
   await navigator.getByRole('button', { name: /Self-check/ }).click();
   await expect(page.locator('#waves-check')).toBeInViewport();
   await expect(navigator).toBeInViewport();
@@ -91,10 +92,12 @@ test('screen detections follow the selected experiment and never accumulate acro
   await lab
     .getByText('Inspect amplitudes and probabilities for all 16 bins')
     .click();
-  const rows = lab.locator('tbody tr');
+  const table = page.getByRole('dialog', { name: 'All 16 screen bins' });
+  const rows = table.locator('tbody tr');
   await expect(rows.first().locator('td').last()).toHaveText('0');
   const counts = await rows.locator('td:last-child').allTextContents();
   expect(counts.reduce((sum, count) => sum + Number(count), 0)).toBe(101);
+  await table.getByRole('button', { name: 'Close', exact: true }).click();
   await lab.getByRole('button', { name: 'Opposite phase · 180°' }).click();
   await expect(total).toHaveText('101');
   await lab

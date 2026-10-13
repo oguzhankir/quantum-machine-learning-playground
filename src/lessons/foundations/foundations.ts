@@ -92,33 +92,32 @@ export const introLessons: Lesson[] = [
   {
     id: 'math',
     stage: 'foundations',
-    minutes: 12,
+    minutes: 20,
     prerequisites: ['waves'],
-    title: 'Just enough mathematics',
+    title: 'From amplitudes to probabilities',
     short: 'Probability, vectors, and phase',
-    question: 'How do we turn an amplitude into a probability?',
+    question:
+      'Why can two states have the same probabilities but behave differently?',
     objective:
-      'Learn the difference between a probability list, a state vector, and a complex number through a few small calculations.',
+      'Read a state vector, normalize its entries, turn complex amplitudes into probabilities, and predict which phase changes a measurement can reveal.',
     takeaway:
-      'Probabilities add up to 1. The squared magnitudes of quantum amplitudes add up to 1.',
+      'A state vector keeps amplitude lengths and relative phases. Squared lengths give probabilities in a chosen basis. Normalize the whole vector; combine amplitudes before squaring when a measurement mixes them.',
     paragraphs: [
-      'Probability describes the chance of an outcome with a number between 0 and 1. Zero means impossible; one means certain. For two outcomes, the list [0.75, 0.25] means the first has a 75% chance and the second a 25% chance. Probabilities covering all possible outcomes add up to 1.',
-      'In this lesson, a vector is a list of numbers whose order matters. We can reserve the first entry for outcome 0 and the second for outcome 1. A quantum state vector puts amplitudes in these positions, instead of probabilities. An amplitude can be negative or complex; a probability cannot be negative. The probability of an outcome is the squared magnitude of its amplitude.',
-      'A complex number has the form a + bi. The number a is its real component and b is its imaginary component; i is defined by i² = −1. You can picture this number as an arrow in a plane. Its squared magnitude is a² + b², and its angle is its phase. Rotating the arrow changes its angle but preserves its length. This is why a phase can change while the probability of a direct measurement stays the same.',
-      'Normalization means that the probabilities of all outcomes add up to 1. The amplitude list [1, 1] is not normalized, but [1/√2, 1/√2] is. Before memorizing formulas, make these two steps a habit: square the magnitude of each amplitude, then check that the resulting probabilities add up to 1.',
+      'The last lesson added two contributions before calculating a detection probability. Now we will give those contributions a precise shape: numbers you can draw as arrows.',
+      'Follow four small steps: a probability list, a complex amplitude, a normalized vector, and a measurement that reveals phase. Every diagram uses the same rules as the calculations.',
     ],
     example:
-      'If an amplitude is 0.3 + 0.4i, its probability is 0.3² + 0.4² = 0.25. The amplitudes −0.5 and 0.5i also give a probability of 0.25. These amplitudes have different phases, so they can behave differently when combined with other amplitudes.',
-    try: 'Select “α = 0.5” and predict P(0) before reading the bars. Then select “Equal probabilities” and check that both amplitudes are about 0.707. Move either slider: the other amplitude is calculated automatically so the probabilities always sum to 1. This lab uses positive real amplitudes; you will explore phase in the qubit lesson.',
-    why: 'Squaring the magnitude turns an amplitude into a probability. The signs and phases of amplitudes matter when they interfere, before we calculate the probability.',
+      'An amplitude of 0.3 + 0.4i has length 0.5, so its probability is 0.25. Turning that arrow keeps this probability fixed, but can change how it combines with another amplitude.',
+    try: 'In the first laboratory view choose α = 0.5: predict 25% for 0 and 75% for 1. In the phase view compare aligned and opposite arrows: direct Z probabilities stay 50/50 while X changes. Turn the global-phase slider and check that both probability lists stay fixed.',
+    why: 'A probability list tells you the chances for one measurement setting. A state vector also retains relative phase, so it can predict other settings where amplitudes interfere.',
     math: [
       '|a+bi|^2=a^2+b^2',
       'P(0)=|\\alpha|^2,\\quad P(1)=|\\beta|^2',
       '|\\alpha|^2+|\\beta|^2=1',
     ],
     mathNote:
-      'α (alpha) and β (beta) are names for the two amplitudes. √2 is about 1.414, and 1/√2 is about 0.707. The symbol |ψ⟩ simply names a state vector.',
-    sources: ['states'],
+      'α (alpha) and β (beta) label the two amplitude entries. |ψ⟩ names the whole state vector. A basis specifies the reference outcomes used to read that vector; the same state can have different probability lists in different bases.',
+    sources: ['states', 'linearAlgebra'],
     check: {
       id: 'math-check',
       question: 'What probability does the amplitude 0.3 + 0.4i give?',

@@ -26,6 +26,10 @@ jobs:
         run: |
           python3 -m pip install -r examples/requirements.txt
           python3 examples/verify_examples.py
+      - name: Execute and verify the intuition notebooks
+        run: |
+          python3 -m pip install -r notebooks/requirements.txt
+          python3 scripts/execute-notebooks.py --check
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

@@ -1,0 +1,302 @@
+.practice-deck {
+  margin: 24px 0;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+}
+.practice-deck-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+.practice-deck-topline > span:last-child {
+  flex: 0 0 auto;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.practice-deck .practice-deck-prompt {
+  min-height: 155px;
+}
+.practice-deck h3,
+.math-explorer h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+.practice-deck .practice-deck-prompt > p {
+  margin: 0;
+  color: var(--text-copy);
+  font-size: 15px;
+  line-height: 1.8;
+}
+.practice-reasoning {
+  display: block;
+  margin-top: 14px;
+}
+.practice-reasoning > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 3px 14px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+.practice-reasoning small {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.practice-reasoning textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 76px;
+  max-height: 160px;
+  padding: 12px 14px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.practice-reasoning textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+.practice-reasoning textarea:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+.practice-deck-actions,
+.practice-deck-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.practice-deck-actions {
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 16px;
+}
+.practice-deck-progress {
+  display: flex;
+  gap: 6px;
+  margin-top: 22px;
+}
+.practice-deck-progress > span {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--border);
+}
+.practice-deck-progress > .is-current {
+  background: var(--link);
+}
+.practice-solution-prompt {
+  padding: 16px 18px;
+  border-left: 3px solid var(--link);
+  border-radius: 0 9px 9px 0;
+  background: var(--surface-muted);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+.practice-solution-note {
+  margin-bottom: 24px;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+.practice-solution-note strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.practice-solution-heading,
+.math-step-content h3 {
+  margin: 0 0 15px;
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1.5;
+}
+.math-explorer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  margin: 26px 0;
+  background: var(--accent-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.math-explorer > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.explorer-symbol {
+  color: var(--accent-text);
+  font-family: Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+}
+.math-explorer h3 {
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+.math-explorer p {
+  margin: 0;
+  color: var(--text-copy);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.math-step-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+.math-step-tabs .focus-button {
+  min-width: 44px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+:root[data-theme] .math-step-tabs .focus-button[aria-pressed='true'] {
+  color: var(--accent-text);
+  background: var(--accent-surface);
+  border-color: var(--accent-text);
+}
+.math-step-content {
+  min-height: 230px;
+}
+.math-step-content .formula {
+  padding: 22px 16px;
+  margin: 16px 0 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-muted);
+}
+.math-step-position {
+  color: var(--text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.math-step-content .math-explorer-note {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.lesson-references {
+  margin-block: 24px 16px;
+}
+.lesson-references .focus-button {
+  background: transparent;
+  border-color: transparent;
+  padding-inline: 0;
+  text-align: left;
+  font-size: 13px;
+}
+:root[data-theme] .lesson-references .focus-button:hover {
+  background: transparent;
+  color: var(--link);
+  border-color: transparent;
+}
+.lesson-references-list {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lesson-references-list li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-raised);
+}
+.lesson-references-list li > span {
+  padding-top: 2px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.lesson-references-list a {
+  color: var(--link);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.lesson-references-list a:hover {
+  text-decoration: underline;
+}
+.lesson-references-list small {
+  display: block;
+  margin-top: 7px;
+  color: var(--text-muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.lesson-references-list p {
+  margin-top: 8px;
+  font-size: 13px;
+}
+@media (max-width: 560px) {
+  .practice-deck h3 {
+    font-size: 18px;
+  }
+  .practice-deck .practice-deck-prompt {
+    min-height: 180px;
+  }
+  .practice-deck .practice-deck-prompt > p {
+    font-size: 14px;
+  }
+  .practice-deck-actions {
+    flex-wrap: wrap;
+  }
+  .practice-deck-actions > .focus-button {
+    width: 100%;
+    font-size: 12px;
+  }
+  .practice-deck-navigation {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .math-explorer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 20px;
+  }
+  .math-explorer > div:first-child {
+    gap: 12px;
+  }
+  .math-step-tab-label {
+    display: none;
+  }
+  .lesson-references-list li {
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px;
+  }
+}

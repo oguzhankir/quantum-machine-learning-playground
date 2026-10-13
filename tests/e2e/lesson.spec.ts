@@ -440,7 +440,10 @@ test('all math panels fit desktop and narrow mobile; SVG works without WebGL', a
   test.setTimeout(90_000);
   for (const id of lessonIds) {
     const section = await openLesson(page, id);
-    if (lessons.find((lesson) => lesson.id === id)?.math.length)
+    if (
+      !['waves', 'math'].includes(id) &&
+      lessons.find((lesson) => lesson.id === id)?.math.length
+    )
       await section.locator('.math-panel summary').click();
     await section.locator('details').evaluateAll((details) => {
       for (const detail of details) (detail as HTMLDetailsElement).open = true;
@@ -536,6 +539,7 @@ test('detailed lessons expose derivations, reveal a worked solution, and copy ex
   });
   const lesson = lessons.find(
     (item) =>
+      item.id !== 'math' &&
       item.sections?.some((section) => section.code) &&
       item.sections.some((section) => section.exercise),
   );
@@ -1124,13 +1128,23 @@ test('two path interference reverses with phase and path records remove the patt
   const section = (await openLesson(page, 'waves')).getByRole('region', {
     name: 'Wave and interference laboratory',
   });
-  await section
-    .getByText('Inspect amplitudes and probabilities for all 16 bins')
-    .click();
-  const firstBin = section.locator('tbody tr').first();
-  await expect(firstBin.locator('td').nth(2)).toHaveText('12.50%');
+  const table = page.getByRole('dialog', {
+    name: 'All 16 screen bins',
+    exact: true,
+  });
+  const firstBin = table.locator('tbody tr').first();
+  async function inspect(expected: string) {
+    await section
+      .getByRole('button', {
+        name: /Inspect amplitudes and probabilities for all 16 bins/,
+      })
+      .click();
+    await expect(firstBin.locator('td').nth(2)).toHaveText(expected);
+    await table.getByRole('button', { name: 'Close', exact: true }).click();
+  }
+  await inspect('12.50%');
   await section.getByRole('button', { name: 'Opposite phase · 180°' }).click();
-  await expect(firstBin.locator('td').nth(2)).toHaveText('0.00%');
+  await inspect('0.00%');
   await section
     .getByRole('checkbox', { name: /Record which-path information/ })
     .check();
@@ -1142,7 +1156,7 @@ test('two path interference reverses with phase and path records remove the patt
   await section.getByRole('button', { name: 'Reset interference' }).click();
   await expect(section.getByRole('checkbox')).not.toBeChecked();
   await expect(section.getByRole('slider')).toHaveValue('0');
-  await expect(firstBin.locator('td').nth(2)).toHaveText('12.50%');
+  await inspect('12.50%');
 });
 
 test('amplitude and probability sliders stay normalized and demonstrate the square rule', async ({
