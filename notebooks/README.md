@@ -54,6 +54,8 @@ Sampling uses explicit NumPy random seeds. Numerical assertions check normalizat
 
 The quantum notebooks use ideal noiseless states and gates. Qubit q0 is the leftmost bit, with joint vector order `00, 01, 10, 11`. Matrix products act from right to left; circuit steps are described in their execution order. Mixtures average member probabilities rather than amplitudes. Sampling uncertainty is separate from hardware noise. The shown Bell/classical-mixture comparison distinguishes these preparations; it is not a general Bell-inequality experiment or a universal entanglement test.
 
+The quantum series derives uniform numbers from an explicitly seeded PCG64 raw-bit stream with a fixed 53-bit conversion. Categorical outcomes use cumulative probabilities; repeated binary outcomes use independent threshold comparisons. This keeps the sampled results reproducible across the supported NumPy versions even when high-level distribution implementations change. Strict numerical replay was checked with NumPy 2.3.5 / Matplotlib 3.10.8 and NumPy 2.5.4 / Matplotlib 3.11.2.
+
 ## References
 
 - [The Feynman Lectures, Volume III, Chapter 1](https://www.feynmanlectures.caltech.edu/III_01.html): probability amplitudes and interference.
