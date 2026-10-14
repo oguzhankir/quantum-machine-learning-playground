@@ -4,9 +4,13 @@ import {
   type NotebookCatalog,
 } from '../lib/learning/notebook';
 import NotebookViewer from './NotebookViewer';
+import {
+  notebookModuleFor,
+  type NotebookModule,
+} from '../content/notebook-modules';
 import '../styles/notebook.css';
 
-function NotebookLibrary() {
+function NotebookLibrary({ module }: { module: NotebookModule }) {
   const [catalog, setCatalog] = useState<NotebookCatalog | null>(null);
   const [active, setActive] = useState(0);
   const [error, setError] = useState('');
@@ -17,12 +21,14 @@ function NotebookLibrary() {
     async function load() {
       try {
         const response = await fetch(
-          `${import.meta.env.BASE_URL}notebooks/catalog.json`,
+          `${import.meta.env.BASE_URL}${module.catalogPath}`,
           { signal: controller.signal },
         );
         if (!response.ok)
           throw new Error('The notebook library could not be loaded.');
         const next = parseNotebookCatalog(await response.json());
+        if (next.moduleId !== module.moduleId)
+          throw new Error('The notebook library does not match this module.');
         if (!controller.signal.aborted) {
           setCatalog(next);
           setError('');
@@ -34,7 +40,7 @@ function NotebookLibrary() {
     }
     void load();
     return () => controller.abort();
-  }, [attempt]);
+  }, [attempt, module.catalogPath, module.moduleId]);
 
   if (error)
     return (
@@ -72,7 +78,7 @@ function NotebookLibrary() {
             type="button"
             role="tab"
             id={`notebook-tab-${item.id}`}
-            aria-controls="notebook-series-panel"
+            aria-controls={`${module.moduleId}-notebook-series-panel`}
             aria-selected={active === index}
             tabIndex={active === index ? 0 : -1}
             onClick={() => setActive(index)}
@@ -107,7 +113,7 @@ function NotebookLibrary() {
       </div>
       <div
         role="tabpanel"
-        id="notebook-series-panel"
+        id={`${module.moduleId}-notebook-series-panel`}
         aria-labelledby={`notebook-tab-${entry.id}`}
       >
         <NotebookViewer key={entry.id} entry={entry} />
@@ -137,27 +143,23 @@ function NotebookLibrary() {
   );
 }
 
-export default function NotebookLesson() {
+export default function NotebookLesson({
+  module = notebookModuleFor('intuition-code')!,
+}: {
+  module?: NotebookModule;
+}) {
   return (
     <section
-      id="intuition-code"
+      id={module.lessonId}
       className="notebook-lesson"
-      aria-label="Build your intuition notebooks"
+      aria-label={module.label}
     >
       <div className="notebook-lesson-intro">
-        <p className="notebook-readonly-label">
-          PUT THE FIRST THREE LESSONS INTO CODE
-        </p>
-        <h2>Follow the calculation. See what it produces.</h2>
-        <p>
-          These worked notebooks connect the diagrams to real Python
-          calculations. Read from top to bottom: each explanation leads into the
-          exact code, with the result saved when it ran directly below. Use the
-          section guide to revisit an idea, then download the original notebook
-          to experiment yourself.
-        </p>
+        <p className="notebook-readonly-label">{module.eyebrow}</p>
+        <h2>{module.title}</h2>
+        <p>{module.introduction}</p>
       </div>
-      <NotebookLibrary />
+      <NotebookLibrary key={module.moduleId} module={module} />
     </section>
   );
 }

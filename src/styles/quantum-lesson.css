@@ -1,0 +1,596 @@
+.quantum-lesson .lesson-header,
+.quantum-lesson .lesson-topline,
+.quantum-lesson .prerequisites,
+.quantum-lesson .section-bottom,
+.quantum-lesson .lesson-pagination,
+.quantum-reading {
+  max-width: 900px;
+  margin-inline: auto;
+}
+.quantum-lesson .lesson-header h1 {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+}
+.quantum-lesson .opening-question {
+  font-family: inherit;
+  color: var(--text-muted);
+  font-size: 19px;
+}
+.quantum-lesson-content {
+  margin-top: 24px;
+}
+.quantum-reading,
+.quantum-experiment {
+  scroll-margin-top: var(--lesson-sticky-top);
+  outline: none;
+}
+.quantum-reading {
+  color: var(--text-copy);
+  font-size: 16px;
+  line-height: 1.85;
+}
+.quantum-reading p {
+  max-width: 76ch;
+}
+.quantum-reading h2 {
+  color: var(--text);
+  font-size: clamp(24px, 2.3vw, 29px);
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+}
+.quantum-introduction {
+  padding: 24px 0 30px;
+}
+.quantum-learning-route {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 26px 0 0;
+}
+.quantum-learning-route li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.65;
+}
+.quantum-learning-route span {
+  color: var(--link);
+  font-size: 11px;
+  font-weight: 700;
+}
+.quantum-concept {
+  padding: 34px 0;
+  border-top: 1px solid var(--border);
+}
+.quantum-concept-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.quantum-concept-heading > span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.quantum-concept-heading h2 {
+  margin: 0;
+}
+.quantum-figure {
+  margin: 28px 0 0;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text-copy);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.quantum-figure h3 {
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  letter-spacing: -0.015em;
+}
+.quantum-figure > p {
+  margin-bottom: 18px;
+}
+.quantum-figure figcaption {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+.quantum-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0;
+}
+.quantum-choices button {
+  padding: 9px 12px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+:root[data-theme] .quantum-choices button[aria-pressed='true'],
+:root[data-theme]
+  .quantum-choices
+  button[aria-pressed='true']:hover:not(:disabled) {
+  color: var(--control-selected-text);
+  border-color: var(--control-selected-border);
+  background: var(--control-selected-background);
+  box-shadow: inset 0 0 0 1px var(--control-selected-border);
+}
+:root[data-theme] .quantum-choices button:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
+}
+.quantum-two-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: center;
+}
+.quantum-three-panels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+.quantum-two-panels > *,
+.quantum-three-panels > * {
+  min-width: 0;
+}
+.quantum-probability-bars h4,
+.quantum-real-amplitudes h4 {
+  margin: 0 0 14px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.quantum-probability-bars dl {
+  margin: 0;
+}
+.quantum-probability-bars dl > div {
+  display: grid;
+  grid-template-columns: 2.2em minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+.quantum-probability-bars dt {
+  color: var(--text);
+  font-weight: 600;
+}
+.quantum-probability-bars dd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  min-width: 0;
+}
+.quantum-probability-bars strong {
+  width: 47px;
+  flex: 0 0 auto;
+  text-align: right;
+  color: var(--text);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.quantum-probability-track {
+  display: block;
+  height: 12px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+}
+.quantum-probability-track > span {
+  display: block;
+  height: 100%;
+  background: var(--link);
+  border-radius: 3px;
+}
+.quantum-probability-bars
+  dl
+  > div:nth-child(even)
+  .quantum-probability-track
+  > span {
+  background: var(--success-text);
+}
+.quantum-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--text-copy);
+}
+.quantum-figure svg text {
+  fill: currentColor;
+  font-family: inherit;
+  font-size: 12px;
+}
+.quantum-svg-axis {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.45;
+}
+.quantum-svg-guide {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.25;
+  stroke-dasharray: 4 5;
+}
+.quantum-svg-origin {
+  fill: currentColor;
+}
+.quantum-amplitude-line {
+  stroke: currentColor;
+  stroke-width: 3;
+}
+.quantum-amplitude-tip {
+  fill: currentColor;
+}
+.quantum-amplitude-0 {
+  color: var(--link);
+}
+.quantum-amplitude-1 {
+  color: var(--success-text);
+}
+.quantum-compass {
+  max-width: 320px;
+  margin-inline: auto;
+}
+.quantum-axis-note {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin: 8px 0 0;
+}
+.quantum-amplitude-values {
+  color: var(--text);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  margin: 12px 0 0;
+}
+.quantum-numerical-note {
+  color: var(--text);
+  font-size: 13px;
+  background: var(--surface-muted);
+  border-radius: 9px;
+  padding: 14px 16px;
+  margin: 20px 0 0;
+  line-height: 1.8;
+}
+.quantum-figure > .quantum-numerical-note {
+  margin-bottom: 0;
+}
+.quantum-step-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+  margin: 24px 0;
+  padding: 0;
+}
+.quantum-step-cards li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  min-width: 0;
+}
+.quantum-step-cards span {
+  color: var(--text-muted);
+  font-size: 10px;
+  letter-spacing: 0.055em;
+  font-weight: 700;
+}
+.quantum-step-cards strong {
+  color: var(--text);
+  font-size: 14px;
+}
+.quantum-step-cards small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.quantum-uncertainty {
+  max-width: 580px;
+  margin: 22px auto 0;
+}
+.quantum-error-band {
+  fill: var(--accent-surface);
+  stroke: var(--link);
+}
+.quantum-probability-marker {
+  stroke: var(--link);
+  stroke-width: 2;
+}
+.quantum-vector-transformation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 18px 0 22px;
+}
+.quantum-vector-transformation > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.quantum-vector-transformation span {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.quantum-vector-transformation strong {
+  color: var(--text);
+  font-family: var(--font-mono, monospace);
+  font-size: 15px;
+}
+.quantum-vector-transformation > b {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--link);
+  background: var(--accent-surface);
+}
+.quantum-circuit-text {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.9;
+  font-weight: 600;
+}
+.quantum-circuit-wide {
+  padding: 16px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+}
+.quantum-state-label {
+  color: var(--text);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.quantum-joint-grid {
+  max-width: 460px;
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: 1.1fr repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.quantum-grid-corner {
+  color: var(--text-muted);
+  font-size: 11px;
+  align-self: center;
+  text-align: center;
+}
+.quantum-grid-label {
+  text-align: center;
+  align-self: center;
+  font-weight: 600;
+  color: var(--text);
+}
+.quantum-joint-row {
+  display: contents;
+}
+.quantum-grid-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  border-radius: 10px;
+  padding: 18px 12px;
+}
+.quantum-grid-cell > span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.quantum-grid-cell > strong {
+  color: var(--text);
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.quantum-grid-cell.is-possible {
+  background: var(--accent-surface);
+  border-color: var(--control-selected-border);
+}
+.quantum-grid-cell.is-possible > strong {
+  color: var(--link);
+}
+.quantum-bell-circuit {
+  max-width: 460px;
+  margin-inline: auto;
+}
+.quantum-circuit-gate {
+  fill: var(--accent-surface);
+  stroke: var(--link);
+  stroke-width: 1.5;
+}
+.quantum-circuit-connection,
+.quantum-circuit-target {
+  fill: none;
+  stroke: var(--link);
+  stroke-width: 2;
+}
+.quantum-control-dot {
+  fill: var(--link);
+}
+.quantum-experiment {
+  margin: 30px 0 40px;
+}
+.quantum-mission {
+  margin-bottom: 26px;
+}
+.quantum-mission ol {
+  display: grid;
+  gap: 16px;
+  padding-left: 24px;
+  font-size: 15px;
+}
+.quantum-mission li {
+  padding-left: 4px;
+}
+.quantum-reflection {
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  border-radius: 12px;
+  padding: 24px;
+  margin-block: 26px 0;
+}
+.quantum-reflection h3,
+.quantum-next h3 {
+  color: var(--text);
+  font-size: 21px;
+  line-height: 1.5;
+}
+.quantum-reflection p {
+  font-size: 15px;
+}
+.quantum-reflection button {
+  font-size: 13px;
+}
+.quantum-practice > h2 {
+  margin-bottom: 14px;
+}
+.quantum-takeaway {
+  margin: 26px 0 20px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+.quantum-takeaway strong {
+  color: var(--text);
+  font-size: 14px;
+}
+.quantum-takeaway p {
+  margin: 10px 0 0;
+  font-size: 15px;
+}
+.quantum-next {
+  margin-top: 28px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--border);
+}
+.quantum-next .eyebrow {
+  font-size: 10px;
+}
+.quantum-next h3 {
+  margin: 10px 0 14px;
+}
+.quantum-next p {
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.quantum-next a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.8;
+  padding-block: 6px;
+}
+@media (max-width: 800px) {
+  .quantum-three-panels {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .quantum-three-panels > * + * {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+}
+@media (max-width: 650px) {
+  .quantum-figure svg text {
+    font-size: 17px;
+  }
+  .quantum-reading {
+    font-size: 15px;
+  }
+  .quantum-learning-route {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .quantum-learning-route li {
+    padding: 10px 14px;
+  }
+  .quantum-concept {
+    padding-block: 28px;
+  }
+  .quantum-concept-heading {
+    gap: 10px;
+  }
+  .quantum-figure {
+    padding: 20px 16px;
+  }
+  .quantum-figure h3 {
+    font-size: 18px;
+  }
+  .quantum-two-panels,
+  .quantum-step-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .quantum-two-panels > * + * {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+  .quantum-real-amplitudes svg {
+    max-width: 370px;
+    margin-inline: auto;
+  }
+  .quantum-vector-transformation {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .quantum-vector-transformation strong {
+    font-size: 12px;
+  }
+  .quantum-reflection,
+  .quantum-takeaway {
+    padding: 20px 16px;
+  }
+  .quantum-choices button {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+  .quantum-joint-grid {
+    gap: 7px;
+    grid-template-columns: 0.85fr repeat(2, minmax(0, 1fr));
+  }
+  .quantum-grid-cell {
+    padding: 15px 8px;
+  }
+  .quantum-grid-cell > strong {
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quantum-lesson-content *,
+  .quantum-lesson-content *::before,
+  .quantum-lesson-content *::after {
+    transition: none;
+    animation: none;
+  }
+}

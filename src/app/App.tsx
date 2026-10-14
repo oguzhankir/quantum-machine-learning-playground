@@ -8,6 +8,8 @@ import {
 } from 'react';
 import { KnowledgeCheck } from '../components/Check';
 import LessonAssessment from '../components/LessonAssessment';
+import { hasLessonAssessment } from '../lessons/assessments';
+import { notebookModuleFor } from '../content/notebook-modules';
 import { resetAssessments } from '../lib/learning/assessment';
 import { MathFormula } from '../components/Math';
 import QubitExplorer from '../experiments/QubitExplorer';
@@ -54,6 +56,7 @@ import { probabilities, qubit } from '../lib/quantum';
 
 const HistoryExplorer = lazy(() => import('../components/HistoryExplorer'));
 const ResearchLandscape = lazy(() => import('../components/ResearchLandscape'));
+const QuantumLesson = lazy(() => import('../components/QuantumLesson'));
 const resourceTitles: Record<string, string> = {
   glossary: 'Concept glossary',
   sources: 'References',
@@ -397,6 +400,8 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
   const lesson = lessons.find((item) => item.id === route);
+  const notebookModule = lesson ? notebookModuleFor(lesson.id) : undefined;
+  const isQuantumLesson = lesson?.stage === 'quantum' && !notebookModule;
   const lessonIndex = lesson ? lessons.indexOf(lesson) : -1;
   const stage = stages.find((item) => item.id === lesson?.stage);
   const resourceRoute = route.split('?')[0];
@@ -981,7 +986,7 @@ export default function App() {
             )}
             {lesson && (
               <article
-                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : lesson.id === 'waves' ? 'wave-lesson' : lesson.id === 'math' ? 'probability-lesson wave-lesson' : lesson.id === 'intuition-code' ? 'notebook-lesson' : ''}`}
+                className={`lesson-page lesson-section ${lesson.id === 'why' ? 'intro-lesson' : lesson.id === 'waves' ? 'wave-lesson' : lesson.id === 'math' ? 'probability-lesson wave-lesson' : notebookModule ? 'notebook-lesson' : isQuantumLesson ? 'quantum-lesson' : ''}`}
                 key={lesson.id}
               >
                 <div className="lesson-topline">
@@ -1049,8 +1054,27 @@ export default function App() {
                       experiment={experiments.math}
                     />
                   </>
-                ) : lesson.id === 'intuition-code' ? (
-                  <NotebookLesson />
+                ) : notebookModule ? (
+                  <NotebookLesson module={notebookModule} />
+                ) : isQuantumLesson ? (
+                  <>
+                    <ConceptContext lessonId={lesson.id} />
+                    <LessonNavigator
+                      lesson={lesson}
+                      hasExperiment
+                      layout="sequential"
+                    />
+                    <Suspense
+                      fallback={
+                        <p role="status">Opening the quantum lesson…</p>
+                      }
+                    >
+                      <QuantumLesson
+                        lesson={lesson}
+                        experiment={experiments[lesson.id]}
+                      />
+                    </Suspense>
+                  </>
                 ) : (
                   <>
                     <ConceptContext lessonId={lesson.id} />
@@ -1172,14 +1196,11 @@ export default function App() {
                   </>
                 )}
                 <div
-                  className={`section-bottom ${['why', 'waves', 'math', 'intuition-code'].includes(lesson.id) ? 'lesson-assessment-bottom' : ''}`}
+                  className={`section-bottom ${notebookModule || hasLessonAssessment(lesson.id) ? 'lesson-assessment-bottom' : ''}`}
                   id={`${lesson.id}-check`}
                   tabIndex={-1}
                 >
-                  {lesson.id === 'intuition-code' ? null : lesson.id ===
-                      'why' ||
-                    lesson.id === 'waves' ||
-                    lesson.id === 'math' ? (
+                  {notebookModule ? null : hasLessonAssessment(lesson.id) ? (
                     <LessonAssessment lessonId={lesson.id} />
                   ) : (
                     <KnowledgeCheck

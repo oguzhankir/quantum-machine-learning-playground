@@ -36,3 +36,42 @@ export const intuitionCodeLesson: Lesson = {
     ],
   },
 };
+
+export const quantumCodeLesson: Lesson = {
+  id: 'quantum-code',
+  stage: 'quantum',
+  minutes: 95,
+  prerequisites: ['states', 'measurement', 'gates', 'entanglement'],
+  title: 'Explore quantum systems in code',
+  short: 'Quantum notebooks',
+  question:
+    'Can you prepare a state, predict an experiment, and check the result?',
+  objective:
+    'Reproduce qubit preparation and measurement, gate interference, and two-qubit correlations in three executed Python notebooks. Explain each saved output before changing an input.',
+  takeaway:
+    'A quantum calculation connects a specified preparation, ordered operations, a measurement basis, and a prediction you can test.',
+  paragraphs: [],
+  example: '',
+  try: 'Choose one notebook. Predict a parameter change, run the downloaded file, and keep the numerical checks passing.',
+  why: 'Reproducing a model shows which assumptions and operations actually produce its prediction.',
+  math: [],
+  mathNote: '',
+  sources: ['states', 'circuits', 'joint', 'mixed'],
+  check: {
+    id: 'quantum-code-reflection',
+    question: 'What belongs in a reproducible quantum experiment?',
+    correct: 0,
+    choices: [
+      {
+        text: 'The preparation, gate order, basis, shot budget, and random seed.',
+        explanation:
+          'Together these describe the model and the sampling experiment you are comparing.',
+      },
+      {
+        text: 'Only a final plot without its calculation.',
+        explanation:
+          'A plot cannot tell another reader how the state was prepared or how its outcomes were produced.',
+      },
+    ],
+  },
+};
