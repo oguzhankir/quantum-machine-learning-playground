@@ -156,20 +156,7 @@ function NotebookCodeCell({
   ) => void;
 }) {
   const [status, setStatus] = useState('');
-  const [pane, setPane] = useState<'code' | 'output'>('code');
-  const [compact, setCompact] = useState(true);
-  const cellRef = useRef<HTMLDivElement>(null);
-  const paneButtons = useRef<(HTMLButtonElement | null)[]>([]);
   const codeRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const cell = cellRef.current;
-    if (!cell || typeof ResizeObserver === 'undefined') return;
-    const observer = new ResizeObserver((entries) => {
-      setCompact(entries[0].contentRect.width < 1100);
-    });
-    observer.observe(cell);
-    return () => observer.disconnect();
-  }, []);
   async function copy() {
     try {
       await navigator.clipboard.writeText(cell.source);
@@ -185,62 +172,12 @@ function NotebookCodeCell({
     }
   }
   return (
-    <div
-      ref={cellRef}
-      className={`notebook-cell${compact ? '' : ' is-wide'}`}
-      data-testid="notebook-code-cell"
-    >
-      {compact && (
-        <div
-          className="notebook-cell-switcher"
-          role="tablist"
-          aria-label={`Cell ${number} display`}
-        >
-          {(['code', 'output'] as const).map((item, index) => (
-            <button
-              key={item}
-              ref={(node) => {
-                paneButtons.current[index] = node;
-              }}
-              id={`notebook-${item}-tab-${number}`}
-              role="tab"
-              type="button"
-              aria-selected={pane === item}
-              aria-controls={`notebook-${item}-pane-${number}`}
-              tabIndex={pane === item ? 0 : -1}
-              onClick={() => setPane(item)}
-              onKeyDown={(event) => {
-                if (
-                  ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)
-                ) {
-                  event.preventDefault();
-                  const next =
-                    event.key === 'Home'
-                      ? 0
-                      : event.key === 'End'
-                        ? 1
-                        : 1 - index;
-                  setPane(next === 0 ? 'code' : 'output');
-                  paneButtons.current[next]?.focus();
-                }
-              }}
-            >
-              {item === 'code' ? 'Code' : 'Saved output'}
-            </button>
-          ))}
-        </div>
-      )}
-      <div
-        className="notebook-cell-code"
-        id={`notebook-code-pane-${number}`}
-        role={compact ? 'tabpanel' : undefined}
-        aria-labelledby={compact ? `notebook-code-tab-${number}` : undefined}
-        hidden={compact && pane !== 'code'}
-      >
+    <div className="notebook-cell" data-testid="notebook-code-cell">
+      <div className="notebook-cell-code">
         <header className="notebook-cell-toolbar">
-          <span>
+          <span className="notebook-input-label">
             <span className="notebook-cell-count">
-              [{cell.executionCount ?? ' '}]
+              In [{cell.executionCount ?? ' '}]
             </span>{' '}
             Python · cell {number}
           </span>
@@ -261,15 +198,11 @@ function NotebookCodeCell({
           {status}
         </span>
       </div>
-      <div
-        className="notebook-cell-output"
-        id={`notebook-output-pane-${number}`}
-        role={compact ? 'tabpanel' : undefined}
-        aria-labelledby={compact ? `notebook-output-tab-${number}` : undefined}
-        hidden={compact && pane !== 'output'}
-      >
+      <div className="notebook-cell-output">
         <header className="notebook-output-label">
-          <span className="notebook-output-dot" aria-hidden="true" />
+          <span className="notebook-cell-count">
+            Out [{cell.executionCount ?? ' '}]
+          </span>
           {cell.executionCount === null
             ? 'Saved output · not executed'
             : 'Saved output'}
@@ -328,26 +261,63 @@ function NotebookCodeCell({
   );
 }
 
-function NotebookReader({ notebook }: { notebook: ReadonlyNotebook }) {
+function NotebookReader({
+  notebook,
+  notebookId,
+}: {
+  notebook: ReadonlyNotebook;
+  notebookId: string;
+}) {
   const [index, setIndex] = useState(0);
   const [image, setImage] = useState<Extract<
     NotebookOutput,
     { kind: 'image' }
   > | null>(null);
   const [fitChart, setFitChart] = useState(false);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+  const documentRef = useRef<HTMLElement>(null);
   const sectionButtons = useRef<(HTMLButtonElement | null)[]>([]);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const imageTrigger = useRef<HTMLButtonElement | null>(null);
-  const section = notebook.sections[index];
-  const codeOffset = notebook.sections
-    .slice(0, index)
-    .reduce(
-      (sum, item) =>
-        sum + item.cells.filter((cell) => cell.kind === 'code').length,
-      0,
-    );
-  let codeNumber = codeOffset;
+  let codeNumber = 0;
+
+  useEffect(() => {
+    let frame = 0;
+    function trackReading() {
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const first = titleRefs.current[0];
+        if (!first) return;
+        const readingLine =
+          Math.min(
+            window.innerHeight / 2,
+            parseFloat(getComputedStyle(first).scrollMarginTop) || 0,
+          ) + 2;
+        let current = 0;
+        titleRefs.current.forEach((title, position) => {
+          if (title && title.getBoundingClientRect().top <= readingLine)
+            current = position;
+        });
+        setIndex(current);
+      });
+    }
+    window.addEventListener('scroll', trackReading, { passive: true });
+    window.addEventListener('resize', trackReading);
+    // Saved plot dimensions can change section positions as images load.
+    const observer =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(trackReading)
+        : null;
+    if (documentRef.current) observer?.observe(documentRef.current);
+    trackReading();
+    return () => {
+      window.removeEventListener('scroll', trackReading);
+      window.removeEventListener('resize', trackReading);
+      observer?.disconnect();
+      window.cancelAnimationFrame(frame);
+    };
+  }, [notebook]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -363,21 +333,21 @@ function NotebookReader({ notebook }: { notebook: ReadonlyNotebook }) {
   }, [image]);
 
   function move(next: number, focusTitle = false) {
+    const title = titleRefs.current[next];
+    if (!title) return;
     setIndex(next);
-    if (focusTitle)
-      requestAnimationFrame(() => {
-        titleRef.current?.focus({ preventScroll: true });
-        titleRef.current?.scrollIntoView({
-          block: 'start',
-          behavior: 'instant',
-        });
-      });
+    if (focusTitle) title.focus({ preventScroll: true });
+    title.scrollIntoView({ block: 'start', behavior: 'instant' });
   }
 
   return (
     <div className="notebook-reader" data-testid="notebook-reader">
       <nav className="notebook-outline" aria-label="Notebook sections">
         <p>IN THIS NOTEBOOK</p>
+        <span className="notebook-outline-position">
+          {String(index + 1).padStart(2, '0')} /{' '}
+          {String(notebook.sections.length).padStart(2, '0')}
+        </span>
         <ol>
           {notebook.sections.map((item, position) => (
             <li key={item.id}>
@@ -386,7 +356,8 @@ function NotebookReader({ notebook }: { notebook: ReadonlyNotebook }) {
                   sectionButtons.current[position] = node;
                 }}
                 type="button"
-                aria-current={index === position ? 'step' : undefined}
+                aria-current={index === position ? 'location' : undefined}
+                aria-controls={`notebook-${notebookId}-${item.id}`}
                 onClick={() => move(position, true)}
                 onKeyDown={(event) => {
                   const keys: Record<string, number> = {
@@ -418,69 +389,57 @@ function NotebookReader({ notebook }: { notebook: ReadonlyNotebook }) {
         </ol>
       </nav>
       <article
-        className="notebook-section"
-        aria-labelledby="notebook-section-title"
-        data-testid="notebook-section"
+        ref={documentRef}
+        className="notebook-document"
+        aria-label="Notebook cells and saved outputs"
       >
-        <header className="notebook-section-header">
-          <p>
-            SECTION {index + 1} OF {notebook.sections.length}
-          </p>
-          <h3 id="notebook-section-title" ref={titleRef} tabIndex={-1}>
-            {section.title}
-          </h3>
-        </header>
-        {section.cells.map((cell, position) =>
-          cell.kind === 'markdown' ? (
-            <NotebookMarkdown
-              key={`${index}-${position}`}
-              source={cell.source}
-            />
-          ) : (
-            <NotebookCodeCell
-              key={`${index}-${position}`}
-              cell={cell}
-              number={++codeNumber}
-              onEnlarge={(output, trigger) => {
-                imageTrigger.current = trigger;
-                setImage(output);
-              }}
-            />
-          ),
-        )}
-        <nav
-          className="notebook-step-navigation"
-          aria-label="Move through notebook"
-        >
+        {notebook.sections.map((section, sectionIndex) => (
+          <section
+            key={section.id}
+            className="notebook-section"
+            aria-labelledby={`notebook-${notebookId}-${section.id}`}
+            data-testid="notebook-section"
+          >
+            <header className="notebook-section-header">
+              <p>SECTION {String(sectionIndex + 1).padStart(2, '0')}</p>
+              <h3
+                id={`notebook-${notebookId}-${section.id}`}
+                ref={(node) => {
+                  titleRefs.current[sectionIndex] = node;
+                }}
+                tabIndex={-1}
+              >
+                {section.title}
+              </h3>
+            </header>
+            {section.cells.map((cell, position) =>
+              cell.kind === 'markdown' ? (
+                <NotebookMarkdown key={position} source={cell.source} />
+              ) : (
+                <NotebookCodeCell
+                  key={position}
+                  cell={cell}
+                  number={++codeNumber}
+                  onEnlarge={(output, trigger) => {
+                    imageTrigger.current = trigger;
+                    setFitChart(false);
+                    setImage(output);
+                  }}
+                />
+              ),
+            )}
+          </section>
+        ))}
+        <footer className="notebook-reading-end">
+          <p>End of notebook</p>
           <button
             type="button"
             className="notebook-button"
-            disabled={index === 0}
-            onClick={() => move(index - 1, true)}
+            onClick={() => move(0, true)}
           >
-            ← Previous section
+            Back to beginning ↑
           </button>
-          <span>
-            {index + 1} / {notebook.sections.length}
-          </span>
-          {index < notebook.sections.length - 1 ? (
-            <button
-              type="button"
-              className="notebook-button notebook-button-primary"
-              onClick={() => move(index + 1, true)}
-            >
-              Next section →
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="notebook-button"
-              onClick={() => move(0, true)}
-            >
-              Back to beginning
-            </button>
-          )}
-        </nav>
+        </footer>
       </article>
       <dialog
         ref={dialogRef}
@@ -626,7 +585,11 @@ export default function NotebookViewer({ entry }: { entry: NotebookEntry }) {
           </button>
         </div>
       ) : notebook ? (
-        <NotebookReader key={entry.id} notebook={notebook} />
+        <NotebookReader
+          key={entry.id}
+          notebook={notebook}
+          notebookId={entry.id}
+        />
       ) : (
         <div className="notebook-load-state" role="status">
           Loading code and saved results…

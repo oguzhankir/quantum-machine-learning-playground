@@ -18,7 +18,7 @@
 - Add a code/notebook lesson at the end of each completed main module. It may contain a series of notebooks; do not impose an arbitrary single-notebook limit.
 - Commit real `.ipynb` files with outputs from actual successful execution. Include explanations, focused code cells, labelled plots, meaningful numerical assertions, dependencies, and reproduction instructions. Use deterministic seeds where sampling is involved.
 - Offer the original executed notebook as a download. The website is a read-only viewer of its saved cells and outputs; it does not execute Python in the browser.
-- Maintain one reusable notebook reader with clear section navigation, code copying, saved text/table/plot outputs, and accessible plot inspection. Do not embed a full Jupyter interface or dump a whole series into a very long page.
+- Maintain one reusable notebook reader with clear section navigation, code copying, saved text/table/plot outputs, and accessible plot inspection. Show one selected notebook as a continuous reading document: explanation, code cell, then its saved outputs directly underneath. Keep code and output visible together at every width; section navigation scrolls within the document. Avoid vertical scrolling inside individual cells. Do not embed a full Jupyter interface or dump a whole series into a very long page.
 - Render notebook content safely. Do not inject arbitrary notebook HTML or JavaScript. Clearly report missing or unsupported saved outputs.
 - Build downloadable assets from the committed notebook sources. Verify the published download matches its source, execute notebooks during CI, and test the viewer on narrow screens and in both themes.
 

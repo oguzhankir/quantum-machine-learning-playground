@@ -151,10 +151,10 @@ export default function NotebookLesson() {
         <h2>Follow the calculation. See what it produces.</h2>
         <p>
           These worked notebooks connect the diagrams to real Python
-          calculations. Read one short section at a time: the explanation, the
-          exact code, and the result saved when that code ran. You can follow
-          everything here, then download the original notebook to experiment
-          yourself.
+          calculations. Read from top to bottom: each explanation leads into the
+          exact code, with the result saved when it ran directly below. Use the
+          section guide to revisit an idea, then download the original notebook
+          to experiment yourself.
         </p>
       </div>
       <NotebookLibrary />

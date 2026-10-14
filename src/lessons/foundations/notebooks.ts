@@ -9,7 +9,7 @@ export const intuitionCodeLesson: Lesson = {
   short: 'Code notebooks',
   question: 'Can you reproduce the diagrams and test a prediction yourself?',
   objective:
-    'Connect the first three lessons with executed Python notebooks. Read each calculation beside its saved output, then download a notebook to explore it yourself.',
+    'Connect the first three lessons with executed Python notebooks. Read each calculation followed by its saved output, then download a notebook to explore it yourself.',
   takeaway:
     'A calculation becomes useful when you can connect its inputs, its prediction, and the physical idea it represents.',
   paragraphs: [],
