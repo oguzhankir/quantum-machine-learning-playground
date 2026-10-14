@@ -73,7 +73,7 @@ async function mockNotebook(page: Page) {
   await expect(page.getByTestId('notebook-reader')).toBeVisible();
 }
 
-test('shows exact code and saved output one section at a time with safe rendering and accessible chart zoom', async ({
+test('reads every section continuously with saved outputs below exact code and safe chart inspection', async ({
   page,
 }) => {
   await mockNotebook(page);
@@ -83,27 +83,47 @@ test('shows exact code and saved output one section at a time with safe renderin
   ).toBeVisible();
   await expect(
     reader.getByRole('heading', { name: 'Try the calculation', exact: true }),
-  ).toHaveCount(0);
+  ).toBeVisible();
+  await expect(reader.getByTestId('notebook-section')).toHaveCount(2);
+  await expect(reader.getByTestId('notebook-code-cell')).toHaveCount(2);
+  await expect(reader.locator('article')).toHaveCount(1);
   await expect(reader.getByLabel('Python code cell 1')).toHaveText(
     Array.isArray(fixture.cells[1].source)
       ? fixture.cells[1].source.join('')
       : fixture.cells[1].source,
   );
-  const outputTab = reader.getByRole('tab', {
-    name: 'Saved output',
-    exact: true,
-  });
-  if (await outputTab.isVisible()) {
-    await reader.getByRole('tab', { name: 'Code', exact: true }).focus();
-    await page.keyboard.press('ArrowRight');
-    await expect(outputTab).toHaveAttribute('aria-selected', 'true');
-    await expect(reader.getByLabel('Python code cell 1')).not.toBeVisible();
-  }
+  await expect(reader.getByRole('tab')).toHaveCount(0);
+  await expect(
+    reader.getByRole('button', { name: 'Next section' }),
+  ).toHaveCount(0);
   await expect(reader.getByLabel('Text output from cell 1')).toHaveText(
     '[1. 0.]',
   );
+  await expect(reader.getByLabel('Text output from cell 1')).toBeVisible();
+  await expect(reader.getByLabel('Python code cell 2')).toHaveText(
+    fixture.cells[3].source as string,
+  );
+  await expect(
+    reader.getByText(
+      'This saved output format is not supported by the reader.',
+      { exact: false },
+    ),
+  ).toBeVisible();
+  const code = await reader.getByLabel('Python code cell 1').boundingBox();
+  const output = await reader
+    .getByLabel('Text output from cell 1')
+    .boundingBox();
+  const nextHeading = await reader
+    .getByRole('heading', { name: 'Try the calculation', exact: true })
+    .boundingBox();
+  expect(code).not.toBeNull();
+  expect(output).not.toBeNull();
+  expect(nextHeading).not.toBeNull();
+  expect(output!.y).toBeGreaterThanOrEqual(code!.y + code!.height);
+  expect(nextHeading!.y).toBeGreaterThan(output!.y + output!.height);
   expect(await page.evaluate(() => 'notebookUnsafe' in window)).toBe(false);
   expect(await reader.locator('script').count()).toBe(0);
+  await expect(reader.locator('img')).toHaveCount(1);
   const zoom = reader.getByRole('button', {
     name: 'Enlarge chart from cell 1',
   });
@@ -111,33 +131,142 @@ test('shows exact code and saved output one section at a time with safe renderin
   await expect(
     page.getByRole('dialog', { name: 'Enlarged saved notebook chart' }),
   ).toBeVisible();
+  await page.getByRole('button', { name: 'Fit width', exact: true }).click();
+  await expect(
+    page.getByRole('region', {
+      name: 'Chart fitted to the available width',
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', { name: 'Original size', exact: true })
+    .click();
+  await expect(
+    page.getByRole('region', {
+      name: 'Chart at original resolution; scroll to see all labels',
+    }),
+  ).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect(zoom).toBeFocused();
-  await reader.getByRole('button', { name: 'Next section' }).click();
-  await expect(
-    reader.getByRole('heading', { name: 'Try the calculation', exact: true }),
-  ).toBeFocused();
-  if (
-    await reader
-      .getByRole('tab', { name: 'Saved output', exact: true })
-      .isVisible()
-  )
-    await reader
-      .getByRole('tab', { name: 'Saved output', exact: true })
-      .click();
-  await expect(
-    reader.getByText(
-      'This saved output format is not supported by the reader.',
-      { exact: false },
-    ),
-  ).toBeVisible();
+});
+
+test('outline jumps focus headings without replacing cells and follows ordinary scrolling', async ({
+  page,
+}) => {
+  await mockNotebook(page);
+  const reader = page.getByTestId('notebook-reader');
+  const outline = reader.getByRole('navigation', { name: 'Notebook sections' });
+  const firstHeading = reader.getByRole('heading', {
+    name: 'Read a result',
+    exact: true,
+  });
+  const nextHeading = reader.getByRole('heading', {
+    name: 'Try the calculation',
+    exact: true,
+  });
+  const originalCell = await reader
+    .getByTestId('notebook-code-cell')
+    .first()
+    .elementHandle();
+  await outline.getByRole('button', { name: /Try the calculation/ }).click();
+  await expect(nextHeading).toBeFocused();
+  await expect(outline.locator('[aria-current]')).toContainText(
+    'Try the calculation',
+  );
+  await expect(firstHeading).toBeVisible();
+  await expect(reader.getByTestId('notebook-code-cell')).toHaveCount(2);
+  expect(await originalCell!.evaluate((element) => element.isConnected)).toBe(
+    true,
+  );
   expect(
-    await reader
-      .getByRole('heading', { name: 'Try the calculation', exact: true })
-      .evaluate((element) => element.getBoundingClientRect().top),
+    await nextHeading.evaluate(
+      (element) => element.getBoundingClientRect().top,
+    ),
   ).toBeGreaterThan(40);
-  expect(await page.evaluate(() => 'notebookUnsafe' in window)).toBe(false);
+  // A reader can also scroll normally; the outline must describe that location.
+  await firstHeading.evaluate((element) =>
+    element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+  );
+  await expect(outline.locator('[aria-current]')).toContainText(
+    'Read a result',
+  );
+  await nextHeading.evaluate((element) =>
+    element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+  );
+  await expect(outline.locator('[aria-current]')).toContainText(
+    'Try the calculation',
+  );
+  await outline.getByRole('button', { name: /Read a result/ }).focus();
+  await page.keyboard.press('End');
+  await expect(
+    outline.getByRole('button', { name: /Try the calculation/ }),
+  ).toBeFocused();
+  await page.keyboard.press('Home');
+  await expect(
+    outline.getByRole('button', { name: /Read a result/ }),
+  ).toBeFocused();
+  await expect(outline.locator('[aria-current]')).toContainText(
+    'Read a result',
+  );
+  await reader.getByRole('button', { name: 'Back to beginning' }).click();
+  await expect(firstHeading).toBeFocused();
+  await expect(reader.getByTestId('notebook-code-cell')).toHaveCount(2);
+});
+
+test('copies the exact notebook source and selects it when clipboard access is denied', async ({
+  page,
+}) => {
+  await mockNotebook(page);
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async (text: string) => {
+          document.documentElement.dataset.copiedNotebookCode = text;
+        },
+      },
+    });
+  });
+  const cell = page.getByTestId('notebook-code-cell').first();
+  const source = (fixture.cells[1].source as string[]).join('');
+  await cell.getByRole('button', { name: 'Copy code', exact: true }).click();
+  await expect(cell.getByRole('status')).toHaveText('Code copied.');
+  expect(
+    await page.evaluate(
+      () => document.documentElement.dataset.copiedNotebookCode,
+    ),
+  ).toBe(source);
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async () => {
+          throw new DOMException(
+            'Clipboard permission denied',
+            'NotAllowedError',
+          );
+        },
+      },
+    });
+  });
+  await cell.getByRole('button', { name: 'Copy code', exact: true }).click();
+  await expect(cell.getByRole('status')).toHaveText(
+    'Code selected. Press Ctrl+C or Command+C to copy.',
+  );
+  const selection = await page.evaluate(() => {
+    const selected = window.getSelection();
+    return {
+      source: selected?.rangeCount
+        ? selected.getRangeAt(0).toString()
+        : undefined,
+      rendered: selected?.toString(),
+    };
+  });
+  expect(selection.source).toBe(source);
+  // Chromium can omit the final rendered line break from Selection text.
+  expect(selection.rendered?.replace(/\n$/, '')).toBe(
+    source.replace(/\n$/, ''),
+  );
 });
 
 test('recovers from invalid notebook data without displaying the whole file or blocking download', async ({
@@ -160,7 +289,7 @@ test('recovers from invalid notebook data without displaying the whole file or b
   await expect(page.getByTestId('notebook-reader')).toBeVisible();
 });
 
-test('actual notebook series exposes executed original downloads and finite section navigation', async ({
+test('one notebook at a time exposes every executed cell and downloads the unchanged original', async ({
   page,
 }) => {
   await page.goto('./#intuition-code');
@@ -175,10 +304,12 @@ test('actual notebook series exposes executed original downloads and finite sect
       })
       .click();
     const viewer = page.getByTestId('notebook-viewer');
+    await expect(viewer).toHaveCount(1);
     await expect(viewer.getByTestId('notebook-reader')).toBeVisible();
     const response = await page.request.get(`./${entry.path}`);
     expect(response.ok()).toBe(true);
-    const saved = await response.json();
+    const savedText = await response.text();
+    const saved = JSON.parse(savedText);
     const cells = saved.cells.filter(
       (cell: { cell_type: string }) => cell.cell_type === 'code',
     );
@@ -191,6 +322,17 @@ test('actual notebook series exposes executed original downloads and finite sect
     await expect(
       viewer.getByText(new RegExp(`${cells.length} executed code cells`)),
     ).toBeVisible();
+    await expect(viewer.getByTestId('notebook-code-cell')).toHaveCount(
+      cells.length,
+    );
+    for (let index = 0; index < cells.length; index += 1) {
+      const source = Array.isArray(cells[index].source)
+        ? cells[index].source.join('')
+        : cells[index].source;
+      await expect(
+        viewer.getByLabel(`Python code cell ${index + 1}`, { exact: true }),
+      ).toHaveText(source);
+    }
     const downloadPromise = page.waitForEvent('download');
     await viewer.getByRole('link', { name: 'Download .ipynb' }).click();
     const download = await downloadPromise;
@@ -198,14 +340,13 @@ test('actual notebook series exposes executed original downloads and finite sect
     const stream = await download.createReadStream();
     const chunks: Buffer[] = [];
     for await (const chunk of stream) chunks.push(Buffer.from(chunk));
-    expect(JSON.parse(Buffer.concat(chunks).toString())).toEqual(saved);
+    expect(Buffer.concat(chunks).toString()).toBe(savedText);
     await expect(viewer.locator('details')).toHaveCount(0);
-    await viewer.getByRole('button', { name: 'Next section' }).click();
-    await expect(viewer.getByTestId('notebook-code-cell')).toHaveCount(1);
+    await expect(viewer.getByRole('tab')).toHaveCount(0);
   }
 });
 
-test('notebook reader remains bounded and readable in both themes on a narrow viewport', async ({
+test('continuous code and outputs remain readable in both themes at 320 pixels', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 800 });
@@ -218,6 +359,12 @@ test('notebook reader remains bounded and readable in both themes on a narrow vi
     await expect(
       page.getByRole('link', { name: 'Download .ipynb' }),
     ).toBeVisible();
+    await expect(page.getByLabel('Python code cell 1')).toBeVisible();
+    await expect(page.getByLabel('Text output from cell 1')).toBeVisible();
+    await expect(page.getByLabel('Python code cell 2')).toBeVisible();
+    await expect(
+      page.getByTestId('notebook-reader').getByRole('tab'),
+    ).toHaveCount(0);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(320);
