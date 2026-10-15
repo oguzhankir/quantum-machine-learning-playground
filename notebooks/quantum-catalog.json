@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "moduleId": "quantum",
+  "notebooks": [
+    {
+      "id": "qubit-states-and-measurement",
+      "title": "Prepare a qubit, then read a measurement",
+      "subtitle": "State amplitudes, Bloch coordinates, and finite shots",
+      "description": "Normalize a qubit, compare Z and X measurements, distinguish conditional repeats from fresh preparations, and measure how shot uncertainty shrinks.",
+      "filename": "01-qubit-states-and-measurement.ipynb",
+      "lessonIds": ["states", "measurement"],
+      "estimatedMinutes": 30,
+      "learningGoals": [
+        "Translate a normalized complex state into Bloch coordinates and basis-dependent probabilities.",
+        "Separate relative phase, global phase, and conditional measurement updates.",
+        "Explain finite-shot fluctuations using repeated-run uncertainty rather than a single sample."
+      ],
+      "prerequisites": [
+        "Build your intuition notebooks",
+        "How do we describe a qubit?",
+        "Measurement: one outcome, many experiments"
+      ],
+      "path": "notebooks/explore-quantum-systems/01-qubit-states-and-measurement.ipynb"
+    },
+    {
+      "id": "gates-and-interference",
+      "title": "Build gates and recover an interference pattern",
+      "subtitle": "Unitary matrices, gate order, and phase recombination",
+      "description": "Calculate X, H, Z, Ry, and Rz operations; validate their inverses; sample an H–Rz–H fringe; and compare coherent amplitudes with a coin mixture.",
+      "filename": "02-gates-and-interference.ipynb",
+      "lessonIds": ["gates"],
+      "estimatedMinutes": 30,
+      "learningGoals": [
+        "Read a gate matrix and apply operations in the correct order.",
+        "Check unitarity and construct the inverse of a complete circuit.",
+        "Derive an interference curve and distinguish coherent preparation from a classical ensemble."
+      ],
+      "prerequisites": [
+        "Prepare a qubit, then read a measurement",
+        "Gates: make phase visible"
+      ],
+      "path": "notebooks/explore-quantum-systems/02-gates-and-interference.ipynb"
+    },
+    {
+      "id": "joint-states-and-entanglement",
+      "title": "Build a joint state and test its correlations",
+      "subtitle": "Tensor products, Bell states, and what local data miss",
+      "description": "Prepare product and Bell states with an explicit q0-left convention, compare a classical correlated mixture, test no-signalling marginals, and find entanglement that two chosen bases miss.",
+      "filename": "03-joint-states-and-entanglement.ipynb",
+      "lessonIds": ["entanglement"],
+      "estimatedMinutes": 35,
+      "learningGoals": [
+        "Build ordered joint amplitudes and a Bell state using tensor products and CNOT.",
+        "Separate joint correlations, conditional information, and unconditioned marginals.",
+        "Explain why named Z/Z and X/X comparisons are not a universal entanglement test or Bell-inequality experiment."
+      ],
+      "prerequisites": [
+        "Build gates and recover an interference pattern",
+        "Two qubits, one joint state"
+      ],
+      "path": "notebooks/explore-quantum-systems/03-joint-states-and-entanglement.ipynb"
+    }
+  ]
+}

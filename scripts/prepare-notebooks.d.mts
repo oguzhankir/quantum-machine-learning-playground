@@ -1,1 +1,4 @@
-export function prepareNotebooks(output?: string): Promise<number>;
+export function prepareNotebooks(
+  output?: string,
+  catalogFilename?: string,
+): Promise<number>;

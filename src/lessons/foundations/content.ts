@@ -1,5 +1,5 @@
 import { introLessons } from './foundations';
-import { intuitionCodeLesson } from './notebooks';
+import { intuitionCodeLesson, quantumCodeLesson } from './notebooks';
 import { quantumLessons } from './quantum';
 import { qmlLessons } from './qml';
 import { physicsLessons } from './physics';
@@ -86,6 +86,19 @@ export type StageId =
 export type LessonSection = {
   title: string;
   paragraphs: string[];
+  visual?:
+    | 'state-vector'
+    | 'basis-compass'
+    | 'pure-or-mixture'
+    | 'measurement-sequence'
+    | 'shot-uncertainty'
+    | 'gate-action'
+    | 'gate-order'
+    | 'phase-circuit'
+    | 'joint-grid'
+    | 'bell-preparation'
+    | 'correlation-bases'
+    | 'local-statistics';
   equations?: { formula: string; explanation: string }[];
   exercise?: { prompt: string; solution: string; equations?: string[] };
   code?: {
@@ -142,7 +155,7 @@ export const stages: {
     title: 'Explore quantum systems',
     subtitle: 'Prepare, transform, measure',
     description:
-      'Connect qubits, measurement, interference, and entanglement through small experiments you can control.',
+      'Prepare qubits, make measurement predictions, follow gate interference, and distinguish entanglement from classical correlation. Reproduce the experiments in executed Python notebooks.',
   },
   {
     id: 'physics',
@@ -178,6 +191,7 @@ export const lessons: Lesson[] = [
   ...introLessons,
   intuitionCodeLesson,
   ...quantumLessons,
+  quantumCodeLesson,
   ...physicsLessons,
   ...qmlLessons
     .filter((lesson) => lesson.id === 'ml-basics')

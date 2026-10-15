@@ -6,8 +6,8 @@ test('desktop workspaces retain reading context beside the selected content', as
   test.skip(testInfo.project.name !== 'desktop', 'Desktop companion columns');
   for (const { route, content, companion } of [
     {
-      route: 'measurement',
-      content: '#measurement-lab',
+      route: 'noise',
+      content: '#noise-lab',
       companion: '.reading',
     },
     {

@@ -246,25 +246,25 @@ test('lesson section tools stay reachable and navigate without changing the less
   const tools = page.getByRole('navigation', { name: 'Lesson sections' });
   await tools.getByRole('button', { name: /Self-check/ }).click();
   await expect(page).toHaveURL(/#gates$/);
-  await expect(page.locator('#gates-check .knowledge-check')).toBeInViewport();
+  await expect(
+    page.locator('#gates-check .lesson-assessment'),
+  ).toBeInViewport();
   const position = await tools.boundingBox();
   expect(position?.y).toBeGreaterThanOrEqual(64);
   expect(position?.y).toBeLessThan(90);
   await tools.getByRole('button', { name: /Practice/ }).click();
-  await expect(page.locator('#gates-practice .depth-heading')).toBeInViewport();
-  await page.locator('.reading').evaluate((element) => {
-    element.scrollTop = element.scrollHeight;
-  });
+  await expect(page.locator('#gates-practice h2').first()).toBeInViewport();
+  await page.evaluate(() =>
+    window.scrollTo(0, document.documentElement.scrollHeight),
+  );
   await tools.getByRole('button', { name: /Understand/ }).click();
   await expect(
     tools.getByRole('button', { name: /Understand/ }),
   ).toHaveAttribute('aria-current', 'step');
-  const ideaPosition = await page.locator('#gates').boundingBox();
+  const ideaPosition = await page.locator('#gates-idea').boundingBox();
   expect(ideaPosition?.y).toBeGreaterThanOrEqual(130);
   expect(ideaPosition?.y).toBeLessThan(180);
-  expect(
-    await page.locator('.reading').evaluate((element) => element.scrollTop),
-  ).toBe(0);
+  await expect(page.locator('#gates-idea')).toBeInViewport();
   await tools.getByRole('button', { name: 'Back to lesson title' }).click();
   await expect(page.locator('#page-heading')).toBeInViewport();
 });
@@ -362,7 +362,7 @@ test('training reaches reference values, prevents overlaps, and reset cancels wo
 test('answers retain first attempt, math and progress persist, and reset is scoped', async ({
   page,
 }) => {
-  await page.goto('./#states');
+  await page.goto('./#density-matrices');
   const section = page.locator('.lesson-section');
   const check = section.locator('.knowledge-check');
   await check.getByRole('radio').nth(1).check();
@@ -379,13 +379,15 @@ test('answers retain first attempt, math and progress persist, and reset is scop
   await openNavigation(page);
   await page
     .getByRole('navigation', { name: 'Lessons', exact: true })
-    .locator('a[href="#gates"]')
+    .locator('a[href="#linear-algebra"]')
     .click();
-  await expect(page.locator('#gates .math-panel')).not.toHaveAttribute('open');
+  await expect(page.locator('#linear-algebra .math-panel')).not.toHaveAttribute(
+    'open',
+  );
   await openNavigation(page);
   await page
     .getByRole('navigation', { name: 'Lessons', exact: true })
-    .locator('a[href="#states"]')
+    .locator('a[href="#density-matrices"]')
     .click();
   await page.evaluate(() => localStorage.setItem('unrelated-app', 'keep'));
   await page.reload();
@@ -396,12 +398,12 @@ test('answers retain first attempt, math and progress persist, and reset is scop
   await expect(section.locator('.math-panel')).toHaveAttribute('open', '');
   await page.goto('./');
   await page.getByRole('link', { name: 'Continue learning' }).click();
-  await expect(page).toHaveURL(/#states$/);
+  await expect(page).toHaveURL(/#density-matrices$/);
   await openNavigation(page);
   await page
     .getByRole('button', { name: 'Reset progress', exact: true })
     .click();
-  await openLesson(page, 'states');
+  await openLesson(page, 'density-matrices');
   await expect(check.locator('.first-attempt')).toHaveCount(0);
   await expect(
     section.getByRole('button', { name: 'Mark lesson complete' }),
@@ -440,7 +442,35 @@ test('all math panels fit desktop and narrow mobile; SVG works without WebGL', a
   test.setTimeout(90_000);
   for (const id of lessonIds) {
     const section = await openLesson(page, id);
-    if (
+    if (['states', 'measurement', 'gates', 'entanglement'].includes(id)) {
+      const trigger = section.getByRole('button', {
+        name: 'Explore the math',
+        exact: false,
+      });
+      await trigger.click();
+      const dialog = page.getByRole('dialog', {
+        name: 'Explore the math',
+        exact: true,
+      });
+      await expect(dialog).toBeVisible();
+      const ideas = dialog.getByRole('navigation', { name: 'Math ideas' });
+      for (const idea of await ideas.getByRole('button').all()) {
+        await idea.click();
+        await expect(page.locator('.katex-error')).toHaveCount(0);
+        await expect(dialog.locator('.math-step-content .formula')).toHaveCount(
+          1,
+        );
+      }
+      const bounds = await dialog.boundingBox();
+      const viewport = page.viewportSize()!;
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.y).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(viewport.width);
+      expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height);
+      await page.keyboard.press('Escape');
+      await expect(dialog).not.toBeVisible();
+      await expect(trigger).toBeFocused();
+    } else if (
       !['waves', 'math'].includes(id) &&
       lessons.find((lesson) => lesson.id === id)?.math.length
     )

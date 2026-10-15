@@ -1,4 +1,12 @@
-export type AssessmentLessonId = 'why' | 'waves' | 'math';
+import { quantumAssessments } from './quantum-assessments';
+
+type FoundationAssessmentLessonId = 'why' | 'waves' | 'math';
+export type AssessmentLessonId =
+  | FoundationAssessmentLessonId
+  | 'states'
+  | 'measurement'
+  | 'gates'
+  | 'entanglement';
 
 export type AssessmentQuestion = {
   id: string;
@@ -8,8 +16,8 @@ export type AssessmentQuestion = {
   correct: number;
 };
 
-export const assessments: Record<
-  AssessmentLessonId,
+const foundationAssessments: Record<
+  FoundationAssessmentLessonId,
   { introduction: string; questions: AssessmentQuestion[] }
 > = {
   why: {
@@ -486,3 +494,15 @@ export const assessments: Record<
     ],
   },
 };
+
+export const assessments = {
+  ...foundationAssessments,
+  ...quantumAssessments,
+} satisfies Record<
+  AssessmentLessonId,
+  { introduction: string; questions: AssessmentQuestion[] }
+>;
+
+export function hasLessonAssessment(id: string): id is AssessmentLessonId {
+  return Object.hasOwn(assessments, id);
+}
